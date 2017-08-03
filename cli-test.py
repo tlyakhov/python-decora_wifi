@@ -1,7 +1,8 @@
 #!/usr/bin/python
 
-import decora_wifi
+from decora_wifi import *
 import sys
+
 
 if len(sys.argv) < 4:
     print('Usage: ./cli-test.py [email] [pass] [ON|OFF] [BRIGHTNESS 0-100]')
@@ -14,11 +15,12 @@ if len(sys.argv) >= 5:
 else:
     decora_bright = None
 
-session = decora_wifi.decora_wifi()
+session = decora_wifi()
 session.login(decora_email, decora_pass)
 
 # Gather all the available devices...
-perms = session.residential_permissions()
+
+perms = ResidentialPermission()
 all_residences = []
 for permission in perms:
     print("Permission: {}".format(permission))

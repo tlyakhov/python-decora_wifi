@@ -23,7 +23,7 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
     ],
-    install_requires=['requests'],
+    install_requires=['requests', 'inflect'],
     include_package_data=True,
     zip_safe=False,
 )

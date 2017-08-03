@@ -6,8 +6,11 @@
 # This code is released under the terms of the MIT license. See the LICENSE
 # file for more details.
 
-import requests
 import json
+
+import requests
+
+from decora_wifi.models.person import Person
 
 
 class decora_wifi:
@@ -26,7 +29,9 @@ class decora_wifi:
     def call_api(self, api, payload=None, method='get'):
         """Generic method for calling LCS REST APIs."""
         # Sanity check parameters first...
-        if method != 'get' and method != 'post' and method != 'put':
+        if (method != 'get' and method != 'post' and
+           method != 'put' and method != 'delete'):
+
             msg = "Tried decora.call_api with bad method: {0}"
             raise ValueError(msg.format(method))
 
@@ -68,7 +73,7 @@ class decora_wifi:
             'registeredVia': 'myLeviton'     # from myLeviton App
         }
 
-        login_json = self.call_api('/Person/login', payload, 'post')
+        login_json = Person.post_login(self, payload)
 
         if login_json is None:
             return None
