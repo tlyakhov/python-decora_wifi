@@ -5,11 +5,11 @@ from setuptools import setup, find_packages
 
 dynamic_requires = []
 
-version = 1.1
+version = 1.3
 
 setup(
     name='decora_wifi',
-    version=1.1,
+    version=1.3,
     author='Tim Lyakhovetskiy',
     author_email='tlyakhov@gmail.com',
     url='http://github.com/tlyakhov/python-decora_wifi',

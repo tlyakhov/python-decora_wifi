@@ -26,7 +26,7 @@ perms = session.user.get_residential_permissions()
 all_residences = []
 for permission in perms:
     print("Permission: {}".format(permission))
-    acct = ResidentialAccount(session, permission.data['residentialAccountId'])
+    acct = ResidentialAccount(session, permission.residentialAccountId)
     for res in acct.get_residences():
         print("Residence: {}".format(res))
         all_residences.append(res)
