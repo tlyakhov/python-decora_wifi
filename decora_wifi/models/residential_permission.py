@@ -12,58 +12,31 @@ class ResidentialPermission(BaseModel):
     def __init__(self, session, model_id=None):
         super(ResidentialPermission, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
+    @classmethod
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialPermissions/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ResidentialPermissions/count"
+        return session.call_api(api, attribs, 'get')
 
-    def count_person_residential_permissions(self, attribs=None):
+    @classmethod
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/{0}/residentialPermissions/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ResidentialPermissions"
+        return session.call_api(api, attribs, 'post')
 
-    def create(self, attribs=None):
+    @classmethod
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialPermissions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialPermissions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_person_residential_permissions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/residentialPermissions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_person_residential_permissions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/residentialPermissions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ResidentialPermissions"
+        return session.call_api(api, attribs, 'post')
 
     def delete_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/ResidentialPermissions/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def delete_person_residential_permissions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/residentialPermissions".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_person_residential_permissions(self, residential_permission, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/residentialPermissions/{1}".format(self._id, residential_permission)
         return self._session.call_api(api, attribs, 'delete')
 
     def exists(self, attribs=None):
@@ -72,74 +45,87 @@ class ResidentialPermission(BaseModel):
         api = "/ResidentialPermissions/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialPermissions".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ResidentialPermissions"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = ResidentialPermission(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/ResidentialPermissions/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_person_residential_permissions(self, residential_permission, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/residentialPermissions/{1}".format(self._id, residential_permission)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialPermissions/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialPermissions/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
-
     @classmethod
-    def get_invitation(cls, session, attribs=None):
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialPermissions/:id/invitation"
+        api = "/ResidentialPermissions/findOne"
         return session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_person(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialPermissions/:id/person"
-        return session.call_api(api, attribs, 'get')
+    def refresh(self):
+        api = "/ResidentialPermissions/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
 
-    def get_person_residential_permissions(self, attribs=None):
+    def get_invitation(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/{0}/residentialPermissions".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ResidentialPermissions/{0}/invitation".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_residence(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialPermissions/:id/residence"
-        return session.call_api(api, attribs, 'get')
+        from .invitation import Invitation
+        model = Invitation(self._session, data['id'])
+        model.data = data
+        return model
 
-    @classmethod
-    def get_residential_account(cls, session, attribs=None):
+    def get_person(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialPermissions/:id/residentialAccount"
-        return session.call_api(api, attribs, 'get')
+        api = "/ResidentialPermissions/{0}/person".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .person import Person
+        model = Person(self._session, data['id'])
+        model.data = data
+        return model
+
+    def get_residence(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialPermissions/{0}/residence".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .residence import Residence
+        model = Residence(self._session, data['id'])
+        model.data = data
+        return model
+
+    def get_residential_account(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialPermissions/{0}/residentialAccount".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .residential_account import ResidentialAccount
+        model = ResidentialAccount(self._session, data['id'])
+        model.data = data
+        return model
 
     def replace_by_id(self, attribs=None):
         if attribs is None:
@@ -147,34 +133,37 @@ class ResidentialPermission(BaseModel):
         api = "/ResidentialPermissions/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
+    @classmethod
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialPermissions/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ResidentialPermissions/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
+
+    def update_attributes(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialPermissions/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        self.data.update(attribs)
+        return self
 
     @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def upsert(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialPermissions/:id"
-        return session.call_api(api, attribs, 'put')
+        api = "/ResidentialPermissions"
+        data = session.call_api(api, attribs, 'put')
 
-    def update_by_id_person_residential_permissions(self, residential_permission, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/residentialPermissions/{1}".format(self._id, residential_permission)
-        return self._session.call_api(api, attribs, 'put')
+        model = ResidentialPermission(session, data['id'])
+        model.data = data
+        return model
 
-    def upsert(self, attribs=None):
+    @classmethod
+    def upsert_with_where(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialPermissions".format(self._id)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert_with_where(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialPermissions/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ResidentialPermissions/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

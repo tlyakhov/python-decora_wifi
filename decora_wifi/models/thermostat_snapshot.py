@@ -12,124 +12,38 @@ class ThermostatSnapshot(BaseModel):
     def __init__(self, session, model_id=None):
         super(ThermostatSnapshot, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
+    @classmethod
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ThermostatSnapshots/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ThermostatSnapshots/count"
+        return session.call_api(api, attribs, 'get')
 
-    def count_area_thermostat_snapshots(self, attribs=None):
+    @classmethod
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Areas/{0}/thermostatSnapshots/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ThermostatSnapshots"
+        return session.call_api(api, attribs, 'post')
 
-    def count_installation_thermostat_snapshots(self, attribs=None):
+    @classmethod
+    def create_change_stream(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Installations/{0}/thermostatSnapshots/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ThermostatSnapshots/change-stream"
+        return session.call_api(api, attribs, 'post')
 
-    def count_thermostat_thermostat_snapshots(self, attribs=None):
+    @classmethod
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Thermostats/{0}/thermostatSnapshots/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def create(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ThermostatSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_area_thermostat_snapshots(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/thermostatSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_change_stream(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ThermostatSnapshots/change-stream".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_installation_thermostat_snapshots(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/thermostatSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ThermostatSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_area_thermostat_snapshots(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/thermostatSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_installation_thermostat_snapshots(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/thermostatSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_thermostat_thermostat_snapshots(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Thermostats/{0}/thermostatSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_thermostat_thermostat_snapshots(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Thermostats/{0}/thermostatSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def delete_area_thermostat_snapshots(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/thermostatSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
+        api = "/ThermostatSnapshots"
+        return session.call_api(api, attribs, 'post')
 
     def delete_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/ThermostatSnapshots/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def delete_installation_thermostat_snapshots(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/thermostatSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def delete_thermostat_thermostat_snapshots(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Thermostats/{0}/thermostatSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_area_thermostat_snapshots(self, thermostat_snapshot, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/thermostatSnapshots/{1}".format(self._id, thermostat_snapshot)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_installation_thermostat_snapshots(self, thermostat_snapshot, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/thermostatSnapshots/{1}".format(self._id, thermostat_snapshot)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_thermostat_thermostat_snapshots(self, thermostat_snapshot, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Thermostats/{0}/thermostatSnapshots/{1}".format(self._id, thermostat_snapshot)
         return self._session.call_api(api, attribs, 'delete')
 
     def exists(self, attribs=None):
@@ -138,91 +52,71 @@ class ThermostatSnapshot(BaseModel):
         api = "/ThermostatSnapshots/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ThermostatSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ThermostatSnapshots"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = ThermostatSnapshot(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/ThermostatSnapshots/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_area_thermostat_snapshots(self, thermostat_snapshot, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/thermostatSnapshots/{1}".format(self._id, thermostat_snapshot)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_installation_thermostat_snapshots(self, thermostat_snapshot, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/thermostatSnapshots/{1}".format(self._id, thermostat_snapshot)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_thermostat_thermostat_snapshots(self, thermostat_snapshot, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Thermostats/{0}/thermostatSnapshots/{1}".format(self._id, thermostat_snapshot)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ThermostatSnapshots/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ThermostatSnapshots/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
-
     @classmethod
-    def get_area(cls, session, attribs=None):
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ThermostatSnapshots/:id/area"
+        api = "/ThermostatSnapshots/findOne"
         return session.call_api(api, attribs, 'get')
 
-    def get_area_thermostat_snapshots(self, attribs=None):
+    def refresh(self):
+        api = "/ThermostatSnapshots/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
+
+    def get_area(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Areas/{0}/thermostatSnapshots".format(self._id)
+        api = "/ThermostatSnapshots/{0}/area".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .area import Area
+        model = Area(self._session, data['id'])
+        model.data = data
+        return model
+
+    def get_device_definition(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ThermostatSnapshots/{0}/deviceDefinition".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_device_definition(cls, session, attribs=None):
+    def get_installation(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ThermostatSnapshots/:id/deviceDefinition"
-        return session.call_api(api, attribs, 'get')
+        api = "/ThermostatSnapshots/{0}/installation".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_installation(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ThermostatSnapshots/:id/installation"
-        return session.call_api(api, attribs, 'get')
-
-    def get_installation_thermostat_snapshots(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/thermostatSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get_thermostat_thermostat_snapshots(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Thermostats/{0}/thermostatSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        from .installation import Installation
+        model = Installation(self._session, data['id'])
+        model.data = data
+        return model
 
     def replace_by_id(self, attribs=None):
         if attribs is None:
@@ -230,52 +124,44 @@ class ThermostatSnapshot(BaseModel):
         api = "/ThermostatSnapshots/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
+    @classmethod
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ThermostatSnapshots/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def update_all(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ThermostatSnapshots/update".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ThermostatSnapshots/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
 
     @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def update_all(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ThermostatSnapshots/:id"
-        return session.call_api(api, attribs, 'put')
+        api = "/ThermostatSnapshots/update"
+        return session.call_api(api, attribs, 'post')
 
-    def update_by_id_area_thermostat_snapshots(self, thermostat_snapshot, attribs=None):
+    def update_attributes(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Areas/{0}/thermostatSnapshots/{1}".format(self._id, thermostat_snapshot)
-        return self._session.call_api(api, attribs, 'put')
+        api = "/ThermostatSnapshots/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
 
-    def update_by_id_installation_thermostat_snapshots(self, thermostat_snapshot, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/thermostatSnapshots/{1}".format(self._id, thermostat_snapshot)
-        return self._session.call_api(api, attribs, 'put')
+        self.data.update(attribs)
+        return self
 
-    def update_by_id_thermostat_thermostat_snapshots(self, thermostat_snapshot, attribs=None):
+    @classmethod
+    def upsert(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Thermostats/{0}/thermostatSnapshots/{1}".format(self._id, thermostat_snapshot)
-        return self._session.call_api(api, attribs, 'put')
+        api = "/ThermostatSnapshots"
+        data = session.call_api(api, attribs, 'put')
 
-    def upsert(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ThermostatSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'put')
+        model = ThermostatSnapshot(session, data['id'])
+        model.data = data
+        return model
 
-    def upsert_with_where(self, attribs=None):
+    @classmethod
+    def upsert_with_where(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ThermostatSnapshots/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ThermostatSnapshots/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

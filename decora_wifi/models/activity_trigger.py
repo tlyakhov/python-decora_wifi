@@ -12,181 +12,43 @@ class ActivityTrigger(BaseModel):
     def __init__(self, session, model_id=None):
         super(ActivityTrigger, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ActivityTriggers/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
     @classmethod
-    def count_activities(cls, session, attribs=None):
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ActivityTriggers/:id/activities/count"
+        api = "/ActivityTriggers/count"
         return session.call_api(api, attribs, 'get')
 
-    def count_activity_activity_triggers(self, attribs=None):
+    def count_activities(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Activities/{0}/activityTriggers/count".format(self._id)
+        api = "/ActivityTriggers/{0}/activities/count".format(self._id)
         return self._session.call_api(api, attribs, 'get')
-
-    def count_area_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/activityTriggers/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def count_installation_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/activityTriggers/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def count_load_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/{0}/activityTriggers/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def count_sensor_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Sensors/{0}/activityTriggers/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def count_shade_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades/{0}/activityTriggers/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def count_thermostat_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Thermostats/{0}/activityTriggers/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def create(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ActivityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
 
     @classmethod
-    def create_activities(cls, session, attribs=None):
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ActivityTriggers/:id/activities"
+        api = "/ActivityTriggers"
         return session.call_api(api, attribs, 'post')
 
-    def create_activity_activity_triggers(self, attribs=None):
+    def create_activities(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Activities/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_area_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_installation_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_load_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ActivityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_activity_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Activities/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_area_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_installation_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_load_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_sensor_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Sensors/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_shade_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_thermostat_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Thermostats/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_sensor_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Sensors/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_shade_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_thermostat_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Thermostats/{0}/activityTriggers".format(self._id)
+        api = "/ActivityTriggers/{0}/activities".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
     @classmethod
-    def delete_activities(cls, session, attribs=None):
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ActivityTriggers/:id/activities"
-        return session.call_api(api, attribs, 'delete')
+        api = "/ActivityTriggers"
+        return session.call_api(api, attribs, 'post')
 
-    def delete_activity_activity_triggers(self, attribs=None):
+    def delete_activities(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Activities/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def delete_area_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/activityTriggers".format(self._id)
+        api = "/ActivityTriggers/{0}/activities".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
     def delete_by_id(self, attribs=None):
@@ -195,83 +57,10 @@ class ActivityTrigger(BaseModel):
         api = "/ActivityTriggers/{0}".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    def delete_installation_activity_triggers(self, attribs=None):
+    def destroy_by_id_activities(self, activity_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Installations/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def delete_load_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def delete_sensor_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Sensors/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def delete_shade_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def delete_thermostat_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Thermostats/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def destroy_by_id_activities(cls, session, activity, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ActivityTriggers/:id/activities/{0}".format(activity)
-        return session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_activity_activity_triggers(self, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Activities/{0}/activityTriggers/{1}".format(self._id, activity_trigger)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_area_activity_triggers(self, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/activityTriggers/{1}".format(self._id, activity_trigger)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_installation_activity_triggers(self, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/activityTriggers/{1}".format(self._id, activity_trigger)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_load_activity_triggers(self, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/{0}/activityTriggers/{1}".format(self._id, activity_trigger)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_sensor_activity_triggers(self, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Sensors/{0}/activityTriggers/{1}".format(self._id, activity_trigger)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_shade_activity_triggers(self, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades/{0}/activityTriggers/{1}".format(self._id, activity_trigger)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_thermostat_activity_triggers(self, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Thermostats/{0}/activityTriggers/{1}".format(self._id, activity_trigger)
+        api = "/ActivityTriggers/{0}/activities/{1}".format(self._id, activity_id)
         return self._session.call_api(api, attribs, 'delete')
 
     def exists(self, attribs=None):
@@ -280,174 +69,130 @@ class ActivityTrigger(BaseModel):
         api = "/ActivityTriggers/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ActivityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ActivityTriggers"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = ActivityTrigger(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/ActivityTriggers/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_activities(cls, session, activity, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ActivityTriggers/:id/activities/{0}".format(activity)
-        return session.call_api(api, attribs, 'get')
-
-    def find_by_id_activity_activity_triggers(self, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Activities/{0}/activityTriggers/{1}".format(self._id, activity_trigger)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_area_activity_triggers(self, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/activityTriggers/{1}".format(self._id, activity_trigger)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_installation_activity_triggers(self, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/activityTriggers/{1}".format(self._id, activity_trigger)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_load_activity_triggers(self, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/{0}/activityTriggers/{1}".format(self._id, activity_trigger)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_sensor_activity_triggers(self, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Sensors/{0}/activityTriggers/{1}".format(self._id, activity_trigger)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_shade_activity_triggers(self, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades/{0}/activityTriggers/{1}".format(self._id, activity_trigger)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_thermostat_activity_triggers(self, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Thermostats/{0}/activityTriggers/{1}".format(self._id, activity_trigger)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ActivityTriggers/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ActivityTriggers/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
+    def find_by_id_activities(self, activity_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ActivityTriggers/{0}/activities/{1}".format(self._id, activity_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .activity import Activity
+        model = Activity(self._session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def get_activities(cls, session, attribs=None):
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ActivityTriggers/:id/activities"
+        api = "/ActivityTriggers/findOne"
         return session.call_api(api, attribs, 'get')
 
-    def get_activity_activity_triggers(self, attribs=None):
+    def refresh(self):
+        api = "/ActivityTriggers/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
+
+    def get_activities(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Activities/{0}/activityTriggers".format(self._id)
+        api = "/ActivityTriggers/{0}/activities".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
+
+        from .activity import Activity
+        result = []
+        if items is not None:
+            for data in items:
+                model = Activity(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
+
+    def get_area(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ActivityTriggers/{0}/area".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .area import Area
+        model = Area(self._session, data['id'])
+        model.data = data
+        return model
+
+    def get_load(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ActivityTriggers/{0}/load".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .load import Load
+        model = Load(self._session, data['id'])
+        model.data = data
+        return model
+
+    def get_schedule(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ActivityTriggers/{0}/schedule".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_area(cls, session, attribs=None):
+    def get_sensor(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ActivityTriggers/:id/area"
-        return session.call_api(api, attribs, 'get')
+        api = "/ActivityTriggers/{0}/sensor".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    def get_area_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        from .sensor import Sensor
+        model = Sensor(self._session, data['id'])
+        model.data = data
+        return model
 
-    def get_installation_activity_triggers(self, attribs=None):
+    def get_shade(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Installations/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ActivityTriggers/{0}/shade".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_load(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ActivityTriggers/:id/load"
-        return session.call_api(api, attribs, 'get')
+        from .shade import Shade
+        model = Shade(self._session, data['id'])
+        model.data = data
+        return model
 
-    def get_load_activity_triggers(self, attribs=None):
+    def get_thermostat(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Loads/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ActivityTriggers/{0}/thermostat".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_schedule(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ActivityTriggers/:id/schedule"
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def get_sensor(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ActivityTriggers/:id/sensor"
-        return session.call_api(api, attribs, 'get')
-
-    def get_sensor_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Sensors/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def get_shade(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ActivityTriggers/:id/shade"
-        return session.call_api(api, attribs, 'get')
-
-    def get_shade_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def get_thermostat(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ActivityTriggers/:id/thermostat"
-        return session.call_api(api, attribs, 'get')
-
-    def get_thermostat_activity_triggers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Thermostats/{0}/activityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        from .thermostat import Thermostat
+        model = Thermostat(self._session, data['id'])
+        model.data = data
+        return model
 
     def replace_by_id(self, attribs=None):
         if attribs is None:
@@ -455,77 +200,48 @@ class ActivityTrigger(BaseModel):
         api = "/ActivityTriggers/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
+    @classmethod
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ActivityTriggers/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ActivityTriggers/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
+
+    def update_attributes(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ActivityTriggers/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        self.data.update(attribs)
+        return self
+
+    def update_by_id_activities(self, activity_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ActivityTriggers/{0}/activities/{1}".format(self._id, activity_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .activity import Activity
+        model = Activity(self._session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def upsert(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ActivityTriggers/:id"
-        return session.call_api(api, attribs, 'put')
+        api = "/ActivityTriggers"
+        data = session.call_api(api, attribs, 'put')
+
+        model = ActivityTrigger(session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def update_by_id_activities(cls, session, activity, attribs=None):
+    def upsert_with_where(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ActivityTriggers/:id/activities/{0}".format(activity)
-        return session.call_api(api, attribs, 'put')
-
-    def update_by_id_activity_activity_triggers(self, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Activities/{0}/activityTriggers/{1}".format(self._id, activity_trigger)
-        return self._session.call_api(api, attribs, 'put')
-
-    def update_by_id_area_activity_triggers(self, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/activityTriggers/{1}".format(self._id, activity_trigger)
-        return self._session.call_api(api, attribs, 'put')
-
-    def update_by_id_installation_activity_triggers(self, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/activityTriggers/{1}".format(self._id, activity_trigger)
-        return self._session.call_api(api, attribs, 'put')
-
-    def update_by_id_load_activity_triggers(self, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/{0}/activityTriggers/{1}".format(self._id, activity_trigger)
-        return self._session.call_api(api, attribs, 'put')
-
-    def update_by_id_sensor_activity_triggers(self, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Sensors/{0}/activityTriggers/{1}".format(self._id, activity_trigger)
-        return self._session.call_api(api, attribs, 'put')
-
-    def update_by_id_shade_activity_triggers(self, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades/{0}/activityTriggers/{1}".format(self._id, activity_trigger)
-        return self._session.call_api(api, attribs, 'put')
-
-    def update_by_id_thermostat_activity_triggers(self, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Thermostats/{0}/activityTriggers/{1}".format(self._id, activity_trigger)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ActivityTriggers".format(self._id)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert_with_where(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ActivityTriggers/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ActivityTriggers/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

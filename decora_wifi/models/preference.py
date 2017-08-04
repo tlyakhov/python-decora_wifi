@@ -12,88 +12,31 @@ class Preference(BaseModel):
     def __init__(self, session, model_id=None):
         super(Preference, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
+    @classmethod
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Preferences/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Preferences/count"
+        return session.call_api(api, attribs, 'get')
 
-    def count_app_preferences(self, attribs=None):
+    @classmethod
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps/{0}/preferences/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Preferences"
+        return session.call_api(api, attribs, 'post')
 
-    def count_person_preferences(self, attribs=None):
+    @classmethod
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/{0}/preferences/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def create(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Preferences".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_app_preferences(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Apps/{0}/preferences".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Preferences".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_app_preferences(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Apps/{0}/preferences".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_person_preferences(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/preferences".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_person_preferences(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/preferences".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def delete_app_preferences(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Apps/{0}/preferences".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
+        api = "/Preferences"
+        return session.call_api(api, attribs, 'post')
 
     def delete_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/Preferences/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def delete_person_preferences(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/preferences".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_app_preferences(self, preference, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Apps/{0}/preferences/{1}".format(self._id, preference)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_person_preferences(self, preference, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/preferences/{1}".format(self._id, preference)
         return self._session.call_api(api, attribs, 'delete')
 
     def exists(self, attribs=None):
@@ -102,72 +45,65 @@ class Preference(BaseModel):
         api = "/Preferences/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Preferences".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Preferences"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = Preference(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/Preferences/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_app_preferences(self, preference, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Apps/{0}/preferences/{1}".format(self._id, preference)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_person_preferences(self, preference, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/preferences/{1}".format(self._id, preference)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Preferences/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Preferences/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
-
     @classmethod
-    def get_app(cls, session, attribs=None):
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Preferences/:id/app"
+        api = "/Preferences/findOne"
         return session.call_api(api, attribs, 'get')
 
-    def get_app_preferences(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Apps/{0}/preferences".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+    def refresh(self):
+        api = "/Preferences/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
 
-    @classmethod
-    def get_person(cls, session, attribs=None):
+    def get_app(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Preferences/:id/person"
-        return session.call_api(api, attribs, 'get')
+        api = "/Preferences/{0}/app".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    def get_person_preferences(self, attribs=None):
+        from .app import App
+        model = App(self._session, data['id'])
+        model.data = data
+        return model
+
+    def get_person(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/{0}/preferences".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Preferences/{0}/person".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .person import Person
+        model = Person(self._session, data['id'])
+        model.data = data
+        return model
 
     def replace_by_id(self, attribs=None):
         if attribs is None:
@@ -175,40 +111,37 @@ class Preference(BaseModel):
         api = "/Preferences/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
+    @classmethod
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Preferences/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Preferences/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
+
+    def update_attributes(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Preferences/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        self.data.update(attribs)
+        return self
 
     @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def upsert(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Preferences/:id"
-        return session.call_api(api, attribs, 'put')
+        api = "/Preferences"
+        data = session.call_api(api, attribs, 'put')
 
-    def update_by_id_app_preferences(self, preference, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Apps/{0}/preferences/{1}".format(self._id, preference)
-        return self._session.call_api(api, attribs, 'put')
+        model = Preference(session, data['id'])
+        model.data = data
+        return model
 
-    def update_by_id_person_preferences(self, preference, attribs=None):
+    @classmethod
+    def upsert_with_where(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/{0}/preferences/{1}".format(self._id, preference)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Preferences".format(self._id)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert_with_where(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Preferences/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Preferences/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

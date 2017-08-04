@@ -18,243 +18,131 @@ class Invitation(BaseModel):
         api = "/Invitations/{0}/accept".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def count_organization_invitations(self, attribs=None):
+    def count_permissions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Organizations/{0}/invitations/count".format(self._id)
+        api = "/Invitations/{0}/permissions/count".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
     @classmethod
-    def count_permissions(cls, session, attribs=None):
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Invitations/:id/permissions/count"
-        return session.call_api(api, attribs, 'get')
-
-    def count_person_invitations(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/invitations/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def count_residence_invitations(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Residences/{0}/invitations/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def create(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Invitations".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Invitations".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_organization_invitations(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/invitations".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_person_invitations(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/invitations".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_residence_invitations(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Residences/{0}/invitations".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_organization_invitations(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/invitations".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    @classmethod
-    def create_permissions(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Invitations/:id/permissions"
+        api = "/Invitations"
         return session.call_api(api, attribs, 'post')
 
-    def create_person_invitations(self, attribs=None):
+    @classmethod
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/{0}/invitations".format(self._id)
+        api = "/Invitations"
+        return session.call_api(api, attribs, 'post')
+
+    def create_permissions(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Invitations/{0}/permissions".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def create_residence_invitations(self, attribs=None):
+    def delete_permissions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Residences/{0}/invitations".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def delete_organization_invitations(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/invitations".format(self._id)
+        api = "/Invitations/{0}/permissions".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_permissions(cls, session, attribs=None):
+    def destroy_by_id_permissions(self, permission_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Invitations/:id/permissions"
-        return session.call_api(api, attribs, 'delete')
-
-    def delete_person_invitations(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/invitations".format(self._id)
+        api = "/Invitations/{0}/permissions/{1}".format(self._id, permission_id)
         return self._session.call_api(api, attribs, 'delete')
 
-    def delete_residence_invitations(self, attribs=None):
+    def find_by_id_permissions(self, permission_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Residences/{0}/invitations".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_organization_invitations(self, invitation, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/invitations/{1}".format(self._id, invitation)
-        return self._session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def destroy_by_id_permissions(cls, session, permission, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Invitations/:id/permissions/{0}".format(permission)
-        return session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_person_invitations(self, invitation, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/invitations/{1}".format(self._id, invitation)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_residence_invitations(self, invitation, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Residences/{0}/invitations/{1}".format(self._id, invitation)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def find_by_id_organization_invitations(self, invitation, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/invitations/{1}".format(self._id, invitation)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_permissions(cls, session, permission, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Invitations/:id/permissions/{0}".format(permission)
-        return session.call_api(api, attribs, 'get')
-
-    def find_by_id_person_invitations(self, invitation, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/invitations/{1}".format(self._id, invitation)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_residence_invitations(self, invitation, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Residences/{0}/invitations/{1}".format(self._id, invitation)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Invitations/{0}".format(self._id)
+        api = "/Invitations/{0}/permissions/{1}".format(self._id, permission_id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        from .permission import Permission
+        model = Permission(self._session, data['id'])
+        model.data = data
+        return model
+
+    def refresh(self):
+        api = "/Invitations/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def get_location(cls, session, attribs=None):
+    def get_location(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Invitations/:id/location"
-        return session.call_api(api, attribs, 'get')
+        api = "/Invitations/{0}/location".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_management_tier(cls, session, attribs=None):
+        from .location import Location
+        model = Location(self._session, data['id'])
+        model.data = data
+        return model
+
+    def get_management_tier(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Invitations/:id/managementTier"
-        return session.call_api(api, attribs, 'get')
+        api = "/Invitations/{0}/managementTier".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_organization(cls, session, attribs=None):
+        from .management_tier import ManagementTier
+        model = ManagementTier(self._session, data['id'])
+        model.data = data
+        return model
+
+    def get_organization(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Invitations/:id/organization"
-        return session.call_api(api, attribs, 'get')
+        api = "/Invitations/{0}/organization".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    def get_organization_invitations(self, attribs=None):
+        from .organization import Organization
+        model = Organization(self._session, data['id'])
+        model.data = data
+        return model
+
+    def get_permissions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Organizations/{0}/invitations".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Invitations/{0}/permissions".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
 
-    def get_permission_invitation(self, attribs=None):
+        from .permission import Permission
+        result = []
+        if items is not None:
+            for data in items:
+                model = Permission(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
+
+    def get_person(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Permissions/{0}/invitation".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Invitations/{0}/person".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_permissions(cls, session, attribs=None):
+        from .person import Person
+        model = Person(self._session, data['id'])
+        model.data = data
+        return model
+
+    def get_residence(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Invitations/:id/permissions"
-        return session.call_api(api, attribs, 'get')
+        api = "/Invitations/{0}/residence".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_person(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Invitations/:id/person"
-        return session.call_api(api, attribs, 'get')
-
-    def get_person_invitations(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/invitations".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def get_residence(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Invitations/:id/residence"
-        return session.call_api(api, attribs, 'get')
-
-    def get_residence_invitations(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Residences/{0}/invitations".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get_residential_permission_invitation(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialPermissions/{0}/invitation".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        from .residence import Residence
+        model = Residence(self._session, data['id'])
+        model.data = data
+        return model
 
     def replace_by_id(self, attribs=None):
         if attribs is None:
@@ -262,40 +150,28 @@ class Invitation(BaseModel):
         api = "/Invitations/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
+    @classmethod
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Invitations/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Invitations/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
 
-    def update_by_id_organization_invitations(self, invitation, attribs=None):
+    def update_by_id_permissions(self, permission_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Organizations/{0}/invitations/{1}".format(self._id, invitation)
-        return self._session.call_api(api, attribs, 'put')
+        api = "/Invitations/{0}/permissions/{1}".format(self._id, permission_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .permission import Permission
+        model = Permission(self._session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def update_by_id_permissions(cls, session, permission, attribs=None):
+    def upsert_with_where(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Invitations/:id/permissions/{0}".format(permission)
-        return session.call_api(api, attribs, 'put')
-
-    def update_by_id_person_invitations(self, invitation, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/invitations/{1}".format(self._id, invitation)
-        return self._session.call_api(api, attribs, 'put')
-
-    def update_by_id_residence_invitations(self, invitation, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Residences/{0}/invitations/{1}".format(self._id, invitation)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert_with_where(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Invitations/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Invitations/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

@@ -12,106 +12,61 @@ class Load(BaseModel):
     def __init__(self, session, model_id=None):
         super(Load, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
+    @classmethod
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Loads/count".format(self._id)
+        api = "/Loads/count"
+        return session.call_api(api, attribs, 'get')
+
+    def count_activity_triggers(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Loads/{0}/activityTriggers/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_feed_items(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Loads/{0}/feedItems/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_load_snapshots(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Loads/{0}/loadSnapshots/count".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
     @classmethod
-    def count_activity_triggers(cls, session, attribs=None):
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Loads/:id/activityTriggers/count"
-        return session.call_api(api, attribs, 'get')
-
-    def count_area_loads(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/loads/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def count_feed_items(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/:id/feedItems/count"
-        return session.call_api(api, attribs, 'get')
-
-    def count_installation_loads(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/loads/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def count_load_snapshots(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/:id/loadSnapshots/count"
-        return session.call_api(api, attribs, 'get')
-
-    def create(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    @classmethod
-    def create_activity_triggers(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/:id/activityTriggers"
+        api = "/Loads"
         return session.call_api(api, attribs, 'post')
 
-    def create_area_loads(self, attribs=None):
+    def create_activity_triggers(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Areas/{0}/loads".format(self._id)
+        api = "/Loads/{0}/activityTriggers".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def create_installation_loads(self, attribs=None):
+    def create_load_snapshots(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Installations/{0}/loads".format(self._id)
+        api = "/Loads/{0}/loadSnapshots".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
     @classmethod
-    def create_load_snapshots(cls, session, attribs=None):
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Loads/:id/loadSnapshots"
+        api = "/Loads"
         return session.call_api(api, attribs, 'post')
 
-    def create_many(self, attribs=None):
+    def delete_activity_triggers(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Loads".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_area_loads(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/loads".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_installation_loads(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/loads".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    @classmethod
-    def delete_activity_triggers(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/:id/activityTriggers"
-        return session.call_api(api, attribs, 'delete')
-
-    def delete_area_loads(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/loads".format(self._id)
+        api = "/Loads/{0}/activityTriggers".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
     def delete_by_id(self, attribs=None):
@@ -120,44 +75,23 @@ class Load(BaseModel):
         api = "/Loads/{0}".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    def delete_installation_loads(self, attribs=None):
+    def delete_load_snapshots(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Installations/{0}/loads".format(self._id)
+        api = "/Loads/{0}/loadSnapshots".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_load_snapshots(cls, session, attribs=None):
+    def destroy_by_id_activity_triggers(self, activity_trigger_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Loads/:id/loadSnapshots"
-        return session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def destroy_by_id_activity_triggers(cls, session, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/:id/activityTriggers/{0}".format(activity_trigger)
-        return session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_area_loads(self, load, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/loads/{1}".format(self._id, load)
+        api = "/Loads/{0}/activityTriggers/{1}".format(self._id, activity_trigger_id)
         return self._session.call_api(api, attribs, 'delete')
 
-    def destroy_by_id_installation_loads(self, load, attribs=None):
+    def destroy_by_id_load_snapshots(self, load_snapshot_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Installations/{0}/loads/{1}".format(self._id, load)
+        api = "/Loads/{0}/loadSnapshots/{1}".format(self._id, load_snapshot_id)
         return self._session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def destroy_by_id_load_snapshots(cls, session, load_snapshot, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/:id/loadSnapshots/{0}".format(load_snapshot)
-        return session.call_api(api, attribs, 'delete')
 
     def exists(self, attribs=None):
         if attribs is None:
@@ -165,139 +99,149 @@ class Load(BaseModel):
         api = "/Loads/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Loads".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Loads"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = Load(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/Loads/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_activity_triggers(cls, session, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/:id/activityTriggers/{0}".format(activity_trigger)
-        return session.call_api(api, attribs, 'get')
-
-    def find_by_id_area_loads(self, load, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/loads/{1}".format(self._id, load)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_feed_items(cls, session, feed_item, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/:id/feedItems/{0}".format(feed_item)
-        return session.call_api(api, attribs, 'get')
-
-    def find_by_id_installation_loads(self, load, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/loads/{1}".format(self._id, load)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_load_snapshots(cls, session, load_snapshot, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/:id/loadSnapshots/{0}".format(load_snapshot)
-        return session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
-
-    def get_activity_trigger_load(self, attribs=None):
+    def find_by_id_activity_triggers(self, activity_trigger_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ActivityTriggers/{0}/load".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Loads/{0}/activityTriggers/{1}".format(self._id, activity_trigger_id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_activity_triggers(cls, session, attribs=None):
+        from .activity_trigger import ActivityTrigger
+        model = ActivityTrigger(self._session, data['id'])
+        model.data = data
+        return model
+
+    def find_by_id_feed_items(self, feed_item_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Loads/:id/activityTriggers"
-        return session.call_api(api, attribs, 'get')
+        api = "/Loads/{0}/feedItems/{1}".format(self._id, feed_item_id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_area(cls, session, attribs=None):
+        from .feed_item import FeedItem
+        model = FeedItem(self._session, data['id'])
+        model.data = data
+        return model
+
+    def find_by_id_load_snapshots(self, load_snapshot_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Loads/:id/area"
-        return session.call_api(api, attribs, 'get')
+        api = "/Loads/{0}/loadSnapshots/{1}".format(self._id, load_snapshot_id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    def get_area_loads(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/loads".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def get_device_definition(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/:id/deviceDefinition"
-        return session.call_api(api, attribs, 'get')
-
-    def get_feed_item_load(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/FeedItems/{0}/load".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        from .load_snapshot import LoadSnapshot
+        model = LoadSnapshot(self._session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def get_feed_items(cls, session, attribs=None):
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Loads/:id/feedItems"
+        api = "/Loads/findOne"
         return session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_installation(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/:id/installation"
-        return session.call_api(api, attribs, 'get')
+    def refresh(self):
+        api = "/Loads/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
 
-    def get_installation_loads(self, attribs=None):
+    def get_activity_triggers(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Installations/{0}/loads".format(self._id)
+        api = "/Loads/{0}/activityTriggers".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
+
+        from .activity_trigger import ActivityTrigger
+        result = []
+        if items is not None:
+            for data in items:
+                model = ActivityTrigger(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
+
+    def get_area(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Loads/{0}/area".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .area import Area
+        model = Area(self._session, data['id'])
+        model.data = data
+        return model
+
+    def get_device_definition(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Loads/{0}/deviceDefinition".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def get_load_snapshot_load(self, attribs=None):
+    def get_feed_items(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/LoadSnapshots/{0}/load".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Loads/{0}/feedItems".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_load_snapshots(cls, session, attribs=None):
+        from .feed_item import FeedItem
+        result = []
+        if items is not None:
+            for data in items:
+                model = FeedItem(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
+
+    def get_installation(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Loads/:id/loadSnapshots"
-        return session.call_api(api, attribs, 'get')
+        api = "/Loads/{0}/installation".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .installation import Installation
+        model = Installation(self._session, data['id'])
+        model.data = data
+        return model
+
+    def get_load_snapshots(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Loads/{0}/loadSnapshots".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
+
+        from .load_snapshot import LoadSnapshot
+        result = []
+        if items is not None:
+            for data in items:
+                model = LoadSnapshot(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def replace_by_id(self, attribs=None):
         if attribs is None:
@@ -305,54 +249,59 @@ class Load(BaseModel):
         api = "/Loads/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
+    @classmethod
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Loads/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Loads/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
+
+    def update_attributes(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Loads/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        self.data.update(attribs)
+        return self
+
+    def update_by_id_activity_triggers(self, activity_trigger_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Loads/{0}/activityTriggers/{1}".format(self._id, activity_trigger_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .activity_trigger import ActivityTrigger
+        model = ActivityTrigger(self._session, data['id'])
+        model.data = data
+        return model
+
+    def update_by_id_load_snapshots(self, load_snapshot_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Loads/{0}/loadSnapshots/{1}".format(self._id, load_snapshot_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .load_snapshot import LoadSnapshot
+        model = LoadSnapshot(self._session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def upsert(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Loads/:id"
-        return session.call_api(api, attribs, 'put')
+        api = "/Loads"
+        data = session.call_api(api, attribs, 'put')
+
+        model = Load(session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def update_by_id_activity_triggers(cls, session, activity_trigger, attribs=None):
+    def upsert_with_where(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Loads/:id/activityTriggers/{0}".format(activity_trigger)
-        return session.call_api(api, attribs, 'put')
-
-    def update_by_id_area_loads(self, load, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/loads/{1}".format(self._id, load)
-        return self._session.call_api(api, attribs, 'put')
-
-    def update_by_id_installation_loads(self, load, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/loads/{1}".format(self._id, load)
-        return self._session.call_api(api, attribs, 'put')
-
-    @classmethod
-    def update_by_id_load_snapshots(cls, session, load_snapshot, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/:id/loadSnapshots/{0}".format(load_snapshot)
-        return session.call_api(api, attribs, 'put')
-
-    def upsert(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads".format(self._id)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert_with_where(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Loads/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

@@ -12,94 +12,38 @@ class SensorSnapshot(BaseModel):
     def __init__(self, session, model_id=None):
         super(SensorSnapshot, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
+    @classmethod
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/SensorSnapshots/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/SensorSnapshots/count"
+        return session.call_api(api, attribs, 'get')
 
-    def count_installation_sensor_snapshots(self, attribs=None):
+    @classmethod
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Installations/{0}/sensorSnapshots/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/SensorSnapshots"
+        return session.call_api(api, attribs, 'post')
 
-    def count_sensor_sensor_snapshots(self, attribs=None):
+    @classmethod
+    def create_change_stream(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Sensors/{0}/sensorSnapshots/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/SensorSnapshots/change-stream"
+        return session.call_api(api, attribs, 'post')
 
-    def create(self, attribs=None):
+    @classmethod
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/SensorSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_change_stream(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/SensorSnapshots/change-stream".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_installation_sensor_snapshots(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/sensorSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/SensorSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_installation_sensor_snapshots(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/sensorSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_sensor_sensor_snapshots(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Sensors/{0}/sensorSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_sensor_sensor_snapshots(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Sensors/{0}/sensorSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/SensorSnapshots"
+        return session.call_api(api, attribs, 'post')
 
     def delete_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/SensorSnapshots/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def delete_installation_sensor_snapshots(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/sensorSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def delete_sensor_sensor_snapshots(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Sensors/{0}/sensorSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_installation_sensor_snapshots(self, sensor_snapshot, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/sensorSnapshots/{1}".format(self._id, sensor_snapshot)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_sensor_sensor_snapshots(self, sensor_snapshot, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Sensors/{0}/sensorSnapshots/{1}".format(self._id, sensor_snapshot)
         return self._session.call_api(api, attribs, 'delete')
 
     def exists(self, attribs=None):
@@ -108,79 +52,76 @@ class SensorSnapshot(BaseModel):
         api = "/SensorSnapshots/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/SensorSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/SensorSnapshots"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = SensorSnapshot(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/SensorSnapshots/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_installation_sensor_snapshots(self, sensor_snapshot, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/sensorSnapshots/{1}".format(self._id, sensor_snapshot)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_sensor_sensor_snapshots(self, sensor_snapshot, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Sensors/{0}/sensorSnapshots/{1}".format(self._id, sensor_snapshot)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/SensorSnapshots/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/SensorSnapshots/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
-
     @classmethod
-    def get_area(cls, session, attribs=None):
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/SensorSnapshots/:id/area"
+        api = "/SensorSnapshots/findOne"
         return session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_installation(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/SensorSnapshots/:id/installation"
-        return session.call_api(api, attribs, 'get')
+    def refresh(self):
+        api = "/SensorSnapshots/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
 
-    def get_installation_sensor_snapshots(self, attribs=None):
+    def get_area(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Installations/{0}/sensorSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/SensorSnapshots/{0}/area".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_sensor(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/SensorSnapshots/:id/sensor"
-        return session.call_api(api, attribs, 'get')
+        from .area import Area
+        model = Area(self._session, data['id'])
+        model.data = data
+        return model
 
-    def get_sensor_sensor_snapshots(self, attribs=None):
+    def get_installation(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Sensors/{0}/sensorSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/SensorSnapshots/{0}/installation".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .installation import Installation
+        model = Installation(self._session, data['id'])
+        model.data = data
+        return model
+
+    def get_sensor(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/SensorSnapshots/{0}/sensor".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .sensor import Sensor
+        model = Sensor(self._session, data['id'])
+        model.data = data
+        return model
 
     def replace_by_id(self, attribs=None):
         if attribs is None:
@@ -188,46 +129,44 @@ class SensorSnapshot(BaseModel):
         api = "/SensorSnapshots/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
+    @classmethod
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/SensorSnapshots/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def update_all(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/SensorSnapshots/update".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/SensorSnapshots/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
 
     @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def update_all(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/SensorSnapshots/:id"
-        return session.call_api(api, attribs, 'put')
+        api = "/SensorSnapshots/update"
+        return session.call_api(api, attribs, 'post')
 
-    def update_by_id_installation_sensor_snapshots(self, sensor_snapshot, attribs=None):
+    def update_attributes(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Installations/{0}/sensorSnapshots/{1}".format(self._id, sensor_snapshot)
-        return self._session.call_api(api, attribs, 'put')
+        api = "/SensorSnapshots/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
 
-    def update_by_id_sensor_sensor_snapshots(self, sensor_snapshot, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Sensors/{0}/sensorSnapshots/{1}".format(self._id, sensor_snapshot)
-        return self._session.call_api(api, attribs, 'put')
+        self.data.update(attribs)
+        return self
 
-    def upsert(self, attribs=None):
+    @classmethod
+    def upsert(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/SensorSnapshots".format(self._id)
-        return self._session.call_api(api, attribs, 'put')
+        api = "/SensorSnapshots"
+        data = session.call_api(api, attribs, 'put')
 
-    def upsert_with_where(self, attribs=None):
+        model = SensorSnapshot(session, data['id'])
+        model.data = data
+        return model
+
+    @classmethod
+    def upsert_with_where(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/SensorSnapshots/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/SensorSnapshots/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

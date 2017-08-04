@@ -12,211 +12,160 @@ class Person(BaseModel):
     def __init__(self, session, model_id=None):
         super(Person, self).__init__(session, model_id)
 
-    def apply_password(self, attribs=None):
+    @classmethod
+    def apply_password(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/applyPassword".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Person/applyPassword"
+        return session.call_api(api, attribs, 'post')
 
-    def confirm(self, attribs=None):
+    @classmethod
+    def confirm(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/confirm".format(self._id)
+        api = "/Person/confirm"
+        return session.call_api(api, attribs, 'get')
+
+    @classmethod
+    def count(cls, session, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/count"
+        return session.call_api(api, attribs, 'get')
+
+    def count_access_tokens(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/accessTokens/count".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def count(self, attribs=None):
+    def count_invitations(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/count".format(self._id)
+        api = "/Person/{0}/invitations/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_management_tiers(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/managementTiers/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_notification_subscriptions(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/notificationSubscriptions/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_notification_triggers(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/notificationTriggers/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_permissions(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/permissions/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_preferences(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/preferences/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_residential_permissions(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/residentialPermissions/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_role_mappings(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/roleMappings/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_user_feedbacks(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/userFeedbacks/count".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
     @classmethod
-    def count_access_tokens(cls, session, attribs=None):
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/accessTokens/count"
-        return session.call_api(api, attribs, 'get')
+        api = "/Person"
+        return session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def count_invitations(cls, session, attribs=None):
+    def create_access_tokens(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/invitations/count"
-        return session.call_api(api, attribs, 'get')
+        api = "/Person/{0}/accessTokens".format(self._id)
+        return self._session.call_api(api, attribs, 'post')
 
-    def count_management_tier_people(self, attribs=None):
+    def create_invitations(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/{0}/people/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Person/{0}/invitations".format(self._id)
+        return self._session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def count_management_tiers(cls, session, attribs=None):
+    def create_management_tiers(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/managementTiers/count"
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def count_notification_subscriptions(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/notificationSubscriptions/count"
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def count_notification_triggers(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/notificationTriggers/count"
-        return session.call_api(api, attribs, 'get')
-
-    def count_organization_people(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/people/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def count_permissions(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/permissions/count"
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def count_preferences(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/preferences/count"
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def count_residential_permissions(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/residentialPermissions/count"
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def count_role_mappings(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/roleMappings/count"
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def count_user_feedbacks(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/userFeedbacks/count"
-        return session.call_api(api, attribs, 'get')
-
-    def create(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person".format(self._id)
+        api = "/Person/{0}/managementTiers".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
     @classmethod
-    def create_access_tokens(cls, session, attribs=None):
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/accessTokens"
+        api = "/Person"
         return session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def create_invitations(cls, session, attribs=None):
+    def create_notification_subscriptions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/invitations"
-        return session.call_api(api, attribs, 'post')
-
-    def create_management_tier_people(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/people".format(self._id)
+        api = "/Person/{0}/notificationSubscriptions".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def create_management_tiers(cls, session, attribs=None):
+    def create_notification_triggers(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/managementTiers"
-        return session.call_api(api, attribs, 'post')
-
-    def create_many(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person".format(self._id)
+        api = "/Person/{0}/notificationTriggers".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def create_many_management_tier_people(self, attribs=None):
+    def create_preferences(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/{0}/people".format(self._id)
+        api = "/Person/{0}/preferences".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def create_many_organization_people(self, attribs=None):
+    def create_residential_permissions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Organizations/{0}/people".format(self._id)
+        api = "/Person/{0}/residentialPermissions".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def create_notification_subscriptions(cls, session, attribs=None):
+    def create_role_mappings(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/notificationSubscriptions"
-        return session.call_api(api, attribs, 'post')
-
-    @classmethod
-    def create_notification_triggers(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/notificationTriggers"
-        return session.call_api(api, attribs, 'post')
-
-    def create_organization_people(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/people".format(self._id)
+        api = "/Person/{0}/roleMappings".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def create_preferences(cls, session, attribs=None):
+    def create_user_feedbacks(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/preferences"
-        return session.call_api(api, attribs, 'post')
+        api = "/Person/{0}/userFeedbacks".format(self._id)
+        return self._session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def create_residential_permissions(cls, session, attribs=None):
+    def delete_access_tokens(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/residentialPermissions"
-        return session.call_api(api, attribs, 'post')
-
-    @classmethod
-    def create_role_mappings(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/roleMappings"
-        return session.call_api(api, attribs, 'post')
-
-    @classmethod
-    def create_user_feedbacks(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/userFeedbacks"
-        return session.call_api(api, attribs, 'post')
-
-    @classmethod
-    def delete_access_tokens(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/accessTokens"
-        return session.call_api(api, attribs, 'delete')
+        api = "/Person/{0}/accessTokens".format(self._id)
+        return self._session.call_api(api, attribs, 'delete')
 
     def delete_by_id(self, attribs=None):
         if attribs is None:
@@ -224,162 +173,119 @@ class Person(BaseModel):
         api = "/Person/{0}".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_invitations(cls, session, attribs=None):
+    def delete_invitations(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/invitations"
-        return session.call_api(api, attribs, 'delete')
-
-    def delete_management_tier_people(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/people".format(self._id)
+        api = "/Person/{0}/invitations".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_management_tiers(cls, session, attribs=None):
+    def delete_management_tiers(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/managementTiers"
-        return session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def delete_notification_subscriptions(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/notificationSubscriptions"
-        return session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def delete_notification_triggers(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/notificationTriggers"
-        return session.call_api(api, attribs, 'delete')
-
-    def delete_organization_people(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/people".format(self._id)
+        api = "/Person/{0}/managementTiers".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_permissions(cls, session, attribs=None):
+    def delete_notification_subscriptions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/permissions"
-        return session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def delete_preferences(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/preferences"
-        return session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def delete_residential_permissions(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/residentialPermissions"
-        return session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def delete_role_mappings(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/roleMappings"
-        return session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def delete_user_feedbacks(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/userFeedbacks"
-        return session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def destroy_by_id_access_tokens(cls, session, access_token, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/accessTokens/{0}".format(access_token)
-        return session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def destroy_by_id_invitations(cls, session, invitation, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/invitations/{0}".format(invitation)
-        return session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_management_tier_people(self, person, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/people/{1}".format(self._id, person)
+        api = "/Person/{0}/notificationSubscriptions".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_management_tiers(cls, session, management_tier, attribs=None):
+    def delete_notification_triggers(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/managementTiers/{0}".format(management_tier)
-        return session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def destroy_by_id_notification_subscriptions(cls, session, notification_subscription, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/notificationSubscriptions/{0}".format(notification_subscription)
-        return session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def destroy_by_id_notification_triggers(cls, session, notification_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/notificationTriggers/{0}".format(notification_trigger)
-        return session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_organization_people(self, person, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/people/{1}".format(self._id, person)
+        api = "/Person/{0}/notificationTriggers".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_permissions(cls, session, permission, attribs=None):
+    def delete_permissions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/permissions/{0}".format(permission)
-        return session.call_api(api, attribs, 'delete')
+        api = "/Person/{0}/permissions".format(self._id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_preferences(cls, session, preference, attribs=None):
+    def delete_preferences(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/preferences/{0}".format(preference)
-        return session.call_api(api, attribs, 'delete')
+        api = "/Person/{0}/preferences".format(self._id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_residential_permissions(cls, session, residential_permission, attribs=None):
+    def delete_residential_permissions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/residentialPermissions/{0}".format(residential_permission)
-        return session.call_api(api, attribs, 'delete')
+        api = "/Person/{0}/residentialPermissions".format(self._id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_role_mappings(cls, session, role_mapping, attribs=None):
+    def delete_role_mappings(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/roleMappings/{0}".format(role_mapping)
-        return session.call_api(api, attribs, 'delete')
+        api = "/Person/{0}/roleMappings".format(self._id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_user_feedbacks(cls, session, user_feedback, attribs=None):
+    def delete_user_feedbacks(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/userFeedbacks/{0}".format(user_feedback)
-        return session.call_api(api, attribs, 'delete')
+        api = "/Person/{0}/userFeedbacks".format(self._id)
+        return self._session.call_api(api, attribs, 'delete')
+
+    def destroy_by_id_access_tokens(self, access_token_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/accessTokens/{1}".format(self._id, access_token_id)
+        return self._session.call_api(api, attribs, 'delete')
+
+    def destroy_by_id_invitations(self, invitation_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/invitations/{1}".format(self._id, invitation_id)
+        return self._session.call_api(api, attribs, 'delete')
+
+    def destroy_by_id_management_tiers(self, management_tier_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/managementTiers/{1}".format(self._id, management_tier_id)
+        return self._session.call_api(api, attribs, 'delete')
+
+    def destroy_by_id_notification_subscriptions(self, notification_subscription_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/notificationSubscriptions/{1}".format(self._id, notification_subscription_id)
+        return self._session.call_api(api, attribs, 'delete')
+
+    def destroy_by_id_notification_triggers(self, notification_trigger_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/notificationTriggers/{1}".format(self._id, notification_trigger_id)
+        return self._session.call_api(api, attribs, 'delete')
+
+    def destroy_by_id_permissions(self, permission_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/permissions/{1}".format(self._id, permission_id)
+        return self._session.call_api(api, attribs, 'delete')
+
+    def destroy_by_id_preferences(self, preference_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/preferences/{1}".format(self._id, preference_id)
+        return self._session.call_api(api, attribs, 'delete')
+
+    def destroy_by_id_residential_permissions(self, residential_permission_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/residentialPermissions/{1}".format(self._id, residential_permission_id)
+        return self._session.call_api(api, attribs, 'delete')
+
+    def destroy_by_id_role_mappings(self, role_mapping_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/roleMappings/{1}".format(self._id, role_mapping_id)
+        return self._session.call_api(api, attribs, 'delete')
+
+    def destroy_by_id_user_feedbacks(self, user_feedback_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/userFeedbacks/{1}".format(self._id, user_feedback_id)
+        return self._session.call_api(api, attribs, 'delete')
 
     def exists(self, attribs=None):
         if attribs is None:
@@ -387,290 +293,287 @@ class Person(BaseModel):
         api = "/Person/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def exists_management_tier_people(self, attribs=None):
+    def exists_management_tiers(self, management_tier_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/{0}/people/rel/{1}".format(self._id, None)
+        api = "/Person/{0}/managementTiers/rel/{1}".format(self._id, management_tier_id)
         return self._session.call_api(api, attribs, 'head')
 
     @classmethod
-    def exists_management_tiers(cls, session, attribs=None):
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/managementTiers/rel/{0}"
-        return session.call_api(api, attribs, 'head')
+        api = "/Person"
+        items = session.call_api(api, attribs, 'get')
 
-    def exists_organization_people(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/people/rel/{1}".format(self._id, None)
-        return self._session.call_api(api, attribs, 'head')
-
-    def find(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        result = []
+        if items is not None:
+            for data in items:
+                model = Person(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/Person/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_access_tokens(cls, session, access_token, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/accessTokens/{0}".format(access_token)
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_invitations(cls, session, invitation, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/invitations/{0}".format(invitation)
-        return session.call_api(api, attribs, 'get')
-
-    def find_by_id_management_tier_people(self, person, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/people/{1}".format(self._id, person)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_management_tiers(cls, session, management_tier, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/managementTiers/{0}".format(management_tier)
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_notification_subscriptions(cls, session, notification_subscription, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/notificationSubscriptions/{0}".format(notification_subscription)
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_notification_triggers(cls, session, notification_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/notificationTriggers/{0}".format(notification_trigger)
-        return session.call_api(api, attribs, 'get')
-
-    def find_by_id_organization_people(self, person, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/people/{1}".format(self._id, person)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_permissions(cls, session, permission, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/permissions/{0}".format(permission)
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_preferences(cls, session, preference, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/preferences/{0}".format(preference)
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_residential_permissions(cls, session, residential_permission, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/residentialPermissions/{0}".format(residential_permission)
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_role_mappings(cls, session, role_mapping, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/roleMappings/{0}".format(role_mapping)
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_user_feedbacks(cls, session, user_feedback, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/userFeedbacks/{0}".format(user_feedback)
-        return session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def get_access_tokens(cls, session, attribs=None):
+    def find_by_id_access_tokens(self, access_token_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/accessTokens"
+        api = "/Person/{0}/accessTokens/{1}".format(self._id, access_token_id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def find_by_id_invitations(self, invitation_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/invitations/{1}".format(self._id, invitation_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .invitation import Invitation
+        model = Invitation(self._session, data['id'])
+        model.data = data
+        return model
+
+    def find_by_id_management_tiers(self, management_tier_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/managementTiers/{1}".format(self._id, management_tier_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .management_tier import ManagementTier
+        model = ManagementTier(self._session, data['id'])
+        model.data = data
+        return model
+
+    def find_by_id_notification_subscriptions(self, notification_subscription_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/notificationSubscriptions/{1}".format(self._id, notification_subscription_id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def find_by_id_notification_triggers(self, notification_trigger_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/notificationTriggers/{1}".format(self._id, notification_trigger_id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def find_by_id_permissions(self, permission_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/permissions/{1}".format(self._id, permission_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .permission import Permission
+        model = Permission(self._session, data['id'])
+        model.data = data
+        return model
+
+    def find_by_id_preferences(self, preference_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/preferences/{1}".format(self._id, preference_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .preference import Preference
+        model = Preference(self._session, data['id'])
+        model.data = data
+        return model
+
+    def find_by_id_residential_permissions(self, residential_permission_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/residentialPermissions/{1}".format(self._id, residential_permission_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .residential_permission import ResidentialPermission
+        model = ResidentialPermission(self._session, data['id'])
+        model.data = data
+        return model
+
+    def find_by_id_role_mappings(self, role_mapping_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/roleMappings/{1}".format(self._id, role_mapping_id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def find_by_id_user_feedbacks(self, user_feedback_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/userFeedbacks/{1}".format(self._id, user_feedback_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .user_feedback import UserFeedback
+        model = UserFeedback(self._session, data['id'])
+        model.data = data
+        return model
+
+    @classmethod
+    def find_one(cls, session, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/findOne"
         return session.call_api(api, attribs, 'get')
+
+    def refresh(self):
+        api = "/Person/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
+
+    def get_access_tokens(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/accessTokens".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
 
     def get_current(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/Person/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        self.data.update(data)
+        return self
+
+    def get_invitations(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/invitations".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
+
+        from .invitation import Invitation
+        result = []
+        if items is not None:
+            for data in items:
+                model = Invitation(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
+
+    def get_management_tiers(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/managementTiers".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
+
+        from .management_tier import ManagementTier
+        result = []
+        if items is not None:
+            for data in items:
+                model = ManagementTier(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
+
+    def get_notification_subscriptions(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/notificationSubscriptions".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def get_feed_item_person(self, attribs=None):
+    def get_notification_triggers(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/FeedItems/{0}/person".format(self._id)
+        api = "/Person/{0}/notificationTriggers".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def get_invitation_person(self, attribs=None):
+    def get_permissions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Invitations/{0}/person".format(self._id)
+        api = "/Person/{0}/permissions".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
+
+        from .permission import Permission
+        result = []
+        if items is not None:
+            for data in items:
+                model = Permission(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
+
+    def get_preferences(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/preferences".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
+
+        from .preference import Preference
+        result = []
+        if items is not None:
+            for data in items:
+                model = Preference(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
+
+    def get_residential_permissions(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/residentialPermissions".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
+
+        from .residential_permission import ResidentialPermission
+        result = []
+        if items is not None:
+            for data in items:
+                model = ResidentialPermission(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
+
+    def get_role_mappings(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/roleMappings".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_invitations(cls, session, attribs=None):
+    def get_user_feedbacks(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/invitations"
-        return session.call_api(api, attribs, 'get')
+        api = "/Person/{0}/userFeedbacks".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
 
-    def get_management_tier_people(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/people".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        from .user_feedback import UserFeedback
+        result = []
+        if items is not None:
+            for data in items:
+                model = UserFeedback(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
-    @classmethod
-    def get_management_tiers(cls, session, attribs=None):
+    def link_management_tiers(self, management_tier_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/managementTiers"
-        return session.call_api(api, attribs, 'get')
+        api = "/Person/{0}/managementTiers/rel/{1}".format(self._id, management_tier_id)
+        data = self._session.call_api(api, attribs, 'put')
 
-    @classmethod
-    def get_notification_subscriptions(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/notificationSubscriptions"
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def get_notification_triggers(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/notificationTriggers"
-        return session.call_api(api, attribs, 'get')
-
-    def get_organization_people(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/people".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get_permission_person(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Permissions/{0}/person".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        from .management_tier import ManagementTier
+        model = ManagementTier(self._session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def get_permissions(cls, session, attribs=None):
+    def login(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/permissions"
-        return session.call_api(api, attribs, 'get')
-
-    def get_preference_person(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Preferences/{0}/person".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Person/login"
+        return session.call_api(api, attribs, 'post')
 
     @classmethod
-    def get_preferences(cls, session, attribs=None):
+    def logout(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/preferences"
-        return session.call_api(api, attribs, 'get')
-
-    def get_residential_permission_person(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialPermissions/{0}/person".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def get_residential_permissions(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/residentialPermissions"
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def get_role_mappings(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/roleMappings"
-        return session.call_api(api, attribs, 'get')
-
-    def get_user_feedback_person(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/UserFeedbacks/{0}/person".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def get_user_feedbacks(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/userFeedbacks"
-        return session.call_api(api, attribs, 'get')
-
-    def link_management_tier_people(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/people/rel/{1}".format(self._id, None)
-        return self._session.call_api(api, attribs, 'put')
-
-    @classmethod
-    def link_management_tiers(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/managementTiers/rel/{0}"
-        return session.call_api(api, attribs, 'put')
-
-    def link_organization_people(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/people/rel/{1}".format(self._id, None)
-        return self._session.call_api(api, attribs, 'put')
-
-    def login(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/login".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def logout(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/logout".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Person/logout"
+        return session.call_api(api, attribs, 'post')
 
     def notify(self, attribs=None):
         if attribs is None:
@@ -684,137 +587,142 @@ class Person(BaseModel):
         api = "/Person/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
+    @classmethod
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Person/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
 
-    def reset_password(self, attribs=None):
+    @classmethod
+    def reset_password(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/reset".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Person/reset"
+        return session.call_api(api, attribs, 'post')
 
-    def unlink_management_tier_people(self, attribs=None):
+    def unlink_management_tiers(self, management_tier_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/{0}/people/rel/{1}".format(self._id, None)
+        api = "/Person/{0}/managementTiers/rel/{1}".format(self._id, management_tier_id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def unlink_management_tiers(cls, session, attribs=None):
+    def update_attributes(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/managementTiers/rel/{0}"
-        return session.call_api(api, attribs, 'delete')
+        api = "/Person/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
 
-    def unlink_organization_people(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/people/rel/{1}".format(self._id, None)
-        return self._session.call_api(api, attribs, 'delete')
+        self.data.update(attribs)
+        return self
 
-    @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def update_by_id_access_tokens(self, access_token_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id"
-        return session.call_api(api, attribs, 'put')
-
-    @classmethod
-    def update_by_id_access_tokens(cls, session, access_token, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/accessTokens/{0}".format(access_token)
-        return session.call_api(api, attribs, 'put')
-
-    @classmethod
-    def update_by_id_invitations(cls, session, invitation, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/invitations/{0}".format(invitation)
-        return session.call_api(api, attribs, 'put')
-
-    def update_by_id_management_tier_people(self, person, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/people/{1}".format(self._id, person)
+        api = "/Person/{0}/accessTokens/{1}".format(self._id, access_token_id)
         return self._session.call_api(api, attribs, 'put')
 
-    @classmethod
-    def update_by_id_management_tiers(cls, session, management_tier, attribs=None):
+    def update_by_id_invitations(self, invitation_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/managementTiers/{0}".format(management_tier)
-        return session.call_api(api, attribs, 'put')
+        api = "/Person/{0}/invitations/{1}".format(self._id, invitation_id)
+        data = self._session.call_api(api, attribs, 'put')
 
-    @classmethod
-    def update_by_id_notification_subscriptions(cls, session, notification_subscription, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/notificationSubscriptions/{0}".format(notification_subscription)
-        return session.call_api(api, attribs, 'put')
+        from .invitation import Invitation
+        model = Invitation(self._session, data['id'])
+        model.data = data
+        return model
 
-    @classmethod
-    def update_by_id_notification_triggers(cls, session, notification_trigger, attribs=None):
+    def update_by_id_management_tiers(self, management_tier_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/notificationTriggers/{0}".format(notification_trigger)
-        return session.call_api(api, attribs, 'put')
+        api = "/Person/{0}/managementTiers/{1}".format(self._id, management_tier_id)
+        data = self._session.call_api(api, attribs, 'put')
 
-    def update_by_id_organization_people(self, person, attribs=None):
+        from .management_tier import ManagementTier
+        model = ManagementTier(self._session, data['id'])
+        model.data = data
+        return model
+
+    def update_by_id_notification_subscriptions(self, notification_subscription_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Organizations/{0}/people/{1}".format(self._id, person)
+        api = "/Person/{0}/notificationSubscriptions/{1}".format(self._id, notification_subscription_id)
         return self._session.call_api(api, attribs, 'put')
 
-    @classmethod
-    def update_by_id_permissions(cls, session, permission, attribs=None):
+    def update_by_id_notification_triggers(self, notification_trigger_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/:id/permissions/{0}".format(permission)
-        return session.call_api(api, attribs, 'put')
-
-    @classmethod
-    def update_by_id_preferences(cls, session, preference, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/preferences/{0}".format(preference)
-        return session.call_api(api, attribs, 'put')
-
-    @classmethod
-    def update_by_id_residential_permissions(cls, session, residential_permission, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/residentialPermissions/{0}".format(residential_permission)
-        return session.call_api(api, attribs, 'put')
-
-    @classmethod
-    def update_by_id_role_mappings(cls, session, role_mapping, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/roleMappings/{0}".format(role_mapping)
-        return session.call_api(api, attribs, 'put')
-
-    @classmethod
-    def update_by_id_user_feedbacks(cls, session, user_feedback, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/:id/userFeedbacks/{0}".format(user_feedback)
-        return session.call_api(api, attribs, 'put')
-
-    def upsert(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person".format(self._id)
+        api = "/Person/{0}/notificationTriggers/{1}".format(self._id, notification_trigger_id)
         return self._session.call_api(api, attribs, 'put')
 
-    def upsert_with_where(self, attribs=None):
+    def update_by_id_permissions(self, permission_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Person/{0}/permissions/{1}".format(self._id, permission_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .permission import Permission
+        model = Permission(self._session, data['id'])
+        model.data = data
+        return model
+
+    def update_by_id_preferences(self, preference_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/preferences/{1}".format(self._id, preference_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .preference import Preference
+        model = Preference(self._session, data['id'])
+        model.data = data
+        return model
+
+    def update_by_id_residential_permissions(self, residential_permission_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/residentialPermissions/{1}".format(self._id, residential_permission_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .residential_permission import ResidentialPermission
+        model = ResidentialPermission(self._session, data['id'])
+        model.data = data
+        return model
+
+    def update_by_id_role_mappings(self, role_mapping_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/roleMappings/{1}".format(self._id, role_mapping_id)
+        return self._session.call_api(api, attribs, 'put')
+
+    def update_by_id_user_feedbacks(self, user_feedback_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/{0}/userFeedbacks/{1}".format(self._id, user_feedback_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .user_feedback import UserFeedback
+        model = UserFeedback(self._session, data['id'])
+        model.data = data
+        return model
+
+    @classmethod
+    def upsert(cls, session, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person"
+        data = session.call_api(api, attribs, 'put')
+
+        model = Person(session, data['id'])
+        model.data = data
+        return model
+
+    @classmethod
+    def upsert_with_where(cls, session, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Person/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 
     def verify_email(self, attribs=None):
         if attribs is None:

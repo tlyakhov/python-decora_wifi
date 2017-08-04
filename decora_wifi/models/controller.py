@@ -12,55 +12,38 @@ class Controller(BaseModel):
     def __init__(self, session, model_id=None):
         super(Controller, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Controllers/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def count_installation_controllers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/controllers/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
     @classmethod
-    def count_thermostats(cls, session, attribs=None):
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Controllers/:id/thermostats/count"
+        api = "/Controllers/count"
         return session.call_api(api, attribs, 'get')
 
-    def create(self, attribs=None):
+    def count_thermostats(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Controllers".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_installation_controllers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/controllers".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Controllers".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_installation_controllers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/controllers".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Controllers/{0}/thermostats/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
 
     @classmethod
-    def create_thermostats(cls, session, attribs=None):
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Controllers/:id/thermostats"
+        api = "/Controllers"
         return session.call_api(api, attribs, 'post')
+
+    @classmethod
+    def create_many(cls, session, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Controllers"
+        return session.call_api(api, attribs, 'post')
+
+    def create_thermostats(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Controllers/{0}/thermostats".format(self._id)
+        return self._session.call_api(api, attribs, 'post')
 
     def delete_by_id(self, attribs=None):
         if attribs is None:
@@ -68,31 +51,17 @@ class Controller(BaseModel):
         api = "/Controllers/{0}".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    def delete_installation_controllers(self, attribs=None):
+    def delete_thermostats(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Installations/{0}/controllers".format(self._id)
+        api = "/Controllers/{0}/thermostats".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_thermostats(cls, session, attribs=None):
+    def destroy_by_id_thermostats(self, thermostat_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Controllers/:id/thermostats"
-        return session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_installation_controllers(self, controller, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/controllers/{1}".format(self._id, controller)
+        api = "/Controllers/{0}/thermostats/{1}".format(self._id, thermostat_id)
         return self._session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def destroy_by_id_thermostats(cls, session, thermostat, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Controllers/:id/thermostats/{0}".format(thermostat)
-        return session.call_api(api, attribs, 'delete')
 
     def discover(self, attribs=None):
         if attribs is None:
@@ -106,73 +75,80 @@ class Controller(BaseModel):
         api = "/Controllers/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Controllers".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Controllers"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = Controller(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/Controllers/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_installation_controllers(self, controller, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/controllers/{1}".format(self._id, controller)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_thermostats(cls, session, thermostat, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Controllers/:id/thermostats/{0}".format(thermostat)
-        return session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Controllers/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Controllers/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
-
-    def get_feed_item_controller(self, attribs=None):
+    def find_by_id_thermostats(self, thermostat_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/FeedItems/{0}/controller".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Controllers/{0}/thermostats/{1}".format(self._id, thermostat_id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_installation(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Controllers/:id/installation"
-        return session.call_api(api, attribs, 'get')
-
-    def get_installation_controllers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/controllers".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        from .thermostat import Thermostat
+        model = Thermostat(self._session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def get_thermostats(cls, session, attribs=None):
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Controllers/:id/thermostats"
+        api = "/Controllers/findOne"
         return session.call_api(api, attribs, 'get')
+
+    def refresh(self):
+        api = "/Controllers/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
+
+    def get_installation(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Controllers/{0}/installation".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .installation import Installation
+        model = Installation(self._session, data['id'])
+        model.data = data
+        return model
+
+    def get_thermostats(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Controllers/{0}/thermostats".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
+
+        from .thermostat import Thermostat
+        result = []
+        if items is not None:
+            for data in items:
+                model = Thermostat(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def post_message(self, attribs=None):
         if attribs is None:
@@ -186,41 +162,48 @@ class Controller(BaseModel):
         api = "/Controllers/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
+    @classmethod
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Controllers/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Controllers/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
+
+    def update_attributes(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Controllers/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        self.data.update(attribs)
+        return self
+
+    def update_by_id_thermostats(self, thermostat_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Controllers/{0}/thermostats/{1}".format(self._id, thermostat_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .thermostat import Thermostat
+        model = Thermostat(self._session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def upsert(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Controllers/:id"
-        return session.call_api(api, attribs, 'put')
+        api = "/Controllers"
+        data = session.call_api(api, attribs, 'put')
 
-    def update_by_id_installation_controllers(self, controller, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/controllers/{1}".format(self._id, controller)
-        return self._session.call_api(api, attribs, 'put')
+        model = Controller(session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def update_by_id_thermostats(cls, session, thermostat, attribs=None):
+    def upsert_with_where(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Controllers/:id/thermostats/{0}".format(thermostat)
-        return session.call_api(api, attribs, 'put')
-
-    def upsert(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Controllers".format(self._id)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert_with_where(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Controllers/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Controllers/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

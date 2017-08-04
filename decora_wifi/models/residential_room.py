@@ -12,83 +12,62 @@ class ResidentialRoom(BaseModel):
     def __init__(self, session, model_id=None):
         super(ResidentialRoom, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
+    @classmethod
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialRooms/count".format(self._id)
+        api = "/ResidentialRooms/count"
+        return session.call_api(api, attribs, 'get')
+
+    def count_iot_switches(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialRooms/{0}/iotSwitches/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_residential_areas(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialRooms/{0}/residentialAreas/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_residential_scenes(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialRooms/{0}/residentialScenes/count".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
     @classmethod
-    def count_iot_switches(cls, session, attribs=None):
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialRooms/:id/iotSwitches/count"
-        return session.call_api(api, attribs, 'get')
-
-    def count_residence_residential_rooms(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Residences/{0}/residentialRooms/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def count_residential_areas(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialRooms/:id/residentialAreas/count"
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def count_residential_scenes(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialRooms/:id/residentialScenes/count"
-        return session.call_api(api, attribs, 'get')
-
-    def create(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialRooms".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    @classmethod
-    def create_iot_switches(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialRooms/:id/iotSwitches"
+        api = "/ResidentialRooms"
         return session.call_api(api, attribs, 'post')
 
-    def create_many(self, attribs=None):
+    def create_iot_switches(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialRooms".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_residence_residential_rooms(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Residences/{0}/residentialRooms".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_residence_residential_rooms(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Residences/{0}/residentialRooms".format(self._id)
+        api = "/ResidentialRooms/{0}/iotSwitches".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
     @classmethod
-    def create_residential_areas(cls, session, attribs=None):
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialRooms/:id/residentialAreas"
+        api = "/ResidentialRooms"
         return session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def create_residential_scenes(cls, session, attribs=None):
+    def create_residential_areas(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialRooms/:id/residentialScenes"
-        return session.call_api(api, attribs, 'post')
+        api = "/ResidentialRooms/{0}/residentialAreas".format(self._id)
+        return self._session.call_api(api, attribs, 'post')
+
+    def create_residential_scenes(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialRooms/{0}/residentialScenes".format(self._id)
+        return self._session.call_api(api, attribs, 'post')
 
     def delete_by_id(self, attribs=None):
         if attribs is None:
@@ -96,59 +75,41 @@ class ResidentialRoom(BaseModel):
         api = "/ResidentialRooms/{0}".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_iot_switches(cls, session, attribs=None):
+    def delete_iot_switches(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialRooms/:id/iotSwitches"
-        return session.call_api(api, attribs, 'delete')
-
-    def delete_residence_residential_rooms(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Residences/{0}/residentialRooms".format(self._id)
+        api = "/ResidentialRooms/{0}/iotSwitches".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_residential_areas(cls, session, attribs=None):
+    def delete_residential_areas(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialRooms/:id/residentialAreas"
-        return session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def delete_residential_scenes(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialRooms/:id/residentialScenes"
-        return session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def destroy_by_id_iot_switches(cls, session, iot_switch, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialRooms/:id/iotSwitches/{0}".format(iot_switch)
-        return session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_residence_residential_rooms(self, residential_room, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Residences/{0}/residentialRooms/{1}".format(self._id, residential_room)
+        api = "/ResidentialRooms/{0}/residentialAreas".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_residential_areas(cls, session, residential_area, attribs=None):
+    def delete_residential_scenes(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialRooms/:id/residentialAreas/{0}".format(residential_area)
-        return session.call_api(api, attribs, 'delete')
+        api = "/ResidentialRooms/{0}/residentialScenes".format(self._id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_residential_scenes(cls, session, residential_scene, attribs=None):
+    def destroy_by_id_iot_switches(self, iot_switch_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialRooms/:id/residentialScenes/{0}".format(residential_scene)
-        return session.call_api(api, attribs, 'delete')
+        api = "/ResidentialRooms/{0}/iotSwitches/{1}".format(self._id, iot_switch_id)
+        return self._session.call_api(api, attribs, 'delete')
+
+    def destroy_by_id_residential_areas(self, residential_area_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialRooms/{0}/residentialAreas/{1}".format(self._id, residential_area_id)
+        return self._session.call_api(api, attribs, 'delete')
+
+    def destroy_by_id_residential_scenes(self, residential_scene_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialRooms/{0}/residentialScenes/{1}".format(self._id, residential_scene_id)
+        return self._session.call_api(api, attribs, 'delete')
 
     def exists(self, attribs=None):
         if attribs is None:
@@ -156,121 +117,149 @@ class ResidentialRoom(BaseModel):
         api = "/ResidentialRooms/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def exists_residential_areas(cls, session, attribs=None):
+    def exists_residential_areas(self, residential_area_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialRooms/:id/residentialAreas/rel/{0}"
-        return session.call_api(api, attribs, 'head')
+        api = "/ResidentialRooms/{0}/residentialAreas/rel/{1}".format(self._id, residential_area_id)
+        return self._session.call_api(api, attribs, 'head')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialRooms".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ResidentialRooms"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = ResidentialRoom(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/ResidentialRooms/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_iot_switches(cls, session, iot_switch, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialRooms/:id/iotSwitches/{0}".format(iot_switch)
-        return session.call_api(api, attribs, 'get')
-
-    def find_by_id_residence_residential_rooms(self, residential_room, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Residences/{0}/residentialRooms/{1}".format(self._id, residential_room)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_residential_areas(cls, session, residential_area, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialRooms/:id/residentialAreas/{0}".format(residential_area)
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_residential_scenes(cls, session, residential_scene, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialRooms/:id/residentialScenes/{0}".format(residential_scene)
-        return session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialRooms/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialRooms/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
-
-    def get_iot_switch_residential_room(self, attribs=None):
+    def find_by_id_iot_switches(self, iot_switch_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/IotSwitches/{0}/residentialRoom".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ResidentialRooms/{0}/iotSwitches/{1}".format(self._id, iot_switch_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .iot_switch import IotSwitch
+        model = IotSwitch(self._session, data['id'])
+        model.data = data
+        return model
+
+    def find_by_id_residential_areas(self, residential_area_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialRooms/{0}/residentialAreas/{1}".format(self._id, residential_area_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .residential_area import ResidentialArea
+        model = ResidentialArea(self._session, data['id'])
+        model.data = data
+        return model
+
+    def find_by_id_residential_scenes(self, residential_scene_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialRooms/{0}/residentialScenes/{1}".format(self._id, residential_scene_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .residential_scene import ResidentialScene
+        model = ResidentialScene(self._session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def get_iot_switches(cls, session, attribs=None):
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialRooms/:id/iotSwitches"
+        api = "/ResidentialRooms/findOne"
         return session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_residence(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialRooms/:id/residence"
-        return session.call_api(api, attribs, 'get')
+    def refresh(self):
+        api = "/ResidentialRooms/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
 
-    def get_residence_residential_rooms(self, attribs=None):
+    def get_iot_switches(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Residences/{0}/residentialRooms".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ResidentialRooms/{0}/iotSwitches".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_residential_areas(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialRooms/:id/residentialAreas"
-        return session.call_api(api, attribs, 'get')
+        from .iot_switch import IotSwitch
+        result = []
+        if items is not None:
+            for data in items:
+                model = IotSwitch(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
-    def get_residential_scene_residential_room(self, attribs=None):
+    def get_residence(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialScenes/{0}/residentialRoom".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ResidentialRooms/{0}/residence".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_residential_scenes(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialRooms/:id/residentialScenes"
-        return session.call_api(api, attribs, 'get')
+        from .residence import Residence
+        model = Residence(self._session, data['id'])
+        model.data = data
+        return model
 
-    @classmethod
-    def link_residential_areas(cls, session, attribs=None):
+    def get_residential_areas(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialRooms/:id/residentialAreas/rel/{0}"
-        return session.call_api(api, attribs, 'put')
+        api = "/ResidentialRooms/{0}/residentialAreas".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
+
+        from .residential_area import ResidentialArea
+        result = []
+        if items is not None:
+            for data in items:
+                model = ResidentialArea(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
+
+    def get_residential_scenes(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialRooms/{0}/residentialScenes".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
+
+        from .residential_scene import ResidentialScene
+        result = []
+        if items is not None:
+            for data in items:
+                model = ResidentialScene(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
+
+    def link_residential_areas(self, residential_area_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialRooms/{0}/residentialAreas/rel/{1}".format(self._id, residential_area_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .residential_area import ResidentialArea
+        model = ResidentialArea(self._session, data['id'])
+        model.data = data
+        return model
 
     def replace_by_id(self, attribs=None):
         if attribs is None:
@@ -278,74 +267,90 @@ class ResidentialRoom(BaseModel):
         api = "/ResidentialRooms/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
+    @classmethod
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialRooms/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def turn_off(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialRooms/turnOff".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def turn_on(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialRooms/turnOn".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ResidentialRooms/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
 
     @classmethod
-    def unlink_residential_areas(cls, session, attribs=None):
+    def turn_off(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialRooms/:id/residentialAreas/rel/{0}"
-        return session.call_api(api, attribs, 'delete')
+        api = "/ResidentialRooms/turnOff"
+        return session.call_api(api, attribs, 'post')
 
     @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def turn_on(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialRooms/:id"
-        return session.call_api(api, attribs, 'put')
+        api = "/ResidentialRooms/turnOn"
+        return session.call_api(api, attribs, 'post')
+
+    def unlink_residential_areas(self, residential_area_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialRooms/{0}/residentialAreas/rel/{1}".format(self._id, residential_area_id)
+        return self._session.call_api(api, attribs, 'delete')
+
+    def update_attributes(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialRooms/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        self.data.update(attribs)
+        return self
+
+    def update_by_id_iot_switches(self, iot_switch_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialRooms/{0}/iotSwitches/{1}".format(self._id, iot_switch_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .iot_switch import IotSwitch
+        model = IotSwitch(self._session, data['id'])
+        model.data = data
+        return model
+
+    def update_by_id_residential_areas(self, residential_area_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialRooms/{0}/residentialAreas/{1}".format(self._id, residential_area_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .residential_area import ResidentialArea
+        model = ResidentialArea(self._session, data['id'])
+        model.data = data
+        return model
+
+    def update_by_id_residential_scenes(self, residential_scene_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialRooms/{0}/residentialScenes/{1}".format(self._id, residential_scene_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .residential_scene import ResidentialScene
+        model = ResidentialScene(self._session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def update_by_id_iot_switches(cls, session, iot_switch, attribs=None):
+    def upsert(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialRooms/:id/iotSwitches/{0}".format(iot_switch)
-        return session.call_api(api, attribs, 'put')
+        api = "/ResidentialRooms"
+        data = session.call_api(api, attribs, 'put')
 
-    def update_by_id_residence_residential_rooms(self, residential_room, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Residences/{0}/residentialRooms/{1}".format(self._id, residential_room)
-        return self._session.call_api(api, attribs, 'put')
+        model = ResidentialRoom(session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def update_by_id_residential_areas(cls, session, residential_area, attribs=None):
+    def upsert_with_where(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialRooms/:id/residentialAreas/{0}".format(residential_area)
-        return session.call_api(api, attribs, 'put')
-
-    @classmethod
-    def update_by_id_residential_scenes(cls, session, residential_scene, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialRooms/:id/residentialScenes/{0}".format(residential_scene)
-        return session.call_api(api, attribs, 'put')
-
-    def upsert(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialRooms".format(self._id)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert_with_where(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialRooms/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ResidentialRooms/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

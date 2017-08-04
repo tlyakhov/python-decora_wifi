@@ -12,29 +12,33 @@ class AlexaToken(BaseModel):
     def __init__(self, session, model_id=None):
         super(AlexaToken, self).__init__(session, model_id)
 
-    def control_device(self, attribs=None):
+    @classmethod
+    def control_device(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/AlexaTokens/controlDevice".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/AlexaTokens/controlDevice"
+        return session.call_api(api, attribs, 'post')
 
-    def count(self, attribs=None):
+    @classmethod
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/AlexaTokens/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/AlexaTokens/count"
+        return session.call_api(api, attribs, 'get')
 
-    def create(self, attribs=None):
+    @classmethod
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/AlexaTokens".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/AlexaTokens"
+        return session.call_api(api, attribs, 'post')
 
-    def create_many(self, attribs=None):
+    @classmethod
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/AlexaTokens".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/AlexaTokens"
+        return session.call_api(api, attribs, 'post')
 
     def delete_by_id(self, attribs=None):
         if attribs is None:
@@ -42,11 +46,12 @@ class AlexaToken(BaseModel):
         api = "/AlexaTokens/{0}".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    def discover_devices(self, attribs=None):
+    @classmethod
+    def discover_devices(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/AlexaTokens/discoverDevices".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/AlexaTokens/discoverDevices"
+        return session.call_api(api, attribs, 'get')
 
     def exists(self, attribs=None):
         if attribs is None:
@@ -54,45 +59,61 @@ class AlexaToken(BaseModel):
         api = "/AlexaTokens/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/AlexaTokens".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/AlexaTokens"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = AlexaToken(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/AlexaTokens/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        data = self._session.call_api(api, attribs, 'get')
 
-    def find_one(self, attribs=None):
+        self.data.update(data)
+        return self
+
+    @classmethod
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/AlexaTokens/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/AlexaTokens/findOne"
+        return session.call_api(api, attribs, 'get')
 
-    def get(self, attribs=None):
+    def refresh(self):
+        api = "/AlexaTokens/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
+
+    def update_attributes(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/AlexaTokens/{0}".format(self._id)
-        data = self._session.call_api(api, attribs, 'get')
+        data = self._session.call_api(api, attribs, 'put')
 
-        self.set_model_data(data)
+        self.data.update(attribs)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
-
     @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def upsert(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/AlexaTokens/:id"
-        return session.call_api(api, attribs, 'put')
+        api = "/AlexaTokens"
+        data = session.call_api(api, attribs, 'put')
 
-    def upsert(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/AlexaTokens".format(self._id)
-        return self._session.call_api(api, attribs, 'put')
+        model = AlexaToken(session, data['id'])
+        model.data = data
+        return model
 

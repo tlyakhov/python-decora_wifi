@@ -12,77 +12,26 @@ class ResidentialAction(BaseModel):
     def __init__(self, session, model_id=None):
         super(ResidentialAction, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
+    @classmethod
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialActions/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ResidentialActions/count"
+        return session.call_api(api, attribs, 'get')
 
-    def count_residential_activity_residential_actions(self, attribs=None):
+    @classmethod
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialActivities/{0}/residentialActions/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ResidentialActions"
+        return session.call_api(api, attribs, 'post')
 
-    def count_residential_scene_residential_actions(self, attribs=None):
+    @classmethod
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialScenes/{0}/residentialActions/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def count_residential_schedule_residential_actions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialSchedules/{0}/residentialActions/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def create(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialActions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialActions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_residential_activity_residential_actions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialActivities/{0}/residentialActions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_residential_scene_residential_actions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialScenes/{0}/residentialActions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_residential_schedule_residential_actions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialSchedules/{0}/residentialActions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_residential_activity_residential_actions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialActivities/{0}/residentialActions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_residential_scene_residential_actions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialScenes/{0}/residentialActions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_residential_schedule_residential_actions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialSchedules/{0}/residentialActions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ResidentialActions"
+        return session.call_api(api, attribs, 'post')
 
     def delete_by_id(self, attribs=None):
         if attribs is None:
@@ -90,47 +39,12 @@ class ResidentialAction(BaseModel):
         api = "/ResidentialActions/{0}".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    def delete_residential_activity_residential_actions(self, attribs=None):
+    @classmethod
+    def execute(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialActivities/{0}/residentialActions".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def delete_residential_scene_residential_actions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialScenes/{0}/residentialActions".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def delete_residential_schedule_residential_actions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialSchedules/{0}/residentialActions".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_residential_activity_residential_actions(self, residential_action, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialActivities/{0}/residentialActions/{1}".format(self._id, residential_action)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_residential_scene_residential_actions(self, residential_action, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialScenes/{0}/residentialActions/{1}".format(self._id, residential_action)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_residential_schedule_residential_actions(self, residential_action, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialSchedules/{0}/residentialActions/{1}".format(self._id, residential_action)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def execute(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialActions/execute".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ResidentialActions/execute"
+        return session.call_api(api, attribs, 'post')
 
     def exists(self, attribs=None):
         if attribs is None:
@@ -138,91 +52,76 @@ class ResidentialAction(BaseModel):
         api = "/ResidentialActions/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialActions".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ResidentialActions"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = ResidentialAction(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/ResidentialActions/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_residential_activity_residential_actions(self, residential_action, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialActivities/{0}/residentialActions/{1}".format(self._id, residential_action)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_residential_scene_residential_actions(self, residential_action, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialScenes/{0}/residentialActions/{1}".format(self._id, residential_action)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_residential_schedule_residential_actions(self, residential_action, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialSchedules/{0}/residentialActions/{1}".format(self._id, residential_action)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialActions/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialActions/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
-
     @classmethod
-    def get_residential_activity(cls, session, attribs=None):
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialActions/:id/residentialActivity"
+        api = "/ResidentialActions/findOne"
         return session.call_api(api, attribs, 'get')
 
-    def get_residential_activity_residential_actions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialActivities/{0}/residentialActions".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+    def refresh(self):
+        api = "/ResidentialActions/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
 
-    @classmethod
-    def get_residential_scene(cls, session, attribs=None):
+    def get_residential_activity(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialActions/:id/residentialScene"
-        return session.call_api(api, attribs, 'get')
+        api = "/ResidentialActions/{0}/residentialActivity".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    def get_residential_scene_residential_actions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialScenes/{0}/residentialActions".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        from .residential_activity import ResidentialActivity
+        model = ResidentialActivity(self._session, data['id'])
+        model.data = data
+        return model
 
-    @classmethod
-    def get_residential_schedule(cls, session, attribs=None):
+    def get_residential_scene(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialActions/:id/residentialSchedule"
-        return session.call_api(api, attribs, 'get')
+        api = "/ResidentialActions/{0}/residentialScene".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    def get_residential_schedule_residential_actions(self, attribs=None):
+        from .residential_scene import ResidentialScene
+        model = ResidentialScene(self._session, data['id'])
+        model.data = data
+        return model
+
+    def get_residential_schedule(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialSchedules/{0}/residentialActions".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ResidentialActions/{0}/residentialSchedule".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .residential_schedule import ResidentialSchedule
+        model = ResidentialSchedule(self._session, data['id'])
+        model.data = data
+        return model
 
     def replace_by_id(self, attribs=None):
         if attribs is None:
@@ -230,46 +129,37 @@ class ResidentialAction(BaseModel):
         api = "/ResidentialActions/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
+    @classmethod
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialActions/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ResidentialActions/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
+
+    def update_attributes(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialActions/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        self.data.update(attribs)
+        return self
 
     @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def upsert(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialActions/:id"
-        return session.call_api(api, attribs, 'put')
+        api = "/ResidentialActions"
+        data = session.call_api(api, attribs, 'put')
 
-    def update_by_id_residential_activity_residential_actions(self, residential_action, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialActivities/{0}/residentialActions/{1}".format(self._id, residential_action)
-        return self._session.call_api(api, attribs, 'put')
+        model = ResidentialAction(session, data['id'])
+        model.data = data
+        return model
 
-    def update_by_id_residential_scene_residential_actions(self, residential_action, attribs=None):
+    @classmethod
+    def upsert_with_where(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialScenes/{0}/residentialActions/{1}".format(self._id, residential_action)
-        return self._session.call_api(api, attribs, 'put')
-
-    def update_by_id_residential_schedule_residential_actions(self, residential_action, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialSchedules/{0}/residentialActions/{1}".format(self._id, residential_action)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialActions".format(self._id)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert_with_where(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialActions/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ResidentialActions/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

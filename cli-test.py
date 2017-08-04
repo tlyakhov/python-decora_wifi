@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
-from decora_wifi import *
+import decora_wifi
+from decora_wifi.models.person import Person
+from decora_wifi.models.residential_account import ResidentialAccount
 import sys
 
 
@@ -15,21 +17,22 @@ if len(sys.argv) >= 5:
 else:
     decora_bright = None
 
-session = decora_wifi()
+session = decora_wifi.decora_wifi()
 session.login(decora_email, decora_pass)
 
 # Gather all the available devices...
 
-perms = ResidentialPermission()
+perms = session.user.get_residential_permissions()
 all_residences = []
 for permission in perms:
     print("Permission: {}".format(permission))
-    for res in session.residences(permission['residentialAccountId']):
+    acct = ResidentialAccount(session, permission.data['residentialAccountId'])
+    for res in acct.get_residences():
         print("Residence: {}".format(res))
         all_residences.append(res)
 all_switches = []
 for residence in all_residences:
-    for switch in session.iot_switches(residence['id']):
+    for switch in residence.get_iot_switches():
         print("Switch: {}".format(switch))
         attribs = {}
         if decora_bright is not None:
@@ -37,11 +40,10 @@ for residence in all_residences:
         if decora_cmd == 'ON':
             print('ON!')
             attribs['POWER'] = 'ON'
-            session.iot_switch_update(switch['id'], attribs)
         else:
             print('OFF!')
             attribs['POWER'] = 'OFF'
-            session.iot_switch_update(switch['id'], attribs)
+        switch.update_attributes(attribs)
 
-session.logout()
+Person.logout(session)
 

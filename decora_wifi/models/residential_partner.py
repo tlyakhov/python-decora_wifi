@@ -12,58 +12,31 @@ class ResidentialPartner(BaseModel):
     def __init__(self, session, model_id=None):
         super(ResidentialPartner, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
+    @classmethod
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialPartners/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ResidentialPartners/count"
+        return session.call_api(api, attribs, 'get')
 
-    def count_residential_account_residential_partners(self, attribs=None):
+    @classmethod
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialAccounts/{0}/residentialPartners/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ResidentialPartners"
+        return session.call_api(api, attribs, 'post')
 
-    def create(self, attribs=None):
+    @classmethod
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialPartners".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialPartners".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_residential_account_residential_partners(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialAccounts/{0}/residentialPartners".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_residential_account_residential_partners(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialAccounts/{0}/residentialPartners".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ResidentialPartners"
+        return session.call_api(api, attribs, 'post')
 
     def delete_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/ResidentialPartners/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def delete_residential_account_residential_partners(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialAccounts/{0}/residentialPartners".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_residential_account_residential_partners(self, residential_partner, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialAccounts/{0}/residentialPartners/{1}".format(self._id, residential_partner)
         return self._session.call_api(api, attribs, 'delete')
 
     def exists(self, attribs=None):
@@ -72,46 +45,43 @@ class ResidentialPartner(BaseModel):
         api = "/ResidentialPartners/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialPartners".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ResidentialPartners"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = ResidentialPartner(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/ResidentialPartners/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_residential_account_residential_partners(self, residential_partner, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialAccounts/{0}/residentialPartners/{1}".format(self._id, residential_partner)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialPartners/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialPartners/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
-
-    def get_residential_account_residential_partners(self, attribs=None):
+    @classmethod
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialAccounts/{0}/residentialPartners".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ResidentialPartners/findOne"
+        return session.call_api(api, attribs, 'get')
+
+    def refresh(self):
+        api = "/ResidentialPartners/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
 
     def replace_by_id(self, attribs=None):
         if attribs is None:
@@ -119,34 +89,37 @@ class ResidentialPartner(BaseModel):
         api = "/ResidentialPartners/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
+    @classmethod
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialPartners/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ResidentialPartners/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
+
+    def update_attributes(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialPartners/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        self.data.update(attribs)
+        return self
 
     @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def upsert(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialPartners/:id"
-        return session.call_api(api, attribs, 'put')
+        api = "/ResidentialPartners"
+        data = session.call_api(api, attribs, 'put')
 
-    def update_by_id_residential_account_residential_partners(self, residential_partner, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialAccounts/{0}/residentialPartners/{1}".format(self._id, residential_partner)
-        return self._session.call_api(api, attribs, 'put')
+        model = ResidentialPartner(session, data['id'])
+        model.data = data
+        return model
 
-    def upsert(self, attribs=None):
+    @classmethod
+    def upsert_with_where(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialPartners".format(self._id)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert_with_where(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialPartners/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ResidentialPartners/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

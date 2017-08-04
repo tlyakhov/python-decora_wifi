@@ -12,79 +12,74 @@ class App(BaseModel):
     def __init__(self, session, model_id=None):
         super(App, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
+    @classmethod
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps/count".format(self._id)
+        api = "/Apps/count"
+        return session.call_api(api, attribs, 'get')
+
+    def count_organizations(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Apps/{0}/organizations/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_preferences(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Apps/{0}/preferences/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_subscription_plans(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Apps/{0}/subscriptionPlans/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_updates(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Apps/{0}/updates/count".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
     @classmethod
-    def count_organizations(cls, session, attribs=None):
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps/:id/organizations/count"
-        return session.call_api(api, attribs, 'get')
+        api = "/Apps"
+        return session.call_api(api, attribs, 'post')
 
     @classmethod
-    def count_preferences(cls, session, attribs=None):
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps/:id/preferences/count"
-        return session.call_api(api, attribs, 'get')
+        api = "/Apps"
+        return session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def count_subscription_plans(cls, session, attribs=None):
+    def create_organizations(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps/:id/subscriptionPlans/count"
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def count_updates(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Apps/:id/updates/count"
-        return session.call_api(api, attribs, 'get')
-
-    def create(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Apps".format(self._id)
+        api = "/Apps/{0}/organizations".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def create_many(self, attribs=None):
+    def create_preferences(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps".format(self._id)
+        api = "/Apps/{0}/preferences".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def create_organizations(cls, session, attribs=None):
+    def create_subscription_plans(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps/:id/organizations"
-        return session.call_api(api, attribs, 'post')
+        api = "/Apps/{0}/subscriptionPlans".format(self._id)
+        return self._session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def create_preferences(cls, session, attribs=None):
+    def create_updates(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps/:id/preferences"
-        return session.call_api(api, attribs, 'post')
-
-    @classmethod
-    def create_subscription_plans(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Apps/:id/subscriptionPlans"
-        return session.call_api(api, attribs, 'post')
-
-    @classmethod
-    def create_updates(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Apps/:id/updates"
-        return session.call_api(api, attribs, 'post')
+        api = "/Apps/{0}/updates".format(self._id)
+        return self._session.call_api(api, attribs, 'post')
 
     def delete_by_id(self, attribs=None):
         if attribs is None:
@@ -92,61 +87,53 @@ class App(BaseModel):
         api = "/Apps/{0}".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_organizations(cls, session, attribs=None):
+    def delete_organizations(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps/:id/organizations"
-        return session.call_api(api, attribs, 'delete')
+        api = "/Apps/{0}/organizations".format(self._id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_preferences(cls, session, attribs=None):
+    def delete_preferences(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps/:id/preferences"
-        return session.call_api(api, attribs, 'delete')
+        api = "/Apps/{0}/preferences".format(self._id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_subscription_plans(cls, session, attribs=None):
+    def delete_subscription_plans(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps/:id/subscriptionPlans"
-        return session.call_api(api, attribs, 'delete')
+        api = "/Apps/{0}/subscriptionPlans".format(self._id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_updates(cls, session, attribs=None):
+    def delete_updates(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps/:id/updates"
-        return session.call_api(api, attribs, 'delete')
+        api = "/Apps/{0}/updates".format(self._id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_organizations(cls, session, organization, attribs=None):
+    def destroy_by_id_organizations(self, organization_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps/:id/organizations/{0}".format(organization)
-        return session.call_api(api, attribs, 'delete')
+        api = "/Apps/{0}/organizations/{1}".format(self._id, organization_id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_preferences(cls, session, preference, attribs=None):
+    def destroy_by_id_preferences(self, preference_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps/:id/preferences/{0}".format(preference)
-        return session.call_api(api, attribs, 'delete')
+        api = "/Apps/{0}/preferences/{1}".format(self._id, preference_id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_subscription_plans(cls, session, subscription_plan, attribs=None):
+    def destroy_by_id_subscription_plans(self, subscription_plan_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps/:id/subscriptionPlans/{0}".format(subscription_plan)
-        return session.call_api(api, attribs, 'delete')
+        api = "/Apps/{0}/subscriptionPlans/{1}".format(self._id, subscription_plan_id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_updates(cls, session, update, attribs=None):
+    def destroy_by_id_updates(self, update_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps/:id/updates/{0}".format(update)
-        return session.call_api(api, attribs, 'delete')
+        api = "/Apps/{0}/updates/{1}".format(self._id, update_id)
+        return self._session.call_api(api, attribs, 'delete')
 
     def exists(self, attribs=None):
         if attribs is None:
@@ -154,101 +141,118 @@ class App(BaseModel):
         api = "/Apps/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Apps"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = App(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/Apps/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_organizations(cls, session, organization, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Apps/:id/organizations/{0}".format(organization)
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_preferences(cls, session, preference, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Apps/:id/preferences/{0}".format(preference)
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_subscription_plans(cls, session, subscription_plan, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Apps/:id/subscriptionPlans/{0}".format(subscription_plan)
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_updates(cls, session, update, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Apps/:id/updates/{0}".format(update)
-        return session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Apps/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Apps/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
+    def find_by_id_organizations(self, organization_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Apps/{0}/organizations/{1}".format(self._id, organization_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .organization import Organization
+        model = Organization(self._session, data['id'])
+        model.data = data
+        return model
+
+    def find_by_id_preferences(self, preference_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Apps/{0}/preferences/{1}".format(self._id, preference_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .preference import Preference
+        model = Preference(self._session, data['id'])
+        model.data = data
+        return model
+
+    def find_by_id_subscription_plans(self, subscription_plan_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Apps/{0}/subscriptionPlans/{1}".format(self._id, subscription_plan_id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def find_by_id_updates(self, update_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Apps/{0}/updates/{1}".format(self._id, update_id)
         return self._session.call_api(api, attribs, 'get')
 
     @classmethod
-    def get_organizations(cls, session, attribs=None):
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps/:id/organizations"
+        api = "/Apps/findOne"
         return session.call_api(api, attribs, 'get')
 
-    def get_preference_app(self, attribs=None):
+    def refresh(self):
+        api = "/Apps/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
+
+    def get_organizations(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Preferences/{0}/app".format(self._id)
+        api = "/Apps/{0}/organizations".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
+
+        from .organization import Organization
+        result = []
+        if items is not None:
+            for data in items:
+                model = Organization(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
+
+    def get_preferences(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Apps/{0}/preferences".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
+
+        from .preference import Preference
+        result = []
+        if items is not None:
+            for data in items:
+                model = Preference(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
+
+    def get_subscription_plans(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Apps/{0}/subscriptionPlans".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_preferences(cls, session, attribs=None):
+    def get_updates(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps/:id/preferences"
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def get_subscription_plans(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Apps/:id/subscriptionPlans"
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def get_updates(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Apps/:id/updates"
-        return session.call_api(api, attribs, 'get')
-
-    def get_whitelist_app(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/{0}/app".format(self._id)
+        api = "/Apps/{0}/updates".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
     def replace_by_id(self, attribs=None):
@@ -257,62 +261,78 @@ class App(BaseModel):
         api = "/Apps/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
+    @classmethod
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def update_all(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Apps/update".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Apps/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
 
     @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def update_all(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps/:id"
-        return session.call_api(api, attribs, 'put')
+        api = "/Apps/update"
+        return session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def update_by_id_organizations(cls, session, organization, attribs=None):
+    def update_attributes(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps/:id/organizations/{0}".format(organization)
-        return session.call_api(api, attribs, 'put')
+        api = "/Apps/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
 
-    @classmethod
-    def update_by_id_preferences(cls, session, preference, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Apps/:id/preferences/{0}".format(preference)
-        return session.call_api(api, attribs, 'put')
+        self.data.update(attribs)
+        return self
 
-    @classmethod
-    def update_by_id_subscription_plans(cls, session, subscription_plan, attribs=None):
+    def update_by_id_organizations(self, organization_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps/:id/subscriptionPlans/{0}".format(subscription_plan)
-        return session.call_api(api, attribs, 'put')
+        api = "/Apps/{0}/organizations/{1}".format(self._id, organization_id)
+        data = self._session.call_api(api, attribs, 'put')
 
-    @classmethod
-    def update_by_id_updates(cls, session, update, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Apps/:id/updates/{0}".format(update)
-        return session.call_api(api, attribs, 'put')
+        from .organization import Organization
+        model = Organization(self._session, data['id'])
+        model.data = data
+        return model
 
-    def upsert(self, attribs=None):
+    def update_by_id_preferences(self, preference_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps".format(self._id)
+        api = "/Apps/{0}/preferences/{1}".format(self._id, preference_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .preference import Preference
+        model = Preference(self._session, data['id'])
+        model.data = data
+        return model
+
+    def update_by_id_subscription_plans(self, subscription_plan_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Apps/{0}/subscriptionPlans/{1}".format(self._id, subscription_plan_id)
         return self._session.call_api(api, attribs, 'put')
 
-    def upsert_with_where(self, attribs=None):
+    def update_by_id_updates(self, update_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Apps/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Apps/{0}/updates/{1}".format(self._id, update_id)
+        return self._session.call_api(api, attribs, 'put')
+
+    @classmethod
+    def upsert(cls, session, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Apps"
+        data = session.call_api(api, attribs, 'put')
+
+        model = App(session, data['id'])
+        model.data = data
+        return model
+
+    @classmethod
+    def upsert_with_where(cls, session, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Apps/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

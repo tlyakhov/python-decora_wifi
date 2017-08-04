@@ -12,94 +12,56 @@ class Location(BaseModel):
     def __init__(self, session, model_id=None):
         super(Location, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
+    @classmethod
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Locations/count".format(self._id)
+        api = "/Locations/count"
+        return session.call_api(api, attribs, 'get')
+
+    def count_feed_items(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Locations/{0}/feedItems/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_holidays(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Locations/{0}/holidays/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_installations(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Locations/{0}/installations/count".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
     @classmethod
-    def count_feed_items(cls, session, attribs=None):
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Locations/:id/feedItems/count"
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def count_holidays(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Locations/:id/holidays/count"
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def count_installations(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Locations/:id/installations/count"
-        return session.call_api(api, attribs, 'get')
-
-    def count_management_tier_locations(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/locations/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def count_organization_locations(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/locations/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def create(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Locations".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    @classmethod
-    def create_holidays(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Locations/:id/holidays"
+        api = "/Locations"
         return session.call_api(api, attribs, 'post')
 
+    def create_holidays(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Locations/{0}/holidays".format(self._id)
+        return self._session.call_api(api, attribs, 'post')
+
+    def create_installations(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Locations/{0}/installations".format(self._id)
+        return self._session.call_api(api, attribs, 'post')
+
     @classmethod
-    def create_installations(cls, session, attribs=None):
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Locations/:id/installations"
+        api = "/Locations"
         return session.call_api(api, attribs, 'post')
-
-    def create_management_tier_locations(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/locations".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Locations".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_management_tier_locations(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/locations".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_organization_locations(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/locations".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_organization_locations(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/locations".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
 
     def delete_by_id(self, attribs=None):
         if attribs is None:
@@ -107,56 +69,28 @@ class Location(BaseModel):
         api = "/Locations/{0}".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_holidays(cls, session, attribs=None):
+    def delete_holidays(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Locations/:id/holidays"
-        return session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def delete_installations(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Locations/:id/installations"
-        return session.call_api(api, attribs, 'delete')
-
-    def delete_management_tier_locations(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/locations".format(self._id)
+        api = "/Locations/{0}/holidays".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    def delete_organization_locations(self, attribs=None):
+    def delete_installations(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Organizations/{0}/locations".format(self._id)
+        api = "/Locations/{0}/installations".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_holidays(cls, session, holiday, attribs=None):
+    def destroy_by_id_holidays(self, holiday_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Locations/:id/holidays/{0}".format(holiday)
-        return session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def destroy_by_id_installations(cls, session, installation, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Locations/:id/installations/{0}".format(installation)
-        return session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_management_tier_locations(self, location, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/locations/{1}".format(self._id, location)
+        api = "/Locations/{0}/holidays/{1}".format(self._id, holiday_id)
         return self._session.call_api(api, attribs, 'delete')
 
-    def destroy_by_id_organization_locations(self, location, attribs=None):
+    def destroy_by_id_installations(self, installation_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Organizations/{0}/locations/{1}".format(self._id, location)
+        api = "/Locations/{0}/installations/{1}".format(self._id, installation_id)
         return self._session.call_api(api, attribs, 'delete')
 
     def exists(self, attribs=None):
@@ -165,126 +99,129 @@ class Location(BaseModel):
         api = "/Locations/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Locations".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Locations"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = Location(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/Locations/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_feed_items(cls, session, feed_item, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Locations/:id/feedItems/{0}".format(feed_item)
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_holidays(cls, session, holiday, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Locations/:id/holidays/{0}".format(holiday)
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_installations(cls, session, installation, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Locations/:id/installations/{0}".format(installation)
-        return session.call_api(api, attribs, 'get')
-
-    def find_by_id_management_tier_locations(self, location, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/locations/{1}".format(self._id, location)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_organization_locations(self, location, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/locations/{1}".format(self._id, location)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Locations/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Locations/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
+    def find_by_id_feed_items(self, feed_item_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Locations/{0}/feedItems/{1}".format(self._id, feed_item_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .feed_item import FeedItem
+        model = FeedItem(self._session, data['id'])
+        model.data = data
+        return model
+
+    def find_by_id_holidays(self, holiday_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Locations/{0}/holidays/{1}".format(self._id, holiday_id)
         return self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_feed_items(cls, session, attribs=None):
+    def find_by_id_installations(self, installation_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Locations/:id/feedItems"
-        return session.call_api(api, attribs, 'get')
+        api = "/Locations/{0}/installations/{1}".format(self._id, installation_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .installation import Installation
+        model = Installation(self._session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def get_holidays(cls, session, attribs=None):
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Locations/:id/holidays"
+        api = "/Locations/findOne"
         return session.call_api(api, attribs, 'get')
 
-    def get_installation_location(self, attribs=None):
+    def refresh(self):
+        api = "/Locations/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
+
+    def get_feed_items(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Installations/{0}/location".format(self._id)
+        api = "/Locations/{0}/feedItems".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
+
+        from .feed_item import FeedItem
+        result = []
+        if items is not None:
+            for data in items:
+                model = FeedItem(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
+
+    def get_holidays(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Locations/{0}/holidays".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_installations(cls, session, attribs=None):
+    def get_installations(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Locations/:id/installations"
-        return session.call_api(api, attribs, 'get')
+        api = "/Locations/{0}/installations".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
 
-    def get_invitation_location(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Invitations/{0}/location".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        from .installation import Installation
+        result = []
+        if items is not None:
+            for data in items:
+                model = Installation(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
-    @classmethod
-    def get_management_tier(cls, session, attribs=None):
+    def get_management_tier(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Locations/:id/managementTier"
-        return session.call_api(api, attribs, 'get')
+        api = "/Locations/{0}/managementTier".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    def get_management_tier_locations(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/locations".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        from .management_tier import ManagementTier
+        model = ManagementTier(self._session, data['id'])
+        model.data = data
+        return model
 
-    @classmethod
-    def get_organization(cls, session, attribs=None):
+    def get_organization(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Locations/:id/organization"
-        return session.call_api(api, attribs, 'get')
+        api = "/Locations/{0}/organization".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    def get_organization_locations(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/locations".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        from .organization import Organization
+        model = Organization(self._session, data['id'])
+        model.data = data
+        return model
 
     def installers_near(self, attribs=None):
         if attribs is None:
@@ -298,54 +235,54 @@ class Location(BaseModel):
         api = "/Locations/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Locations/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
     @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Locations/:id"
-        return session.call_api(api, attribs, 'put')
+        api = "/Locations/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def update_by_id_holidays(cls, session, holiday, attribs=None):
+    def update_attributes(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Locations/:id/holidays/{0}".format(holiday)
-        return session.call_api(api, attribs, 'put')
+        api = "/Locations/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
 
-    @classmethod
-    def update_by_id_installations(cls, session, installation, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Locations/:id/installations/{0}".format(installation)
-        return session.call_api(api, attribs, 'put')
+        self.data.update(attribs)
+        return self
 
-    def update_by_id_management_tier_locations(self, location, attribs=None):
+    def update_by_id_holidays(self, holiday_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/{0}/locations/{1}".format(self._id, location)
+        api = "/Locations/{0}/holidays/{1}".format(self._id, holiday_id)
         return self._session.call_api(api, attribs, 'put')
 
-    def update_by_id_organization_locations(self, location, attribs=None):
+    def update_by_id_installations(self, installation_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Organizations/{0}/locations/{1}".format(self._id, location)
-        return self._session.call_api(api, attribs, 'put')
+        api = "/Locations/{0}/installations/{1}".format(self._id, installation_id)
+        data = self._session.call_api(api, attribs, 'put')
 
-    def upsert(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Locations".format(self._id)
-        return self._session.call_api(api, attribs, 'put')
+        from .installation import Installation
+        model = Installation(self._session, data['id'])
+        model.data = data
+        return model
 
-    def upsert_with_where(self, attribs=None):
+    @classmethod
+    def upsert(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Locations/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Locations"
+        data = session.call_api(api, attribs, 'put')
+
+        model = Location(session, data['id'])
+        model.data = data
+        return model
+
+    @classmethod
+    def upsert_with_where(cls, session, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Locations/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

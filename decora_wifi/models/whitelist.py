@@ -12,93 +12,86 @@ class Whitelist(BaseModel):
     def __init__(self, session, model_id=None):
         super(Whitelist, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
+    @classmethod
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/count".format(self._id)
+        api = "/Whitelist/count"
+        return session.call_api(api, attribs, 'get')
+
+    def count_load_definitions(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Whitelist/{0}/loadDefinitions/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_sensor_definitions(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Whitelist/{0}/sensorDefinitions/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_shade_definitions(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Whitelist/{0}/shadeDefinitions/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_thermostat_definitions(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Whitelist/{0}/thermostatDefinitions/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_touchscreen_definitions(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Whitelist/{0}/touchscreenDefinitions/count".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
     @classmethod
-    def count_load_definitions(cls, session, attribs=None):
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/loadDefinitions/count"
-        return session.call_api(api, attribs, 'get')
+        api = "/Whitelist"
+        return session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def count_sensor_definitions(cls, session, attribs=None):
+    def create_load_definitions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/sensorDefinitions/count"
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def count_shade_definitions(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/:id/shadeDefinitions/count"
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def count_thermostat_definitions(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/:id/thermostatDefinitions/count"
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def count_touchscreen_definitions(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/:id/touchscreenDefinitions/count"
-        return session.call_api(api, attribs, 'get')
-
-    def create(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist".format(self._id)
+        api = "/Whitelist/{0}/loadDefinitions".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
     @classmethod
-    def create_load_definitions(cls, session, attribs=None):
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/loadDefinitions"
+        api = "/Whitelist"
         return session.call_api(api, attribs, 'post')
 
-    def create_many(self, attribs=None):
+    def create_sensor_definitions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist".format(self._id)
+        api = "/Whitelist/{0}/sensorDefinitions".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def create_sensor_definitions(cls, session, attribs=None):
+    def create_shade_definitions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/sensorDefinitions"
-        return session.call_api(api, attribs, 'post')
+        api = "/Whitelist/{0}/shadeDefinitions".format(self._id)
+        return self._session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def create_shade_definitions(cls, session, attribs=None):
+    def create_thermostat_definitions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/shadeDefinitions"
-        return session.call_api(api, attribs, 'post')
+        api = "/Whitelist/{0}/thermostatDefinitions".format(self._id)
+        return self._session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def create_thermostat_definitions(cls, session, attribs=None):
+    def create_touchscreen_definitions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/thermostatDefinitions"
-        return session.call_api(api, attribs, 'post')
-
-    @classmethod
-    def create_touchscreen_definitions(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/:id/touchscreenDefinitions"
-        return session.call_api(api, attribs, 'post')
+        api = "/Whitelist/{0}/touchscreenDefinitions".format(self._id)
+        return self._session.call_api(api, attribs, 'post')
 
     def delete_by_id(self, attribs=None):
         if attribs is None:
@@ -106,75 +99,65 @@ class Whitelist(BaseModel):
         api = "/Whitelist/{0}".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_load_definitions(cls, session, attribs=None):
+    def delete_load_definitions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/loadDefinitions"
-        return session.call_api(api, attribs, 'delete')
+        api = "/Whitelist/{0}/loadDefinitions".format(self._id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_sensor_definitions(cls, session, attribs=None):
+    def delete_sensor_definitions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/sensorDefinitions"
-        return session.call_api(api, attribs, 'delete')
+        api = "/Whitelist/{0}/sensorDefinitions".format(self._id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_shade_definitions(cls, session, attribs=None):
+    def delete_shade_definitions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/shadeDefinitions"
-        return session.call_api(api, attribs, 'delete')
+        api = "/Whitelist/{0}/shadeDefinitions".format(self._id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_thermostat_definitions(cls, session, attribs=None):
+    def delete_thermostat_definitions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/thermostatDefinitions"
-        return session.call_api(api, attribs, 'delete')
+        api = "/Whitelist/{0}/thermostatDefinitions".format(self._id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_touchscreen_definitions(cls, session, attribs=None):
+    def delete_touchscreen_definitions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/touchscreenDefinitions"
-        return session.call_api(api, attribs, 'delete')
+        api = "/Whitelist/{0}/touchscreenDefinitions".format(self._id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_load_definitions(cls, session, load_definition, attribs=None):
+    def destroy_by_id_load_definitions(self, load_definition_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/loadDefinitions/{0}".format(load_definition)
-        return session.call_api(api, attribs, 'delete')
+        api = "/Whitelist/{0}/loadDefinitions/{1}".format(self._id, load_definition_id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_sensor_definitions(cls, session, sensor_definition, attribs=None):
+    def destroy_by_id_sensor_definitions(self, sensor_definition_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/sensorDefinitions/{0}".format(sensor_definition)
-        return session.call_api(api, attribs, 'delete')
+        api = "/Whitelist/{0}/sensorDefinitions/{1}".format(self._id, sensor_definition_id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_shade_definitions(cls, session, shade_definition, attribs=None):
+    def destroy_by_id_shade_definitions(self, shade_definition_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/shadeDefinitions/{0}".format(shade_definition)
-        return session.call_api(api, attribs, 'delete')
+        api = "/Whitelist/{0}/shadeDefinitions/{1}".format(self._id, shade_definition_id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_thermostat_definitions(cls, session, thermostat_definition, attribs=None):
+    def destroy_by_id_thermostat_definitions(self, thermostat_definition_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/thermostatDefinitions/{0}".format(thermostat_definition)
-        return session.call_api(api, attribs, 'delete')
+        api = "/Whitelist/{0}/thermostatDefinitions/{1}".format(self._id, thermostat_definition_id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_touchscreen_definitions(cls, session, touchscreen_definition, attribs=None):
+    def destroy_by_id_touchscreen_definitions(self, touchscreen_definition_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/touchscreenDefinitions/{0}".format(touchscreen_definition)
-        return session.call_api(api, attribs, 'delete')
+        api = "/Whitelist/{0}/touchscreenDefinitions/{1}".format(self._id, touchscreen_definition_id)
+        return self._session.call_api(api, attribs, 'delete')
 
     def exists(self, attribs=None):
         if attribs is None:
@@ -182,141 +165,184 @@ class Whitelist(BaseModel):
         api = "/Whitelist/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Whitelist"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = Whitelist(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/Whitelist/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_load_definitions(cls, session, load_definition, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/:id/loadDefinitions/{0}".format(load_definition)
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_sensor_definitions(cls, session, sensor_definition, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/:id/sensorDefinitions/{0}".format(sensor_definition)
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_shade_definitions(cls, session, shade_definition, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/:id/shadeDefinitions/{0}".format(shade_definition)
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_thermostat_definitions(cls, session, thermostat_definition, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/:id/thermostatDefinitions/{0}".format(thermostat_definition)
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_touchscreen_definitions(cls, session, touchscreen_definition, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/:id/touchscreenDefinitions/{0}".format(touchscreen_definition)
-        return session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
+    def find_by_id_load_definitions(self, load_definition_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Whitelist/{0}/loadDefinitions/{1}".format(self._id, load_definition_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .load_definition import LoadDefinition
+        model = LoadDefinition(self._session, data['id'])
+        model.data = data
+        return model
+
+    def find_by_id_sensor_definitions(self, sensor_definition_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Whitelist/{0}/sensorDefinitions/{1}".format(self._id, sensor_definition_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .sensor_definition import SensorDefinition
+        model = SensorDefinition(self._session, data['id'])
+        model.data = data
+        return model
+
+    def find_by_id_shade_definitions(self, shade_definition_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Whitelist/{0}/shadeDefinitions/{1}".format(self._id, shade_definition_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .shade_definition import ShadeDefinition
+        model = ShadeDefinition(self._session, data['id'])
+        model.data = data
+        return model
+
+    def find_by_id_thermostat_definitions(self, thermostat_definition_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Whitelist/{0}/thermostatDefinitions/{1}".format(self._id, thermostat_definition_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .thermostat_definition import ThermostatDefinition
+        model = ThermostatDefinition(self._session, data['id'])
+        model.data = data
+        return model
+
+    def find_by_id_touchscreen_definitions(self, touchscreen_definition_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Whitelist/{0}/touchscreenDefinitions/{1}".format(self._id, touchscreen_definition_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .touchscreen_definition import TouchscreenDefinition
+        model = TouchscreenDefinition(self._session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def get_app(cls, session, attribs=None):
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/app"
+        api = "/Whitelist/findOne"
         return session.call_api(api, attribs, 'get')
 
-    def get_load_definition_whitelist(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/LoadDefinitions/{0}/whitelist".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+    def refresh(self):
+        api = "/Whitelist/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
 
-    @classmethod
-    def get_load_definitions(cls, session, attribs=None):
+    def get_app(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/loadDefinitions"
-        return session.call_api(api, attribs, 'get')
+        api = "/Whitelist/{0}/app".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    def get_sensor_definition_whitelist(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/SensorDefinitions/{0}/whitelist".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        from .app import App
+        model = App(self._session, data['id'])
+        model.data = data
+        return model
 
-    @classmethod
-    def get_sensor_definitions(cls, session, attribs=None):
+    def get_load_definitions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/sensorDefinitions"
-        return session.call_api(api, attribs, 'get')
+        api = "/Whitelist/{0}/loadDefinitions".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
 
-    def get_shade_definition_whitelist(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ShadeDefinitions/{0}/whitelist".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        from .load_definition import LoadDefinition
+        result = []
+        if items is not None:
+            for data in items:
+                model = LoadDefinition(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
-    @classmethod
-    def get_shade_definitions(cls, session, attribs=None):
+    def get_sensor_definitions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/shadeDefinitions"
-        return session.call_api(api, attribs, 'get')
+        api = "/Whitelist/{0}/sensorDefinitions".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
 
-    def get_thermostat_definition_whitelist(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ThermostatDefinitions/{0}/whitelist".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        from .sensor_definition import SensorDefinition
+        result = []
+        if items is not None:
+            for data in items:
+                model = SensorDefinition(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
-    @classmethod
-    def get_thermostat_definitions(cls, session, attribs=None):
+    def get_shade_definitions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/thermostatDefinitions"
-        return session.call_api(api, attribs, 'get')
+        api = "/Whitelist/{0}/shadeDefinitions".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
 
-    def get_touchscreen_definition_whitelist(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/TouchscreenDefinitions/{0}/whitelist".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        from .shade_definition import ShadeDefinition
+        result = []
+        if items is not None:
+            for data in items:
+                model = ShadeDefinition(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
-    @classmethod
-    def get_touchscreen_definitions(cls, session, attribs=None):
+    def get_thermostat_definitions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/touchscreenDefinitions"
-        return session.call_api(api, attribs, 'get')
+        api = "/Whitelist/{0}/thermostatDefinitions".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
+
+        from .thermostat_definition import ThermostatDefinition
+        result = []
+        if items is not None:
+            for data in items:
+                model = ThermostatDefinition(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
+
+    def get_touchscreen_definitions(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Whitelist/{0}/touchscreenDefinitions".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
+
+        from .touchscreen_definition import TouchscreenDefinition
+        result = []
+        if items is not None:
+            for data in items:
+                model = TouchscreenDefinition(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def replace_by_id(self, attribs=None):
         if attribs is None:
@@ -324,63 +350,92 @@ class Whitelist(BaseModel):
         api = "/Whitelist/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
+    @classmethod
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Whitelist/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
+
+    def update_attributes(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Whitelist/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        self.data.update(attribs)
+        return self
+
+    def update_by_id_load_definitions(self, load_definition_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Whitelist/{0}/loadDefinitions/{1}".format(self._id, load_definition_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .load_definition import LoadDefinition
+        model = LoadDefinition(self._session, data['id'])
+        model.data = data
+        return model
+
+    def update_by_id_sensor_definitions(self, sensor_definition_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Whitelist/{0}/sensorDefinitions/{1}".format(self._id, sensor_definition_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .sensor_definition import SensorDefinition
+        model = SensorDefinition(self._session, data['id'])
+        model.data = data
+        return model
+
+    def update_by_id_shade_definitions(self, shade_definition_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Whitelist/{0}/shadeDefinitions/{1}".format(self._id, shade_definition_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .shade_definition import ShadeDefinition
+        model = ShadeDefinition(self._session, data['id'])
+        model.data = data
+        return model
+
+    def update_by_id_thermostat_definitions(self, thermostat_definition_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Whitelist/{0}/thermostatDefinitions/{1}".format(self._id, thermostat_definition_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .thermostat_definition import ThermostatDefinition
+        model = ThermostatDefinition(self._session, data['id'])
+        model.data = data
+        return model
+
+    def update_by_id_touchscreen_definitions(self, touchscreen_definition_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Whitelist/{0}/touchscreenDefinitions/{1}".format(self._id, touchscreen_definition_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .touchscreen_definition import TouchscreenDefinition
+        model = TouchscreenDefinition(self._session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def upsert(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id"
-        return session.call_api(api, attribs, 'put')
+        api = "/Whitelist"
+        data = session.call_api(api, attribs, 'put')
+
+        model = Whitelist(session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def update_by_id_load_definitions(cls, session, load_definition, attribs=None):
+    def upsert_with_where(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/:id/loadDefinitions/{0}".format(load_definition)
-        return session.call_api(api, attribs, 'put')
-
-    @classmethod
-    def update_by_id_sensor_definitions(cls, session, sensor_definition, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/:id/sensorDefinitions/{0}".format(sensor_definition)
-        return session.call_api(api, attribs, 'put')
-
-    @classmethod
-    def update_by_id_shade_definitions(cls, session, shade_definition, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/:id/shadeDefinitions/{0}".format(shade_definition)
-        return session.call_api(api, attribs, 'put')
-
-    @classmethod
-    def update_by_id_thermostat_definitions(cls, session, thermostat_definition, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/:id/thermostatDefinitions/{0}".format(thermostat_definition)
-        return session.call_api(api, attribs, 'put')
-
-    @classmethod
-    def update_by_id_touchscreen_definitions(cls, session, touchscreen_definition, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/:id/touchscreenDefinitions/{0}".format(touchscreen_definition)
-        return session.call_api(api, attribs, 'put')
-
-    def upsert(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist".format(self._id)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert_with_where(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Whitelist/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

@@ -12,88 +12,31 @@ class Action(BaseModel):
     def __init__(self, session, model_id=None):
         super(Action, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
+    @classmethod
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Actions/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Actions/count"
+        return session.call_api(api, attribs, 'get')
 
-    def count_action_block_actions(self, attribs=None):
+    @classmethod
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ActionBlocks/{0}/actions/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Actions"
+        return session.call_api(api, attribs, 'post')
 
-    def count_installation_actions(self, attribs=None):
+    @classmethod
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Installations/{0}/actions/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def create(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Actions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_action_block_actions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ActionBlocks/{0}/actions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_installation_actions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/actions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Actions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_action_block_actions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ActionBlocks/{0}/actions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_installation_actions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/actions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def delete_action_block_actions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ActionBlocks/{0}/actions".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
+        api = "/Actions"
+        return session.call_api(api, attribs, 'post')
 
     def delete_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/Actions/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def delete_installation_actions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/actions".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_action_block_actions(self, action, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ActionBlocks/{0}/actions/{1}".format(self._id, action)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_installation_actions(self, action, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/actions/{1}".format(self._id, action)
         return self._session.call_api(api, attribs, 'delete')
 
     def exists(self, attribs=None):
@@ -102,65 +45,54 @@ class Action(BaseModel):
         api = "/Actions/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Actions".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Actions"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = Action(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/Actions/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_action_block_actions(self, action, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ActionBlocks/{0}/actions/{1}".format(self._id, action)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_installation_actions(self, action, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/actions/{1}".format(self._id, action)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Actions/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Actions/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
-
     @classmethod
-    def get_action_block(cls, session, attribs=None):
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Actions/:id/actionBlock"
+        api = "/Actions/findOne"
         return session.call_api(api, attribs, 'get')
 
-    def get_action_block_actions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ActionBlocks/{0}/actions".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+    def refresh(self):
+        api = "/Actions/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
 
-    def get_installation_actions(self, attribs=None):
+    def get_action_block(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Installations/{0}/actions".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Actions/{0}/actionBlock".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .action_block import ActionBlock
+        model = ActionBlock(self._session, data['id'])
+        model.data = data
+        return model
 
     def replace_by_id(self, attribs=None):
         if attribs is None:
@@ -168,40 +100,37 @@ class Action(BaseModel):
         api = "/Actions/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
+    @classmethod
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Actions/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Actions/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
+
+    def update_attributes(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Actions/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        self.data.update(attribs)
+        return self
 
     @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def upsert(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Actions/:id"
-        return session.call_api(api, attribs, 'put')
+        api = "/Actions"
+        data = session.call_api(api, attribs, 'put')
 
-    def update_by_id_action_block_actions(self, action, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ActionBlocks/{0}/actions/{1}".format(self._id, action)
-        return self._session.call_api(api, attribs, 'put')
+        model = Action(session, data['id'])
+        model.data = data
+        return model
 
-    def update_by_id_installation_actions(self, action, attribs=None):
+    @classmethod
+    def upsert_with_where(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Installations/{0}/actions/{1}".format(self._id, action)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Actions".format(self._id)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert_with_where(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Actions/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Actions/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

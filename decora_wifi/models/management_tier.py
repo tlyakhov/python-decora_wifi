@@ -12,25 +12,24 @@ class ManagementTier(BaseModel):
     def __init__(self, session, model_id=None):
         super(ManagementTier, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
+    @classmethod
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/count".format(self._id)
+        api = "/ManagementTiers/count"
+        return session.call_api(api, attribs, 'get')
+
+    def count_feed_items(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ManagementTiers/{0}/feedItems/count".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def count_feed_items(cls, session, attribs=None):
+    def count_locations(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/feedItems/count"
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def count_locations(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/:id/locations/count"
-        return session.call_api(api, attribs, 'get')
+        api = "/ManagementTiers/{0}/locations/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
 
     def count_management_tier_management_tiers(self, attribs=None):
         if attribs is None:
@@ -38,58 +37,42 @@ class ManagementTier(BaseModel):
         api = "/ManagementTiers/{0}/managementTiers/count".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def count_management_tiers(cls, session, attribs=None):
+    def count_management_tiers(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/managementTiers/count"
-        return session.call_api(api, attribs, 'get')
+        api = "/ManagementTiers/{0}/managementTiers/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
 
-    def count_organization_management_tiers(self, attribs=None):
+    def count_people(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Organizations/{0}/managementTiers/count".format(self._id)
+        api = "/ManagementTiers/{0}/people/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_permissions(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ManagementTiers/{0}/permissions/count".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
     @classmethod
-    def count_people(cls, session, attribs=None):
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/people/count"
-        return session.call_api(api, attribs, 'get')
+        api = "/ManagementTiers"
+        return session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def count_permissions(cls, session, attribs=None):
+    def create_feed_items(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/permissions/count"
-        return session.call_api(api, attribs, 'get')
-
-    def count_person_management_tiers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/managementTiers/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def create(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers".format(self._id)
+        api = "/ManagementTiers/{0}/feedItems".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def create_feed_items(cls, session, attribs=None):
+    def create_locations(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/feedItems"
-        return session.call_api(api, attribs, 'post')
-
-    @classmethod
-    def create_locations(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/:id/locations"
-        return session.call_api(api, attribs, 'post')
+        api = "/ManagementTiers/{0}/locations".format(self._id)
+        return self._session.call_api(api, attribs, 'post')
 
     def create_management_tier_management_tiers(self, attribs=None):
         if attribs is None:
@@ -97,18 +80,18 @@ class ManagementTier(BaseModel):
         api = "/ManagementTiers/{0}/managementTiers".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def create_management_tiers(cls, session, attribs=None):
+    def create_management_tiers(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/managementTiers"
-        return session.call_api(api, attribs, 'post')
-
-    def create_many(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers".format(self._id)
+        api = "/ManagementTiers/{0}/managementTiers".format(self._id)
         return self._session.call_api(api, attribs, 'post')
+
+    @classmethod
+    def create_many(cls, session, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ManagementTiers"
+        return session.call_api(api, attribs, 'post')
 
     def create_many_management_tier_management_tiers(self, attribs=None):
         if attribs is None:
@@ -116,42 +99,16 @@ class ManagementTier(BaseModel):
         api = "/ManagementTiers/{0}/managementTiers".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def create_many_organization_management_tiers(self, attribs=None):
+    def create_people(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Organizations/{0}/managementTiers".format(self._id)
+        api = "/ManagementTiers/{0}/people".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def create_many_person_management_tiers(self, attribs=None):
+    def create_permissions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/{0}/managementTiers".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_organization_management_tiers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/managementTiers".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    @classmethod
-    def create_people(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/:id/people"
-        return session.call_api(api, attribs, 'post')
-
-    @classmethod
-    def create_permissions(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/:id/permissions"
-        return session.call_api(api, attribs, 'post')
-
-    def create_person_management_tiers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/managementTiers".format(self._id)
+        api = "/ManagementTiers/{0}/permissions".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
     def delete_by_id(self, attribs=None):
@@ -160,19 +117,17 @@ class ManagementTier(BaseModel):
         api = "/ManagementTiers/{0}".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_feed_items(cls, session, attribs=None):
+    def delete_feed_items(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/feedItems"
-        return session.call_api(api, attribs, 'delete')
+        api = "/ManagementTiers/{0}/feedItems".format(self._id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_locations(cls, session, attribs=None):
+    def delete_locations(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/locations"
-        return session.call_api(api, attribs, 'delete')
+        api = "/ManagementTiers/{0}/locations".format(self._id)
+        return self._session.call_api(api, attribs, 'delete')
 
     def delete_management_tier_management_tiers(self, attribs=None):
         if attribs is None:
@@ -180,90 +135,58 @@ class ManagementTier(BaseModel):
         api = "/ManagementTiers/{0}/managementTiers".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_management_tiers(cls, session, attribs=None):
+    def delete_management_tiers(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/managementTiers"
-        return session.call_api(api, attribs, 'delete')
-
-    def delete_organization_management_tiers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/managementTiers".format(self._id)
+        api = "/ManagementTiers/{0}/managementTiers".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_people(cls, session, attribs=None):
+    def delete_people(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/people"
-        return session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def delete_permissions(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/:id/permissions"
-        return session.call_api(api, attribs, 'delete')
-
-    def delete_person_management_tiers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/managementTiers".format(self._id)
+        api = "/ManagementTiers/{0}/people".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_feed_items(cls, session, feed_item, attribs=None):
+    def delete_permissions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/feedItems/{0}".format(feed_item)
-        return session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def destroy_by_id_locations(cls, session, location, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/:id/locations/{0}".format(location)
-        return session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_management_tier_management_tiers(self, management_tier, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/managementTiers/{1}".format(self._id, management_tier)
+        api = "/ManagementTiers/{0}/permissions".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_management_tiers(cls, session, management_tier, attribs=None):
+    def destroy_by_id_feed_items(self, feed_item_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/managementTiers/{0}".format(management_tier)
-        return session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_organization_management_tiers(self, management_tier, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/managementTiers/{1}".format(self._id, management_tier)
+        api = "/ManagementTiers/{0}/feedItems/{1}".format(self._id, feed_item_id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_people(cls, session, person, attribs=None):
+    def destroy_by_id_locations(self, location_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/people/{0}".format(person)
-        return session.call_api(api, attribs, 'delete')
+        api = "/ManagementTiers/{0}/locations/{1}".format(self._id, location_id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_permissions(cls, session, permission, attribs=None):
+    def destroy_by_id_management_tier_management_tiers(self, management_tier_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/permissions/{0}".format(permission)
-        return session.call_api(api, attribs, 'delete')
+        api = "/ManagementTiers/{0}/managementTiers/{1}".format(self._id, management_tier_id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    def destroy_by_id_person_management_tiers(self, management_tier, attribs=None):
+    def destroy_by_id_management_tiers(self, management_tier_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Person/{0}/managementTiers/{1}".format(self._id, management_tier)
+        api = "/ManagementTiers/{0}/managementTiers/{1}".format(self._id, management_tier_id)
+        return self._session.call_api(api, attribs, 'delete')
+
+    def destroy_by_id_people(self, person_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ManagementTiers/{0}/people/{1}".format(self._id, person_id)
+        return self._session.call_api(api, attribs, 'delete')
+
+    def destroy_by_id_permissions(self, permission_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ManagementTiers/{0}/permissions/{1}".format(self._id, permission_id)
         return self._session.call_api(api, attribs, 'delete')
 
     def exists(self, attribs=None):
@@ -272,204 +195,229 @@ class ManagementTier(BaseModel):
         api = "/ManagementTiers/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def exists_people(cls, session, attribs=None):
+    def exists_people(self, person_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/people/rel/{0}"
-        return session.call_api(api, attribs, 'head')
-
-    def exists_person_management_tiers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/managementTiers/rel/{1}".format(self._id, None)
+        api = "/ManagementTiers/{0}/people/rel/{1}".format(self._id, person_id)
         return self._session.call_api(api, attribs, 'head')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ManagementTiers"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = ManagementTier(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/ManagementTiers/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_feed_items(cls, session, feed_item, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/:id/feedItems/{0}".format(feed_item)
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_locations(cls, session, location, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/:id/locations/{0}".format(location)
-        return session.call_api(api, attribs, 'get')
-
-    def find_by_id_management_tier_management_tiers(self, management_tier, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/managementTiers/{1}".format(self._id, management_tier)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_management_tiers(cls, session, management_tier, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/:id/managementTiers/{0}".format(management_tier)
-        return session.call_api(api, attribs, 'get')
-
-    def find_by_id_organization_management_tiers(self, management_tier, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/managementTiers/{1}".format(self._id, management_tier)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_people(cls, session, person, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/:id/people/{0}".format(person)
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_permissions(cls, session, permission, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/:id/permissions/{0}".format(permission)
-        return session.call_api(api, attribs, 'get')
-
-    def find_by_id_person_management_tiers(self, management_tier, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/managementTiers/{1}".format(self._id, management_tier)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
+    def find_by_id_feed_items(self, feed_item_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ManagementTiers/{0}/feedItems/{1}".format(self._id, feed_item_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .feed_item import FeedItem
+        model = FeedItem(self._session, data['id'])
+        model.data = data
+        return model
+
+    def find_by_id_locations(self, location_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ManagementTiers/{0}/locations/{1}".format(self._id, location_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .location import Location
+        model = Location(self._session, data['id'])
+        model.data = data
+        return model
+
+    def find_by_id_management_tier_management_tiers(self, management_tier_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ManagementTiers/{0}/managementTiers/{1}".format(self._id, management_tier_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        self.data.update(data)
+        return self
+
+    def find_by_id_management_tiers(self, management_tier_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ManagementTiers/{0}/managementTiers/{1}".format(self._id, management_tier_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        self.data.update(data)
+        return self
+
+    def find_by_id_people(self, person_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ManagementTiers/{0}/people/{1}".format(self._id, person_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .person import Person
+        model = Person(self._session, data['id'])
+        model.data = data
+        return model
+
+    def find_by_id_permissions(self, permission_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ManagementTiers/{0}/permissions/{1}".format(self._id, permission_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .permission import Permission
+        model = Permission(self._session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def get_feed_items(cls, session, attribs=None):
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/feedItems"
+        api = "/ManagementTiers/findOne"
         return session.call_api(api, attribs, 'get')
 
-    def get_invitation_management_tier(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Invitations/{0}/managementTier".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+    def refresh(self):
+        api = "/ManagementTiers/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
 
-    def get_location_management_tier(self, attribs=None):
+    def get_feed_items(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Locations/{0}/managementTier".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ManagementTiers/{0}/feedItems".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_locations(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/:id/locations"
-        return session.call_api(api, attribs, 'get')
+        from .feed_item import FeedItem
+        result = []
+        if items is not None:
+            for data in items:
+                model = FeedItem(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
-    @classmethod
-    def get_management_tier(cls, session, attribs=None):
+    def get_locations(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/managementTier"
-        return session.call_api(api, attribs, 'get')
+        api = "/ManagementTiers/{0}/locations".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
+
+        from .location import Location
+        result = []
+        if items is not None:
+            for data in items:
+                model = Location(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
+
+    def get_management_tier(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ManagementTiers/{0}/managementTier".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        self.data.update(data)
+        return self
 
     def get_management_tier_management_tier(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/ManagementTiers/{0}/managementTier".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        data = self._session.call_api(api, attribs, 'get')
+
+        self.data.update(data)
+        return self
 
     def get_management_tier_management_tiers(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/ManagementTiers/{0}/managementTiers".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        items = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_management_tiers(cls, session, attribs=None):
+        self.data.update(data)
+        return self
+
+    def get_management_tiers(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/managementTiers"
-        return session.call_api(api, attribs, 'get')
+        api = "/ManagementTiers/{0}/managementTiers".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_organization(cls, session, attribs=None):
+        self.data.update(data)
+        return self
+
+    def get_organization(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/organization"
-        return session.call_api(api, attribs, 'get')
+        api = "/ManagementTiers/{0}/organization".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    def get_organization_management_tiers(self, attribs=None):
+        from .organization import Organization
+        model = Organization(self._session, data['id'])
+        model.data = data
+        return model
+
+    def get_people(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Organizations/{0}/managementTiers".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ManagementTiers/{0}/people".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_people(cls, session, attribs=None):
+        from .person import Person
+        result = []
+        if items is not None:
+            for data in items:
+                model = Person(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
+
+    def get_permissions(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/people"
-        return session.call_api(api, attribs, 'get')
+        api = "/ManagementTiers/{0}/permissions".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
 
-    def get_permission_management_tier(self, attribs=None):
+        from .permission import Permission
+        result = []
+        if items is not None:
+            for data in items:
+                model = Permission(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
+
+    def link_people(self, person_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Permissions/{0}/managementTier".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ManagementTiers/{0}/people/rel/{1}".format(self._id, person_id)
+        data = self._session.call_api(api, attribs, 'put')
 
-    @classmethod
-    def get_permissions(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/:id/permissions"
-        return session.call_api(api, attribs, 'get')
-
-    def get_person_management_tiers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/managementTiers".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def link_people(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/:id/people/rel/{0}"
-        return session.call_api(api, attribs, 'put')
-
-    def link_person_management_tiers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/managementTiers/rel/{1}".format(self._id, None)
-        return self._session.call_api(api, attribs, 'put')
+        from .person import Person
+        model = Person(self._session, data['id'])
+        model.data = data
+        return model
 
     def move_to_tier(self, attribs=None):
         if attribs is None:
@@ -483,11 +431,12 @@ class ManagementTier(BaseModel):
         api = "/ManagementTiers/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
+    @classmethod
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ManagementTiers/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
 
     def store_locations(self, attribs=None):
         if attribs is None:
@@ -495,88 +444,98 @@ class ManagementTier(BaseModel):
         api = "/ManagementTiers/{0}/storeLocations".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def unlink_people(cls, session, attribs=None):
+    def unlink_people(self, person_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/people/rel/{0}"
-        return session.call_api(api, attribs, 'delete')
-
-    def unlink_person_management_tiers(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/managementTiers/rel/{1}".format(self._id, None)
+        api = "/ManagementTiers/{0}/people/rel/{1}".format(self._id, person_id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def update_attributes(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id"
-        return session.call_api(api, attribs, 'put')
+        api = "/ManagementTiers/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        self.data.update(attribs)
+        return self
+
+    def update_by_id_feed_items(self, feed_item_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ManagementTiers/{0}/feedItems/{1}".format(self._id, feed_item_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .feed_item import FeedItem
+        model = FeedItem(self._session, data['id'])
+        model.data = data
+        return model
+
+    def update_by_id_locations(self, location_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ManagementTiers/{0}/locations/{1}".format(self._id, location_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .location import Location
+        model = Location(self._session, data['id'])
+        model.data = data
+        return model
+
+    def update_by_id_management_tier_management_tiers(self, management_tier_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ManagementTiers/{0}/managementTiers/{1}".format(self._id, management_tier_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        self.data.update(attribs)
+        return self
+
+    def update_by_id_management_tiers(self, management_tier_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ManagementTiers/{0}/managementTiers/{1}".format(self._id, management_tier_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        self.data.update(attribs)
+        return self
+
+    def update_by_id_people(self, person_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ManagementTiers/{0}/people/{1}".format(self._id, person_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .person import Person
+        model = Person(self._session, data['id'])
+        model.data = data
+        return model
+
+    def update_by_id_permissions(self, permission_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ManagementTiers/{0}/permissions/{1}".format(self._id, permission_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .permission import Permission
+        model = Permission(self._session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def update_by_id_feed_items(cls, session, feed_item, attribs=None):
+    def upsert(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/feedItems/{0}".format(feed_item)
-        return session.call_api(api, attribs, 'put')
+        api = "/ManagementTiers"
+        data = session.call_api(api, attribs, 'put')
+
+        model = ManagementTier(session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def update_by_id_locations(cls, session, location, attribs=None):
+    def upsert_with_where(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/:id/locations/{0}".format(location)
-        return session.call_api(api, attribs, 'put')
-
-    def update_by_id_management_tier_management_tiers(self, management_tier, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/managementTiers/{1}".format(self._id, management_tier)
-        return self._session.call_api(api, attribs, 'put')
-
-    @classmethod
-    def update_by_id_management_tiers(cls, session, management_tier, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/:id/managementTiers/{0}".format(management_tier)
-        return session.call_api(api, attribs, 'put')
-
-    def update_by_id_organization_management_tiers(self, management_tier, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Organizations/{0}/managementTiers/{1}".format(self._id, management_tier)
-        return self._session.call_api(api, attribs, 'put')
-
-    @classmethod
-    def update_by_id_people(cls, session, person, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/:id/people/{0}".format(person)
-        return session.call_api(api, attribs, 'put')
-
-    @classmethod
-    def update_by_id_permissions(cls, session, permission, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/:id/permissions/{0}".format(permission)
-        return session.call_api(api, attribs, 'put')
-
-    def update_by_id_person_management_tiers(self, management_tier, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Person/{0}/managementTiers/{1}".format(self._id, management_tier)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers".format(self._id)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert_with_where(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ManagementTiers/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

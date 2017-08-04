@@ -12,55 +12,38 @@ class LoadDefinition(BaseModel):
     def __init__(self, session, model_id=None):
         super(LoadDefinition, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/LoadDefinitions/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
     @classmethod
-    def count_firmware_list(cls, session, attribs=None):
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/LoadDefinitions/:id/firmwareList/count"
+        api = "/LoadDefinitions/count"
         return session.call_api(api, attribs, 'get')
 
-    def count_whitelist_load_definitions(self, attribs=None):
+    def count_firmware_list(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/{0}/loadDefinitions/count".format(self._id)
+        api = "/LoadDefinitions/{0}/firmwareList/count".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def create(self, attribs=None):
+    @classmethod
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/LoadDefinitions".format(self._id)
+        api = "/LoadDefinitions"
+        return session.call_api(api, attribs, 'post')
+
+    def create_firmware_list(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/LoadDefinitions/{0}/firmwareList".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
     @classmethod
-    def create_firmware_list(cls, session, attribs=None):
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/LoadDefinitions/:id/firmwareList"
+        api = "/LoadDefinitions"
         return session.call_api(api, attribs, 'post')
-
-    def create_many(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/LoadDefinitions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_whitelist_load_definitions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/{0}/loadDefinitions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_whitelist_load_definitions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/{0}/loadDefinitions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
 
     def delete_by_id(self, attribs=None):
         if attribs is None:
@@ -68,30 +51,16 @@ class LoadDefinition(BaseModel):
         api = "/LoadDefinitions/{0}".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_firmware_list(cls, session, attribs=None):
+    def delete_firmware_list(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/LoadDefinitions/:id/firmwareList"
-        return session.call_api(api, attribs, 'delete')
-
-    def delete_whitelist_load_definitions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/{0}/loadDefinitions".format(self._id)
+        api = "/LoadDefinitions/{0}/firmwareList".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_firmware_list(cls, session, attribs=None):
+    def destroy_by_id_firmware_list(self, firmware_list_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/LoadDefinitions/:id/firmwareList/{0}"
-        return session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_whitelist_load_definitions(self, load_definition, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/{0}/loadDefinitions/{1}".format(self._id, load_definition)
+        api = "/LoadDefinitions/{0}/firmwareList/{1}".format(self._id, firmware_list_id)
         return self._session.call_api(api, attribs, 'delete')
 
     def exists(self, attribs=None):
@@ -100,73 +69,66 @@ class LoadDefinition(BaseModel):
         api = "/LoadDefinitions/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/LoadDefinitions".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/LoadDefinitions"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = LoadDefinition(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/LoadDefinitions/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_firmware_list(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/LoadDefinitions/:id/firmwareList/{0}"
-        return session.call_api(api, attribs, 'get')
-
-    def find_by_id_whitelist_load_definitions(self, load_definition, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/{0}/loadDefinitions/{1}".format(self._id, load_definition)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/LoadDefinitions/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/LoadDefinitions/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
+    def find_by_id_firmware_list(self, firmware_list_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/LoadDefinitions/{0}/firmwareList/{1}".format(self._id, firmware_list_id)
         return self._session.call_api(api, attribs, 'get')
 
     @classmethod
-    def get_firmware_list(cls, session, attribs=None):
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/LoadDefinitions/:id/firmwareList"
+        api = "/LoadDefinitions/findOne"
         return session.call_api(api, attribs, 'get')
 
-    def get_load_device_definition(self, attribs=None):
+    def refresh(self):
+        api = "/LoadDefinitions/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
+
+    def get_firmware_list(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Loads/{0}/deviceDefinition".format(self._id)
+        api = "/LoadDefinitions/{0}/firmwareList".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_whitelist(cls, session, attribs=None):
+    def get_whitelist(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/LoadDefinitions/:id/whitelist"
-        return session.call_api(api, attribs, 'get')
+        api = "/LoadDefinitions/{0}/whitelist".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    def get_whitelist_load_definitions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/{0}/loadDefinitions".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        from .whitelist import Whitelist
+        model = Whitelist(self._session, data['id'])
+        model.data = data
+        return model
 
     def replace_by_id(self, attribs=None):
         if attribs is None:
@@ -174,41 +136,43 @@ class LoadDefinition(BaseModel):
         api = "/LoadDefinitions/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/LoadDefinitions/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
     @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/LoadDefinitions/:id"
-        return session.call_api(api, attribs, 'put')
+        api = "/LoadDefinitions/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def update_by_id_firmware_list(cls, session, attribs=None):
+    def update_attributes(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/LoadDefinitions/:id/firmwareList/{0}"
-        return session.call_api(api, attribs, 'put')
+        api = "/LoadDefinitions/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
 
-    def update_by_id_whitelist_load_definitions(self, load_definition, attribs=None):
+        self.data.update(attribs)
+        return self
+
+    def update_by_id_firmware_list(self, firmware_list_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/{0}/loadDefinitions/{1}".format(self._id, load_definition)
+        api = "/LoadDefinitions/{0}/firmwareList/{1}".format(self._id, firmware_list_id)
         return self._session.call_api(api, attribs, 'put')
 
-    def upsert(self, attribs=None):
+    @classmethod
+    def upsert(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/LoadDefinitions".format(self._id)
-        return self._session.call_api(api, attribs, 'put')
+        api = "/LoadDefinitions"
+        data = session.call_api(api, attribs, 'put')
 
-    def upsert_with_where(self, attribs=None):
+        model = LoadDefinition(session, data['id'])
+        model.data = data
+        return model
+
+    @classmethod
+    def upsert_with_where(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/LoadDefinitions/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/LoadDefinitions/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

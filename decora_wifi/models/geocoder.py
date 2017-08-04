@@ -12,32 +12,31 @@ class Geocoder(BaseModel):
     def __init__(self, session, model_id=None):
         super(Geocoder, self).__init__(session, model_id)
 
-    def geocode(self, attribs=None):
+    @classmethod
+    def geocode(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Geocoder/geocode".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Geocoder/geocode"
+        return session.call_api(api, attribs, 'get')
 
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
+    def refresh(self):
         api = "/Geocoder/{0}".format(self._id)
-        data = self._session.call_api(api, attribs, 'get')
-
-        self.set_model_data(data)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
-
-    def normalize(self, attribs=None):
+    @classmethod
+    def normalize(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Geocoder/normalize".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Geocoder/normalize"
+        return session.call_api(api, attribs, 'get')
 
-    def reverse(self, attribs=None):
+    @classmethod
+    def reverse(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Geocoder/reverse".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Geocoder/reverse"
+        return session.call_api(api, attribs, 'get')
 

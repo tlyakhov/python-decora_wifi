@@ -12,58 +12,31 @@ class Touchscreen(BaseModel):
     def __init__(self, session, model_id=None):
         super(Touchscreen, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
+    @classmethod
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Touchscreens/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Touchscreens/count"
+        return session.call_api(api, attribs, 'get')
 
-    def count_installation_touchscreens(self, attribs=None):
+    @classmethod
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Installations/{0}/touchscreens/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Touchscreens"
+        return session.call_api(api, attribs, 'post')
 
-    def create(self, attribs=None):
+    @classmethod
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Touchscreens".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_installation_touchscreens(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/touchscreens".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Touchscreens".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_installation_touchscreens(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/touchscreens".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Touchscreens"
+        return session.call_api(api, attribs, 'post')
 
     def delete_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/Touchscreens/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def delete_installation_touchscreens(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/touchscreens".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_installation_touchscreens(self, touchscreen, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/touchscreens/{1}".format(self._id, touchscreen)
         return self._session.call_api(api, attribs, 'delete')
 
     def exists(self, attribs=None):
@@ -72,67 +45,71 @@ class Touchscreen(BaseModel):
         api = "/Touchscreens/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Touchscreens".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Touchscreens"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = Touchscreen(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/Touchscreens/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_installation_touchscreens(self, touchscreen, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/touchscreens/{1}".format(self._id, touchscreen)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Touchscreens/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Touchscreens/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
+    @classmethod
+    def find_one(cls, session, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Touchscreens/findOne"
+        return session.call_api(api, attribs, 'get')
+
+    def refresh(self):
+        api = "/Touchscreens/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
+
+    def get_area(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Touchscreens/{0}/area".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .area import Area
+        model = Area(self._session, data['id'])
+        model.data = data
+        return model
+
+    def get_device_definition(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Touchscreens/{0}/deviceDefinition".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_area(cls, session, attribs=None):
+    def get_installation(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Touchscreens/:id/area"
-        return session.call_api(api, attribs, 'get')
+        api = "/Touchscreens/{0}/installation".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_device_definition(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Touchscreens/:id/deviceDefinition"
-        return session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def get_installation(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Touchscreens/:id/installation"
-        return session.call_api(api, attribs, 'get')
-
-    def get_installation_touchscreens(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/touchscreens".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        from .installation import Installation
+        model = Installation(self._session, data['id'])
+        model.data = data
+        return model
 
     def replace_by_id(self, attribs=None):
         if attribs is None:
@@ -140,34 +117,37 @@ class Touchscreen(BaseModel):
         api = "/Touchscreens/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
+    @classmethod
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Touchscreens/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Touchscreens/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
+
+    def update_attributes(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Touchscreens/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        self.data.update(attribs)
+        return self
 
     @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def upsert(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Touchscreens/:id"
-        return session.call_api(api, attribs, 'put')
+        api = "/Touchscreens"
+        data = session.call_api(api, attribs, 'put')
 
-    def update_by_id_installation_touchscreens(self, touchscreen, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/touchscreens/{1}".format(self._id, touchscreen)
-        return self._session.call_api(api, attribs, 'put')
+        model = Touchscreen(session, data['id'])
+        model.data = data
+        return model
 
-    def upsert(self, attribs=None):
+    @classmethod
+    def upsert_with_where(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Touchscreens".format(self._id)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert_with_where(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Touchscreens/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Touchscreens/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

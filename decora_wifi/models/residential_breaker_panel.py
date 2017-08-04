@@ -12,62 +12,44 @@ class ResidentialBreakerPanel(BaseModel):
     def __init__(self, session, model_id=None):
         super(ResidentialBreakerPanel, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialBreakerPanels/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def count_residence_residential_breaker_panels(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Residences/{0}/residentialBreakerPanels/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
     @classmethod
-    def count_residential_breakers(cls, session, attribs=None):
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialBreakerPanels/:id/residentialBreakers/count"
+        api = "/ResidentialBreakerPanels/count"
         return session.call_api(api, attribs, 'get')
 
-    def create(self, attribs=None):
+    def count_residential_breakers(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialBreakerPanels".format(self._id)
+        api = "/ResidentialBreakerPanels/{0}/residentialBreakers/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    @classmethod
+    def create(cls, session, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialBreakerPanels"
+        return session.call_api(api, attribs, 'post')
+
+    def create_access_tokens(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialBreakerPanels/{0}/accessTokens".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
     @classmethod
-    def create_access_tokens(cls, session, attribs=None):
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialBreakerPanels/:id/accessTokens"
+        api = "/ResidentialBreakerPanels"
         return session.call_api(api, attribs, 'post')
 
-    def create_many(self, attribs=None):
+    def create_residential_breakers(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialBreakerPanels".format(self._id)
+        api = "/ResidentialBreakerPanels/{0}/residentialBreakers".format(self._id)
         return self._session.call_api(api, attribs, 'post')
-
-    def create_many_residence_residential_breaker_panels(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Residences/{0}/residentialBreakerPanels".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_residence_residential_breaker_panels(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Residences/{0}/residentialBreakerPanels".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    @classmethod
-    def create_residential_breakers(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialBreakerPanels/:id/residentialBreakers"
-        return session.call_api(api, attribs, 'post')
 
     def delete_by_id(self, attribs=None):
         if attribs is None:
@@ -75,38 +57,23 @@ class ResidentialBreakerPanel(BaseModel):
         api = "/ResidentialBreakerPanels/{0}".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    def delete_residence_residential_breaker_panels(self, attribs=None):
+    def delete_residential_breakers(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Residences/{0}/residentialBreakerPanels".format(self._id)
+        api = "/ResidentialBreakerPanels/{0}/residentialBreakers".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_residential_breakers(cls, session, attribs=None):
+    def destroy_access_tokens(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialBreakerPanels/:id/residentialBreakers"
-        return session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def destroy_access_tokens(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialBreakerPanels/:id/accessTokens"
-        return session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_residence_residential_breaker_panels(self, residential_breaker_panel, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Residences/{0}/residentialBreakerPanels/{1}".format(self._id, residential_breaker_panel)
+        api = "/ResidentialBreakerPanels/{0}/accessTokens".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_residential_breakers(cls, session, residential_breaker, attribs=None):
+    def destroy_by_id_residential_breakers(self, residential_breaker_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialBreakerPanels/:id/residentialBreakers/{0}".format(residential_breaker)
-        return session.call_api(api, attribs, 'delete')
+        api = "/ResidentialBreakerPanels/{0}/residentialBreakers/{1}".format(self._id, residential_breaker_id)
+        return self._session.call_api(api, attribs, 'delete')
 
     def discover(self, attribs=None):
         if attribs is None:
@@ -120,80 +87,86 @@ class ResidentialBreakerPanel(BaseModel):
         api = "/ResidentialBreakerPanels/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialBreakerPanels".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ResidentialBreakerPanels"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = ResidentialBreakerPanel(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/ResidentialBreakerPanels/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_residence_residential_breaker_panels(self, residential_breaker_panel, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Residences/{0}/residentialBreakerPanels/{1}".format(self._id, residential_breaker_panel)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_residential_breakers(cls, session, residential_breaker, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialBreakerPanels/:id/residentialBreakers/{0}".format(residential_breaker)
-        return session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialBreakerPanels/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialBreakerPanels/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
+    def find_by_id_residential_breakers(self, residential_breaker_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialBreakerPanels/{0}/residentialBreakers/{1}".format(self._id, residential_breaker_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .residential_breaker import ResidentialBreaker
+        model = ResidentialBreaker(self._session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def get_access_tokens(cls, session, attribs=None):
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialBreakerPanels/:id/accessTokens"
+        api = "/ResidentialBreakerPanels/findOne"
         return session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_residence(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialBreakerPanels/:id/residence"
-        return session.call_api(api, attribs, 'get')
+    def refresh(self):
+        api = "/ResidentialBreakerPanels/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
 
-    def get_residence_residential_breaker_panels(self, attribs=None):
+    def get_access_tokens(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Residences/{0}/residentialBreakerPanels".format(self._id)
+        api = "/ResidentialBreakerPanels/{0}/accessTokens".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def get_residential_breaker_residential_breaker_panel(self, attribs=None):
+    def get_residence(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialBreakers/{0}/residentialBreakerPanel".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ResidentialBreakerPanels/{0}/residence".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_residential_breakers(cls, session, attribs=None):
+        from .residence import Residence
+        model = Residence(self._session, data['id'])
+        model.data = data
+        return model
+
+    def get_residential_breakers(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialBreakerPanels/:id/residentialBreakers"
-        return session.call_api(api, attribs, 'get')
+        api = "/ResidentialBreakerPanels/{0}/residentialBreakers".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
+
+        from .residential_breaker import ResidentialBreaker
+        result = []
+        if items is not None:
+            for data in items:
+                model = ResidentialBreaker(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def replace_by_id(self, attribs=None):
         if attribs is None:
@@ -201,48 +174,54 @@ class ResidentialBreakerPanel(BaseModel):
         api = "/ResidentialBreakerPanels/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialBreakerPanels/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
     @classmethod
-    def update_access_tokens(cls, session, attribs=None):
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialBreakerPanels/:id/accessTokens"
-        return session.call_api(api, attribs, 'put')
+        api = "/ResidentialBreakerPanels/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
 
-    @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def update_access_tokens(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialBreakerPanels/:id"
-        return session.call_api(api, attribs, 'put')
-
-    def update_by_id_residence_residential_breaker_panels(self, residential_breaker_panel, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Residences/{0}/residentialBreakerPanels/{1}".format(self._id, residential_breaker_panel)
+        api = "/ResidentialBreakerPanels/{0}/accessTokens".format(self._id)
         return self._session.call_api(api, attribs, 'put')
 
+    def update_attributes(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialBreakerPanels/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        self.data.update(attribs)
+        return self
+
+    def update_by_id_residential_breakers(self, residential_breaker_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ResidentialBreakerPanels/{0}/residentialBreakers/{1}".format(self._id, residential_breaker_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .residential_breaker import ResidentialBreaker
+        model = ResidentialBreaker(self._session, data['id'])
+        model.data = data
+        return model
+
     @classmethod
-    def update_by_id_residential_breakers(cls, session, residential_breaker, attribs=None):
+    def upsert(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialBreakerPanels/:id/residentialBreakers/{0}".format(residential_breaker)
-        return session.call_api(api, attribs, 'put')
+        api = "/ResidentialBreakerPanels"
+        data = session.call_api(api, attribs, 'put')
 
-    def upsert(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ResidentialBreakerPanels".format(self._id)
-        return self._session.call_api(api, attribs, 'put')
+        model = ResidentialBreakerPanel(session, data['id'])
+        model.data = data
+        return model
 
-    def upsert_with_where(self, attribs=None):
+    @classmethod
+    def upsert_with_where(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ResidentialBreakerPanels/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ResidentialBreakerPanels/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

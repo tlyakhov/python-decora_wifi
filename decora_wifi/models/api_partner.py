@@ -12,37 +12,38 @@ class ApiPartner(BaseModel):
     def __init__(self, session, model_id=None):
         super(ApiPartner, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
+    @classmethod
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ApiPartners/count".format(self._id)
+        api = "/ApiPartners/count"
+        return session.call_api(api, attribs, 'get')
+
+    def count_oauth_tokens(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ApiPartners/{0}/oauthTokens/count".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
     @classmethod
-    def count_oauth_tokens(cls, session, attribs=None):
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ApiPartners/:id/oauthTokens/count"
-        return session.call_api(api, attribs, 'get')
-
-    def create(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ApiPartners".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ApiPartners".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ApiPartners"
+        return session.call_api(api, attribs, 'post')
 
     @classmethod
-    def create_oauth_tokens(cls, session, attribs=None):
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ApiPartners/:id/oauthTokens"
+        api = "/ApiPartners"
         return session.call_api(api, attribs, 'post')
+
+    def create_oauth_tokens(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ApiPartners/{0}/oauthTokens".format(self._id)
+        return self._session.call_api(api, attribs, 'post')
 
     def delete_by_id(self, attribs=None):
         if attribs is None:
@@ -50,19 +51,17 @@ class ApiPartner(BaseModel):
         api = "/ApiPartners/{0}".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def delete_oauth_tokens(cls, session, attribs=None):
+    def delete_oauth_tokens(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ApiPartners/:id/oauthTokens"
-        return session.call_api(api, attribs, 'delete')
+        api = "/ApiPartners/{0}/oauthTokens".format(self._id)
+        return self._session.call_api(api, attribs, 'delete')
 
-    @classmethod
-    def destroy_by_id_oauth_tokens(cls, session, oauth_token, attribs=None):
+    def destroy_by_id_oauth_tokens(self, oauth_token_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ApiPartners/:id/oauthTokens/{0}".format(oauth_token)
-        return session.call_api(api, attribs, 'delete')
+        api = "/ApiPartners/{0}/oauthTokens/{1}".format(self._id, oauth_token_id)
+        return self._session.call_api(api, attribs, 'delete')
 
     def exists(self, attribs=None):
         if attribs is None:
@@ -70,54 +69,69 @@ class ApiPartner(BaseModel):
         api = "/ApiPartners/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ApiPartners".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ApiPartners"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = ApiPartner(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/ApiPartners/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_oauth_tokens(cls, session, oauth_token, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ApiPartners/:id/oauthTokens/{0}".format(oauth_token)
-        return session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ApiPartners/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ApiPartners/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
-
-    def get_oauth_token_api_partner(self, attribs=None):
+    def find_by_id_oauth_tokens(self, oauth_token_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/OauthTokens/{0}/apiPartner".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ApiPartners/{0}/oauthTokens/{1}".format(self._id, oauth_token_id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .oauth_token import OauthToken
+        model = OauthToken(self._session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def get_oauth_tokens(cls, session, attribs=None):
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ApiPartners/:id/oauthTokens"
+        api = "/ApiPartners/findOne"
         return session.call_api(api, attribs, 'get')
+
+    def refresh(self):
+        api = "/ApiPartners/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
+
+    def get_oauth_tokens(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ApiPartners/{0}/oauthTokens".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
+
+        from .oauth_token import OauthToken
+        result = []
+        if items is not None:
+            for data in items:
+                model = OauthToken(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def replace_by_id(self, attribs=None):
         if attribs is None:
@@ -125,35 +139,48 @@ class ApiPartner(BaseModel):
         api = "/ApiPartners/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
+    @classmethod
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ApiPartners/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ApiPartners/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
+
+    def update_attributes(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ApiPartners/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        self.data.update(attribs)
+        return self
+
+    def update_by_id_oauth_tokens(self, oauth_token_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/ApiPartners/{0}/oauthTokens/{1}".format(self._id, oauth_token_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .oauth_token import OauthToken
+        model = OauthToken(self._session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def upsert(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ApiPartners/:id"
-        return session.call_api(api, attribs, 'put')
+        api = "/ApiPartners"
+        data = session.call_api(api, attribs, 'put')
+
+        model = ApiPartner(session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def update_by_id_oauth_tokens(cls, session, oauth_token, attribs=None):
+    def upsert_with_where(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ApiPartners/:id/oauthTokens/{0}".format(oauth_token)
-        return session.call_api(api, attribs, 'put')
-
-    def upsert(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ApiPartners".format(self._id)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert_with_where(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ApiPartners/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ApiPartners/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

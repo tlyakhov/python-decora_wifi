@@ -12,92 +12,49 @@ class Shade(BaseModel):
     def __init__(self, session, model_id=None):
         super(Shade, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
     @classmethod
-    def count_activity_triggers(cls, session, attribs=None):
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Shades/:id/activityTriggers/count"
+        api = "/Shades/count"
         return session.call_api(api, attribs, 'get')
 
-    def count_area_shades(self, attribs=None):
+    def count_activity_triggers(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Areas/{0}/shades/count".format(self._id)
+        api = "/Shades/{0}/activityTriggers/count".format(self._id)
+        return self._session.call_api(api, attribs, 'get')
+
+    def count_feed_items(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Shades/{0}/feedItems/count".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
     @classmethod
-    def count_feed_items(cls, session, attribs=None):
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Shades/:id/feedItems/count"
-        return session.call_api(api, attribs, 'get')
-
-    def count_installation_shades(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/shades/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def create(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    @classmethod
-    def create_activity_triggers(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades/:id/activityTriggers"
+        api = "/Shades"
         return session.call_api(api, attribs, 'post')
 
-    def create_area_shades(self, attribs=None):
+    def create_activity_triggers(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Areas/{0}/shades".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_installation_shades(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/shades".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_area_shades(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/shades".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_installation_shades(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/shades".format(self._id)
+        api = "/Shades/{0}/activityTriggers".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
     @classmethod
-    def delete_activity_triggers(cls, session, attribs=None):
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Shades/:id/activityTriggers"
-        return session.call_api(api, attribs, 'delete')
+        api = "/Shades"
+        return session.call_api(api, attribs, 'post')
 
-    def delete_area_shades(self, attribs=None):
+    def delete_activity_triggers(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Areas/{0}/shades".format(self._id)
+        api = "/Shades/{0}/activityTriggers".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
     def delete_by_id(self, attribs=None):
@@ -106,29 +63,10 @@ class Shade(BaseModel):
         api = "/Shades/{0}".format(self._id)
         return self._session.call_api(api, attribs, 'delete')
 
-    def delete_installation_shades(self, attribs=None):
+    def destroy_by_id_activity_triggers(self, activity_trigger_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Installations/{0}/shades".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    @classmethod
-    def destroy_by_id_activity_triggers(cls, session, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades/:id/activityTriggers/{0}".format(activity_trigger)
-        return session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_area_shades(self, shade, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/shades/{1}".format(self._id, shade)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_installation_shades(self, shade, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/shades/{1}".format(self._id, shade)
+        api = "/Shades/{0}/activityTriggers/{1}".format(self._id, activity_trigger_id)
         return self._session.call_api(api, attribs, 'delete')
 
     def exists(self, attribs=None):
@@ -137,119 +75,123 @@ class Shade(BaseModel):
         api = "/Shades/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Shades".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Shades"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = Shade(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/Shades/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_activity_triggers(cls, session, activity_trigger, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades/:id/activityTriggers/{0}".format(activity_trigger)
-        return session.call_api(api, attribs, 'get')
-
-    def find_by_id_area_shades(self, shade, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/shades/{1}".format(self._id, shade)
-        return self._session.call_api(api, attribs, 'get')
-
-    @classmethod
-    def find_by_id_feed_items(cls, session, feed_item, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades/:id/feedItems/{0}".format(feed_item)
-        return session.call_api(api, attribs, 'get')
-
-    def find_by_id_installation_shades(self, shade, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/shades/{1}".format(self._id, shade)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
-
-    def get_activity_trigger_shade(self, attribs=None):
+    def find_by_id_activity_triggers(self, activity_trigger_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ActivityTriggers/{0}/shade".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Shades/{0}/activityTriggers/{1}".format(self._id, activity_trigger_id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_activity_triggers(cls, session, attribs=None):
+        from .activity_trigger import ActivityTrigger
+        model = ActivityTrigger(self._session, data['id'])
+        model.data = data
+        return model
+
+    def find_by_id_feed_items(self, feed_item_id, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Shades/:id/activityTriggers"
-        return session.call_api(api, attribs, 'get')
+        api = "/Shades/{0}/feedItems/{1}".format(self._id, feed_item_id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_area(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades/:id/area"
-        return session.call_api(api, attribs, 'get')
-
-    def get_area_shades(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/shades".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        from .feed_item import FeedItem
+        model = FeedItem(self._session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def get_device_definition(cls, session, attribs=None):
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Shades/:id/deviceDefinition"
+        api = "/Shades/findOne"
         return session.call_api(api, attribs, 'get')
 
-    def get_feed_item_shade(self, attribs=None):
+    def refresh(self):
+        api = "/Shades/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
+
+    def get_activity_triggers(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/FeedItems/{0}/shade".format(self._id)
+        api = "/Shades/{0}/activityTriggers".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
+
+        from .activity_trigger import ActivityTrigger
+        result = []
+        if items is not None:
+            for data in items:
+                model = ActivityTrigger(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
+
+    def get_area(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Shades/{0}/area".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .area import Area
+        model = Area(self._session, data['id'])
+        model.data = data
+        return model
+
+    def get_device_definition(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Shades/{0}/deviceDefinition".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_feed_items(cls, session, attribs=None):
+    def get_feed_items(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Shades/:id/feedItems"
-        return session.call_api(api, attribs, 'get')
+        api = "/Shades/{0}/feedItems".format(self._id)
+        items = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_installation(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades/:id/installation"
-        return session.call_api(api, attribs, 'get')
+        from .feed_item import FeedItem
+        result = []
+        if items is not None:
+            for data in items:
+                model = FeedItem(self._session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
-    def get_installation_shades(self, attribs=None):
+    def get_installation(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Installations/{0}/shades".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/Shades/{0}/installation".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .installation import Installation
+        model = Installation(self._session, data['id'])
+        model.data = data
+        return model
 
     def replace_by_id(self, attribs=None):
         if attribs is None:
@@ -257,47 +199,48 @@ class Shade(BaseModel):
         api = "/Shades/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
+    @classmethod
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Shades/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Shades/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
+
+    def update_attributes(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Shades/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        self.data.update(attribs)
+        return self
+
+    def update_by_id_activity_triggers(self, activity_trigger_id, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/Shades/{0}/activityTriggers/{1}".format(self._id, activity_trigger_id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        from .activity_trigger import ActivityTrigger
+        model = ActivityTrigger(self._session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def upsert(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Shades/:id"
-        return session.call_api(api, attribs, 'put')
+        api = "/Shades"
+        data = session.call_api(api, attribs, 'put')
+
+        model = Shade(session, data['id'])
+        model.data = data
+        return model
 
     @classmethod
-    def update_by_id_activity_triggers(cls, session, activity_trigger, attribs=None):
+    def upsert_with_where(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Shades/:id/activityTriggers/{0}".format(activity_trigger)
-        return session.call_api(api, attribs, 'put')
-
-    def update_by_id_area_shades(self, shade, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Areas/{0}/shades/{1}".format(self._id, shade)
-        return self._session.call_api(api, attribs, 'put')
-
-    def update_by_id_installation_shades(self, shade, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/shades/{1}".format(self._id, shade)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades".format(self._id)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert_with_where(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/Shades/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

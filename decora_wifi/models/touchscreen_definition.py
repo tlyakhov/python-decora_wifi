@@ -12,58 +12,31 @@ class TouchscreenDefinition(BaseModel):
     def __init__(self, session, model_id=None):
         super(TouchscreenDefinition, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
+    @classmethod
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/TouchscreenDefinitions/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/TouchscreenDefinitions/count"
+        return session.call_api(api, attribs, 'get')
 
-    def count_whitelist_touchscreen_definitions(self, attribs=None):
+    @classmethod
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/{0}/touchscreenDefinitions/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/TouchscreenDefinitions"
+        return session.call_api(api, attribs, 'post')
 
-    def create(self, attribs=None):
+    @classmethod
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/TouchscreenDefinitions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/TouchscreenDefinitions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_whitelist_touchscreen_definitions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/{0}/touchscreenDefinitions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_whitelist_touchscreen_definitions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/{0}/touchscreenDefinitions".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/TouchscreenDefinitions"
+        return session.call_api(api, attribs, 'post')
 
     def delete_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/TouchscreenDefinitions/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def delete_whitelist_touchscreen_definitions(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/{0}/touchscreenDefinitions".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_whitelist_touchscreen_definitions(self, touchscreen_definition, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/{0}/touchscreenDefinitions/{1}".format(self._id, touchscreen_definition)
         return self._session.call_api(api, attribs, 'delete')
 
     def exists(self, attribs=None):
@@ -72,59 +45,54 @@ class TouchscreenDefinition(BaseModel):
         api = "/TouchscreenDefinitions/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/TouchscreenDefinitions".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/TouchscreenDefinitions"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = TouchscreenDefinition(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/TouchscreenDefinitions/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_whitelist_touchscreen_definitions(self, touchscreen_definition, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/{0}/touchscreenDefinitions/{1}".format(self._id, touchscreen_definition)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/TouchscreenDefinitions/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/TouchscreenDefinitions/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
-
-    def get_touchscreen_device_definition(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Touchscreens/{0}/deviceDefinition".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
     @classmethod
-    def get_whitelist(cls, session, attribs=None):
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/TouchscreenDefinitions/:id/whitelist"
+        api = "/TouchscreenDefinitions/findOne"
         return session.call_api(api, attribs, 'get')
 
-    def get_whitelist_touchscreen_definitions(self, attribs=None):
+    def refresh(self):
+        api = "/TouchscreenDefinitions/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
+
+    def get_whitelist(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Whitelist/{0}/touchscreenDefinitions".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/TouchscreenDefinitions/{0}/whitelist".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .whitelist import Whitelist
+        model = Whitelist(self._session, data['id'])
+        model.data = data
+        return model
 
     def replace_by_id(self, attribs=None):
         if attribs is None:
@@ -132,34 +100,37 @@ class TouchscreenDefinition(BaseModel):
         api = "/TouchscreenDefinitions/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
+    @classmethod
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/TouchscreenDefinitions/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/TouchscreenDefinitions/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
+
+    def update_attributes(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/TouchscreenDefinitions/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
+
+        self.data.update(attribs)
+        return self
 
     @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def upsert(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/TouchscreenDefinitions/:id"
-        return session.call_api(api, attribs, 'put')
+        api = "/TouchscreenDefinitions"
+        data = session.call_api(api, attribs, 'put')
 
-    def update_by_id_whitelist_touchscreen_definitions(self, touchscreen_definition, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Whitelist/{0}/touchscreenDefinitions/{1}".format(self._id, touchscreen_definition)
-        return self._session.call_api(api, attribs, 'put')
+        model = TouchscreenDefinition(session, data['id'])
+        model.data = data
+        return model
 
-    def upsert(self, attribs=None):
+    @classmethod
+    def upsert_with_where(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/TouchscreenDefinitions".format(self._id)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert_with_where(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/TouchscreenDefinitions/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/TouchscreenDefinitions/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

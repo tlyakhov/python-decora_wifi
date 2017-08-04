@@ -10,7 +10,7 @@ import json
 
 import requests
 
-from decora_wifi.models.person import Person
+from .models.person import Person
 
 
 class decora_wifi:
@@ -22,9 +22,9 @@ class decora_wifi:
         """Initialize the session, all content is JSON."""
         self._session = requests.Session()
         self._session.headers.update({'Content-Type': 'application/json'})
-        self._user_id = None
         self._email = None
         self._password = None
+        self.user = None
 
     def call_api(self, api, payload=None, method='get'):
         """Generic method for calling LCS REST APIs."""
@@ -35,7 +35,7 @@ class decora_wifi:
             msg = "Tried decora.call_api with bad method: {0}"
             raise ValueError(msg.format(method))
 
-        if self._user_id is None and api != '/Person/login':
+        if self.user is None and api != '/Person/login':
             raise ValueError('Tried an API call without a login.')
 
         uri = self.LEVITON_ROOT + api
@@ -56,7 +56,7 @@ class decora_wifi:
 
         if response.status_code != 200 and response.status_code != 204:
             msg = "myLeviton API call ({0}) failed: {1}, {2}".format(
-                          api, response.status_code, response.body)
+                          api, response.status_code, response.text)
             raise ValueError(msg)
 
         if response.text is not None and len(response.text) > 0:
@@ -73,28 +73,22 @@ class decora_wifi:
             'registeredVia': 'myLeviton'     # from myLeviton App
         }
 
-        login_json = Person.post_login(self, payload)
+        login_json = Person.login(self, payload)
 
         if login_json is None:
             return None
 
         self._session.headers.update({'authorization': login_json['id']})
-        self._user_id = login_json['userId']
         self._email = email
         self._password = password
+        self.user = Person(self, login_json['userId'])
+        self.user.refresh()
 
-        return login_json
-
-    def logout(self):
-        """Logout of LCS."""
-        if self._user_id is None:
-            return None
-
-        return self.call_api('/Person/logout', None, 'post')
+        return self.user
 
     def residential_permissions(self):
         """Get Leviton residential permissions objects."""
-        api = "/Person/{0}/residentialPermissions".format(self._user_id)
+        api = "/Person/{0}/residentialPermissions".format(self.user_id)
         return self.call_api(api, None, 'get')
 
     def residences(self, res_account_id):

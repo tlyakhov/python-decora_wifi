@@ -12,140 +12,157 @@ class Ifttt(BaseModel):
     def __init__(self, session, model_id=None):
         super(Ifttt, self).__init__(session, model_id)
 
-    def brighten_switch(self, attribs=None):
+    @classmethod
+    def brighten_switch(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ifttt/v1/actions/brighten_switch".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ifttt/v1/actions/brighten_switch"
+        return session.call_api(api, attribs, 'post')
 
-    def dim_switch(self, attribs=None):
+    @classmethod
+    def dim_switch(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ifttt/v1/actions/dim_switch".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ifttt/v1/actions/dim_switch"
+        return session.call_api(api, attribs, 'post')
 
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
+    def refresh(self):
         api = "/ifttt/{0}".format(self._id)
-        data = self._session.call_api(api, attribs, 'get')
-
-        self.set_model_data(data)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
-
-    def get_activity_options(self, attribs=None):
+    @classmethod
+    def get_activity_options(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ifttt/v1/actions/run_activity/fields/name/options".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ifttt/v1/actions/run_activity/fields/name/options"
+        return session.call_api(api, attribs, 'post')
 
-    def get_all_options(self, attribs=None):
+    @classmethod
+    def get_all_options(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ifttt/v1/actions/all/fields/name/options".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ifttt/v1/actions/all/fields/name/options"
+        return session.call_api(api, attribs, 'post')
 
-    def get_dimmer_options(self, attribs=None):
+    @classmethod
+    def get_dimmer_options(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ifttt/v1/actions/brighten_switch/fields/name/options".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ifttt/v1/actions/brighten_switch/fields/name/options"
+        return session.call_api(api, attribs, 'post')
 
-    def get_dimmer_options1(self, attribs=None):
+    @classmethod
+    def get_dimmer_options1(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ifttt/v1/actions/set_brightness/fields/name/options".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ifttt/v1/actions/set_brightness/fields/name/options"
+        return session.call_api(api, attribs, 'post')
 
-    def get_dimmer_options2(self, attribs=None):
+    @classmethod
+    def get_dimmer_options2(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ifttt/v1/actions/dim_switch/fields/name/options".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ifttt/v1/actions/dim_switch/fields/name/options"
+        return session.call_api(api, attribs, 'post')
 
-    def get_room_options(self, attribs=None):
+    @classmethod
+    def get_room_options(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ifttt/v1/actions/toggle_room_on/fields/name/options".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ifttt/v1/actions/toggle_room_on/fields/name/options"
+        return session.call_api(api, attribs, 'post')
 
-    def get_scene_options(self, attribs=None):
+    @classmethod
+    def get_scene_options(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ifttt/v1/actions/run_scene/fields/name/options".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ifttt/v1/actions/run_scene/fields/name/options"
+        return session.call_api(api, attribs, 'post')
 
-    def get_status(self, attribs=None):
+    @classmethod
+    def get_status(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ifttt/v1/status".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ifttt/v1/status"
+        return session.call_api(api, attribs, 'get')
 
-    def get_switch_on(self, attribs=None):
+    @classmethod
+    def get_switch_on(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ifttt/v1/triggers/switch_on".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ifttt/v1/triggers/switch_on"
+        return session.call_api(api, attribs, 'post')
 
-    def get_switch_options(self, attribs=None):
+    @classmethod
+    def get_switch_options(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ifttt/v1/triggers/switch_on/fields/name/options".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ifttt/v1/triggers/switch_on/fields/name/options"
+        return session.call_api(api, attribs, 'post')
 
-    def get_switch_options1(self, attribs=None):
+    @classmethod
+    def get_switch_options1(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ifttt/v1/actions/toggle_switch/fields/name/options".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ifttt/v1/actions/toggle_switch/fields/name/options"
+        return session.call_api(api, attribs, 'post')
 
-    def get_user_info(self, attribs=None):
+    @classmethod
+    def get_user_info(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ifttt/v1/user/info".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/ifttt/v1/user/info"
+        return session.call_api(api, attribs, 'get')
 
-    def run_activity(self, attribs=None):
+    @classmethod
+    def run_activity(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ifttt/v1/actions/run_activity".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ifttt/v1/actions/run_activity"
+        return session.call_api(api, attribs, 'post')
 
-    def run_scene(self, attribs=None):
+    @classmethod
+    def run_scene(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ifttt/v1/actions/run_scene".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ifttt/v1/actions/run_scene"
+        return session.call_api(api, attribs, 'post')
 
-    def set_brightness(self, attribs=None):
+    @classmethod
+    def set_brightness(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ifttt/v1/actions/set_brightness".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ifttt/v1/actions/set_brightness"
+        return session.call_api(api, attribs, 'post')
 
-    def setup(self, attribs=None):
+    @classmethod
+    def setup(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ifttt/v1/test/setup".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ifttt/v1/test/setup"
+        return session.call_api(api, attribs, 'post')
 
-    def toggle_room(self, attribs=None):
+    @classmethod
+    def toggle_room(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ifttt/v1/actions/toggle_room_on".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ifttt/v1/actions/toggle_room_on"
+        return session.call_api(api, attribs, 'post')
 
-    def toggle_room1(self, attribs=None):
+    @classmethod
+    def toggle_room1(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ifttt/v1/actions/toggle_room_off".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ifttt/v1/actions/toggle_room_off"
+        return session.call_api(api, attribs, 'post')
 
-    def toggle_switch(self, attribs=None):
+    @classmethod
+    def toggle_switch(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ifttt/v1/actions/toggle_switch".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/ifttt/v1/actions/toggle_switch"
+        return session.call_api(api, attribs, 'post')
 

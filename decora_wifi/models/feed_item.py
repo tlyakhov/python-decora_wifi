@@ -12,77 +12,12 @@ class FeedItem(BaseModel):
     def __init__(self, session, model_id=None):
         super(FeedItem, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
+    @classmethod
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/FeedItems/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def count_installation_feed_items(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/feedItems/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def count_load_feed_items(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/{0}/feedItems/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def count_location_feed_items(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Locations/{0}/feedItems/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def count_management_tier_feed_items(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/feedItems/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def count_sensor_feed_items(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Sensors/{0}/feedItems/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def count_shade_feed_items(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades/{0}/feedItems/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def count_thermostat_feed_items(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Thermostats/{0}/feedItems/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def create_management_tier_feed_items(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/feedItems".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_management_tier_feed_items(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/feedItems".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def delete_management_tier_feed_items(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/feedItems".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_management_tier_feed_items(self, feed_item, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/feedItems/{1}".format(self._id, feed_item)
-        return self._session.call_api(api, attribs, 'delete')
+        api = "/FeedItems/count"
+        return session.call_api(api, attribs, 'get')
 
     def exists(self, attribs=None):
         if attribs is None:
@@ -90,174 +25,131 @@ class FeedItem(BaseModel):
         api = "/FeedItems/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/FeedItems".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/FeedItems"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = FeedItem(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/FeedItems/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_installation_feed_items(self, feed_item, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Installations/{0}/feedItems/{1}".format(self._id, feed_item)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_load_feed_items(self, feed_item, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Loads/{0}/feedItems/{1}".format(self._id, feed_item)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_location_feed_items(self, feed_item, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Locations/{0}/feedItems/{1}".format(self._id, feed_item)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_management_tier_feed_items(self, feed_item, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/ManagementTiers/{0}/feedItems/{1}".format(self._id, feed_item)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_sensor_feed_items(self, feed_item, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Sensors/{0}/feedItems/{1}".format(self._id, feed_item)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_shade_feed_items(self, feed_item, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Shades/{0}/feedItems/{1}".format(self._id, feed_item)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_thermostat_feed_items(self, feed_item, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Thermostats/{0}/feedItems/{1}".format(self._id, feed_item)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/FeedItems/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/FeedItems/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
-
     @classmethod
-    def get_controller(cls, session, attribs=None):
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/FeedItems/:id/controller"
+        api = "/FeedItems/findOne"
         return session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_installation(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/FeedItems/:id/installation"
-        return session.call_api(api, attribs, 'get')
+    def refresh(self):
+        api = "/FeedItems/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
 
-    def get_installation_feed_items(self, attribs=None):
+    def get_controller(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Installations/{0}/feedItems".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/FeedItems/{0}/controller".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_load(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/FeedItems/:id/load"
-        return session.call_api(api, attribs, 'get')
+        from .controller import Controller
+        model = Controller(self._session, data['id'])
+        model.data = data
+        return model
 
-    def get_load_feed_items(self, attribs=None):
+    def get_installation(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Loads/{0}/feedItems".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/FeedItems/{0}/installation".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    def get_location_feed_items(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/Locations/{0}/feedItems".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        from .installation import Installation
+        model = Installation(self._session, data['id'])
+        model.data = data
+        return model
 
-    def get_management_tier_feed_items(self, attribs=None):
+    def get_load(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/{0}/feedItems".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/FeedItems/{0}/load".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_organization(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/FeedItems/:id/organization"
-        return session.call_api(api, attribs, 'get')
+        from .load import Load
+        model = Load(self._session, data['id'])
+        model.data = data
+        return model
 
-    @classmethod
-    def get_person(cls, session, attribs=None):
+    def get_organization(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/FeedItems/:id/person"
-        return session.call_api(api, attribs, 'get')
+        api = "/FeedItems/{0}/organization".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_sensor(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/FeedItems/:id/sensor"
-        return session.call_api(api, attribs, 'get')
+        from .organization import Organization
+        model = Organization(self._session, data['id'])
+        model.data = data
+        return model
 
-    def get_sensor_feed_items(self, attribs=None):
+    def get_person(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Sensors/{0}/feedItems".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/FeedItems/{0}/person".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_shade(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/FeedItems/:id/shade"
-        return session.call_api(api, attribs, 'get')
+        from .person import Person
+        model = Person(self._session, data['id'])
+        model.data = data
+        return model
 
-    def get_shade_feed_items(self, attribs=None):
+    def get_sensor(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Shades/{0}/feedItems".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/FeedItems/{0}/sensor".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
 
-    @classmethod
-    def get_thermostat(cls, session, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/FeedItems/:id/thermostat"
-        return session.call_api(api, attribs, 'get')
+        from .sensor import Sensor
+        model = Sensor(self._session, data['id'])
+        model.data = data
+        return model
 
-    def get_thermostat_feed_items(self, attribs=None):
+    def get_shade(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/Thermostats/{0}/feedItems".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/FeedItems/{0}/shade".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .shade import Shade
+        model = Shade(self._session, data['id'])
+        model.data = data
+        return model
+
+    def get_thermostat(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/FeedItems/{0}/thermostat".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .thermostat import Thermostat
+        model = Thermostat(self._session, data['id'])
+        model.data = data
+        return model
 
     def replace_by_id(self, attribs=None):
         if attribs is None:
@@ -265,21 +157,17 @@ class FeedItem(BaseModel):
         api = "/FeedItems/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
+    @classmethod
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/FeedItems/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/FeedItems/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
 
-    def update_by_id_management_tier_feed_items(self, feed_item, attribs=None):
+    @classmethod
+    def upsert_with_where(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/ManagementTiers/{0}/feedItems/{1}".format(self._id, feed_item)
-        return self._session.call_api(api, attribs, 'put')
-
-    def upsert_with_where(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/FeedItems/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/FeedItems/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 

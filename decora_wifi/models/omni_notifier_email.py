@@ -12,64 +12,38 @@ class OmniNotifierEmail(BaseModel):
     def __init__(self, session, model_id=None):
         super(OmniNotifierEmail, self).__init__(session, model_id)
 
-    def count(self, attribs=None):
+    @classmethod
+    def count(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/OmniNotifierEmails/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/OmniNotifierEmails/count"
+        return session.call_api(api, attribs, 'get')
 
-    def count_omni_notifier_omni_notifier_emails(self, attribs=None):
+    @classmethod
+    def create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/OmniNotifiers/{0}/omniNotifierEmails/count".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/OmniNotifierEmails"
+        return session.call_api(api, attribs, 'post')
 
-    def create(self, attribs=None):
+    @classmethod
+    def create_change_stream(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/OmniNotifierEmails".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/OmniNotifierEmails/change-stream"
+        return session.call_api(api, attribs, 'post')
 
-    def create_change_stream(self, attribs=None):
+    @classmethod
+    def create_many(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/OmniNotifierEmails/change-stream".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/OmniNotifierEmails".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_many_omni_notifier_omni_notifier_emails(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/OmniNotifiers/{0}/omniNotifierEmails".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def create_omni_notifier_omni_notifier_emails(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/OmniNotifiers/{0}/omniNotifierEmails".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/OmniNotifierEmails"
+        return session.call_api(api, attribs, 'post')
 
     def delete_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/OmniNotifierEmails/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def delete_omni_notifier_omni_notifier_emails(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/OmniNotifiers/{0}/omniNotifierEmails".format(self._id)
-        return self._session.call_api(api, attribs, 'delete')
-
-    def destroy_by_id_omni_notifier_omni_notifier_emails(self, omni_notifier_email, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/OmniNotifiers/{0}/omniNotifierEmails/{1}".format(self._id, omni_notifier_email)
         return self._session.call_api(api, attribs, 'delete')
 
     def exists(self, attribs=None):
@@ -78,53 +52,54 @@ class OmniNotifierEmail(BaseModel):
         api = "/OmniNotifierEmails/{0}/exists".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
-    def find(self, attribs=None):
+    @classmethod
+    def find(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/OmniNotifierEmails".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/OmniNotifierEmails"
+        items = session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for data in items:
+                model = OmniNotifierEmail(session, data['id'])
+                model.data = data
+                result.append(model)
+        return result
 
     def find_by_id(self, attribs=None):
         if attribs is None:
             attribs = {}
         api = "/OmniNotifierEmails/{0}".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_by_id_omni_notifier_omni_notifier_emails(self, omni_notifier_email, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/OmniNotifiers/{0}/omniNotifierEmails/{1}".format(self._id, omni_notifier_email)
-        return self._session.call_api(api, attribs, 'get')
-
-    def find_one(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/OmniNotifierEmails/findOne".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
-
-    def get(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/OmniNotifierEmails/{0}".format(self._id)
         data = self._session.call_api(api, attribs, 'get')
 
-        self.set_model_data(data)
+        self.data.update(data)
         return self
 
-        return self._session.call_api(api, attribs, 'get')
-
     @classmethod
-    def get_omni_notifier(cls, session, attribs=None):
+    def find_one(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/OmniNotifierEmails/:id/omniNotifier"
+        api = "/OmniNotifierEmails/findOne"
         return session.call_api(api, attribs, 'get')
 
-    def get_omni_notifier_omni_notifier_emails(self, attribs=None):
+    def refresh(self):
+        api = "/OmniNotifierEmails/{0}".format(self._id)
+        result = self._session.call_api(api, {}, 'get')
+        if result is not None:
+            self.data.update(result)
+        return self
+
+    def get_omni_notifier(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/OmniNotifiers/{0}/omniNotifierEmails".format(self._id)
-        return self._session.call_api(api, attribs, 'get')
+        api = "/OmniNotifierEmails/{0}/omniNotifier".format(self._id)
+        data = self._session.call_api(api, attribs, 'get')
+
+        from .omni_notifier import OmniNotifier
+        model = OmniNotifier(self._session, data['id'])
+        model.data = data
+        return model
 
     def replace_by_id(self, attribs=None):
         if attribs is None:
@@ -132,40 +107,44 @@ class OmniNotifierEmail(BaseModel):
         api = "/OmniNotifierEmails/{0}/replace".format(self._id)
         return self._session.call_api(api, attribs, 'post')
 
-    def replace_or_create(self, attribs=None):
+    @classmethod
+    def replace_or_create(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/OmniNotifierEmails/replaceOrCreate".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
-
-    def update_all(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/OmniNotifierEmails/update".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/OmniNotifierEmails/replaceOrCreate"
+        return session.call_api(api, attribs, 'post')
 
     @classmethod
-    def update_attributes(cls, session, attribs=None):
+    def update_all(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/OmniNotifierEmails/:id"
-        return session.call_api(api, attribs, 'put')
+        api = "/OmniNotifierEmails/update"
+        return session.call_api(api, attribs, 'post')
 
-    def update_by_id_omni_notifier_omni_notifier_emails(self, omni_notifier_email, attribs=None):
+    def update_attributes(self, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/OmniNotifiers/{0}/omniNotifierEmails/{1}".format(self._id, omni_notifier_email)
-        return self._session.call_api(api, attribs, 'put')
+        api = "/OmniNotifierEmails/{0}".format(self._id)
+        data = self._session.call_api(api, attribs, 'put')
 
-    def upsert(self, attribs=None):
-        if attribs is None:
-            attribs = {}
-        api = "/OmniNotifierEmails".format(self._id)
-        return self._session.call_api(api, attribs, 'put')
+        self.data.update(attribs)
+        return self
 
-    def upsert_with_where(self, attribs=None):
+    @classmethod
+    def upsert(cls, session, attribs=None):
         if attribs is None:
             attribs = {}
-        api = "/OmniNotifierEmails/upsertWithWhere".format(self._id)
-        return self._session.call_api(api, attribs, 'post')
+        api = "/OmniNotifierEmails"
+        data = session.call_api(api, attribs, 'put')
+
+        model = OmniNotifierEmail(session, data['id'])
+        model.data = data
+        return model
+
+    @classmethod
+    def upsert_with_where(cls, session, attribs=None):
+        if attribs is None:
+            attribs = {}
+        api = "/OmniNotifierEmails/upsertWithWhere"
+        return session.call_api(api, attribs, 'post')
 
