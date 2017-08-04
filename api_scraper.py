@@ -4,9 +4,11 @@ import sys
 import re
 import inflect
 
-REST_MAP = {'GET': 'get', 'PUT': 'update', 'POST': 'create', 'DELETE': 'delete'}
+# Map HTTP method names to REST API names
+REST_MAP = {'GET': 'get', 'PUT': 'update',
+            'POST': 'create', 'DELETE': 'delete'}
 
-
+# For plural->singular conversion
 p = inflect.engine()
 
 
@@ -15,6 +17,7 @@ def underscorize(name):
     return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
 
+# Write python indented lines
 def pout(file, indent, text):
     file.write('    ' * indent)
     file.write(text)
@@ -45,16 +48,20 @@ def write_model_file(model):
 
 
 def write_get_or_update(file, model, output_model, method, query):
+    """Output code to query and instantiate models based on the result."""
     if method['is_array']:
         pout(file, 2, 'items = ' + query)
     else:
         pout(file, 2, 'data = ' + query)
 
     if method['type'] == 'class' or model['name'] != output_model:
+        # If it's a class method or the output model doesn't match the parent
+        # class, then we need to import the right class.
         if model['name'] != output_model:
             pkg = underscorize(output_model)
             pout(file, 2, "from .{0} import {1}\n".format(pkg, output_model))
 
+        # Instantiate models with result JSON
         if method['is_array']:
             pout(file, 2, "result = []\n")
             pout(file, 2, "if items is not None:\n")
@@ -64,10 +71,11 @@ def write_get_or_update(file, model, output_model, method, query):
             indent = 2
 
         if method['type'] == 'class':
-            pout(file, indent, "model = {0}(session, data['id'])\n".format(output_model))
+            construct_line = "model = {0}(session, data['id'])\n"
         else:
-            pout(file, indent, "model = {0}(self._session, data['id'])\n".format(output_model))
+            construct_line = "model = {0}(self._session, data['id'])\n"
 
+        pout(file, indent, construct_line.format(output_model))
         pout(file, indent, "model.data = data\n")
 
         if method['is_array']:
@@ -84,26 +92,35 @@ def write_get_or_update(file, model, output_model, method, query):
 
 
 def extract_model_from_url(api_split):
+    """This method figures out the output model for a REST API method,"""
+    # Get all the path elements that don't refer to IDs
     keys = [k for k in api_split if k and not k.startswith(':')]
+    # The last one will be the type we want.
     last_key = keys[-1]
+    # Some of them have a 'rel' path element...seems extraneous? not sure
     if last_key == 'rel':
-        last_key = keys[-2]  # why?
+        last_key = keys[-2]
 
+    # Get a singular name, if it's plural
     last_key_singular = p.singular_noun(last_key) or last_key
+    # Lowercase for matching to our list of models.
     last_key_singular = last_key_singular.lower()
+    # Get all the model names
     model_names = list(extracted_models.keys())
+    # Lowercase them for matching
     extracted_models_lower = [name.lower() for name in model_names]
-    if 'people' in api_split: print('"' + last_key_singular + '"')
+    # Our path element key does not seem to match any model we know about.
     if last_key_singular not in extracted_models_lower:
-        if 'people' in api_split: print(last_key_singular)
         return None
-    if 'people' in api_split: print('passed')
+    # Return the actual model name.
     model_index = extracted_models_lower.index(last_key_singular.lower())
     return model_names[model_index]
 
 
 def write_method(file, model, method):
+    """Output the code for a REST API method."""
     if method['type'] == 'loopback':
+        # The loopback method is a special case - refreshes the data we have.
         url = method['url'].replace(':id', '{0}')
         pout(file, 1, 'def refresh(self):\n')
         pout(file, 2, "api = \"{0}\".format(self._id)\n".format(url))
@@ -120,9 +137,11 @@ def write_method(file, model, method):
 
     root_model = p.singular_noun(api_split[1]) or api_split[1]
     if root_model.lower() != model['name'].lower():
-        print("Method {0} on {1} has a different root. Skipping...".format(method, model['name']))
+        print("Method {0} on {1} has a different root. Skipping...".format(
+            method, model['name']))
         return
 
+    # Gather all the foreign key stuff...
     fk_index = api_split.index(':fk') if ':fk' in api_split else None
     if fk_index is not None:
         fk_name = api_split[fk_index - 1]
@@ -130,22 +149,22 @@ def write_method(file, model, method):
             fk_name = api_split[fk_index - 2]  # Why?
         fk_name = underscorize(fk_name)
         fk_name_singular = p.singular_noun(fk_name) or fk_name
+        # For the parameter list
+        fk_line = (", {0}_id".format(fk_name_singular))
     else:
         fk_name = None
         fk_name_singular = None
-
-    if not method['type'] == 'class':
-        api = method['url'].replace(':id', '{0}').replace(':fk', '{1}')
-    else:
-        api = method['url'].replace(':fk', '{0}')
-
-    if fk_name_singular is not None:
-        fk_line = (", {0}_id".format(fk_name_singular))
-    else:
         fk_line = ''
 
+    # Class methods don't have an :id.
     if method['type'] == 'class':
-        decl = "def {0}(cls, session{1}, attribs=None):\n".format(method['name'], fk_line)
+        api = method['url'].replace(':fk', '{0}')
+    else:
+        api = method['url'].replace(':id', '{0}').replace(':fk', '{1}')
+
+    if method['type'] == 'class':
+        decl = "def {0}(cls, session{1}, attribs=None):\n".format(
+            method['name'], fk_line)
         pout(file, 1, "@classmethod\n")
         pout(file, 1, decl)
         pout(file, 2, 'if attribs is None:\n')
@@ -158,15 +177,18 @@ def write_method(file, model, method):
         pout(file, 2, "api = \"{0}\"{1}\n".format(api, format_line))
         code = "session.call_api(api, attribs, \'{0}\')\n\n"
     else:
-        decl = "def {0}(self{1}, attribs=None):\n".format(method['name'], fk_line)
+        decl = "def {0}(self{1}, attribs=None):\n".format(
+            method['name'], fk_line)
         pout(file, 1, decl)
         pout(file, 2, 'if attribs is None:\n')
         pout(file, 3, 'attribs = {}\n')
 
         if fk_name is not None:
             format_line = ".format(self._id, {0}_id)".format(fk_name_singular)
-        else:
+        elif '{0}' in api:
             format_line = '.format(self._id)'
+        else:
+            format_line = ''
         pout(file, 2, "api = \"{0}\"{1}\n".format(api, format_line))
         code = "self._session.call_api(api, attribs, \'{0}\')\n\n"
 
@@ -231,7 +253,8 @@ for i, line in enumerate(open(sys.argv[1])):
         match = re.search(RE_CLASS_API_DECL, line)
 
         if match is not None:
-            method = {'name': match.group(1), 'type': 'class', 'is_array': False}
+            method = {'name': match.group(1), 'type': 'class',
+                      'is_array': False}
             method['name'] = underscorize(method['name']).replace('__', '_')
             model['methods'][method['name']] = method
             state = 'api'
@@ -240,8 +263,10 @@ for i, line in enumerate(open(sys.argv[1])):
         match = re.search(RE_SUBMODEL_API_DECL, line)
 
         if match is not None:
-            method = {'name': match.group(1), 'type': 'subinstance', 'is_array': False}
-            method['name'] = underscorize(method['name'].replace('::', '_')).replace('__', '_')
+            method = {'name': match.group(1), 'type': 'subinstance',
+                      'is_array': False}
+            method['name'] = underscorize(
+                method['name'].replace('::', '_')).replace('__', '_')
             model['methods'][method['name']] = method
             state = 'api'
             continue
@@ -249,7 +274,8 @@ for i, line in enumerate(open(sys.argv[1])):
         match = re.search(RE_MODEL_API_DECL, line)
 
         if match is not None:
-            method = {'name': match.group(1), 'type': 'instance', 'is_array': False}
+            method = {'name': match.group(1), 'type': 'instance',
+                      'is_array': False}
             method['name'] = underscorize(method['name'])
             model['methods'][method['name']] = method
             state = 'api'

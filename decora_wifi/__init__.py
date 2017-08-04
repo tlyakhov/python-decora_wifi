@@ -31,7 +31,6 @@ class DecoraWiFiSession:
         # Sanity check parameters first...
         if (method != 'get' and method != 'post' and
            method != 'put' and method != 'delete'):
-
             msg = "Tried decora.call_api with bad method: {0}"
             raise ValueError(msg.format(method))
 
@@ -40,6 +39,7 @@ class DecoraWiFiSession:
 
         uri = self.LEVITON_ROOT + api
 
+        # Payload is always JSON
         if payload is not None:
             payload_json = json.dumps(payload)
         else:
