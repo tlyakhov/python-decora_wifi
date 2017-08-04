@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import decora_wifi
+from decora_wifi import DecoraWiFiSession
 from decora_wifi.models.person import Person
 from decora_wifi.models.residential_account import ResidentialAccount
 import sys
@@ -17,7 +17,7 @@ if len(sys.argv) >= 5:
 else:
     decora_bright = None
 
-session = decora_wifi.decora_wifi()
+session = DecoraWiFiSession()
 session.login(decora_email, decora_pass)
 
 # Gather all the available devices...

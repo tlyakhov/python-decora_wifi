@@ -13,7 +13,7 @@ import requests
 from .models.person import Person
 
 
-class decora_wifi:
+class DecoraWiFiSession:
     """This class represents an authorized HTTPS session with the LCS API."""
 
     LEVITON_ROOT = 'https://my.leviton.com/api'
@@ -85,28 +85,3 @@ class decora_wifi:
         self.user.refresh()
 
         return self.user
-
-    def residential_permissions(self):
-        """Get Leviton residential permissions objects."""
-        api = "/Person/{0}/residentialPermissions".format(self.user_id)
-        return self.call_api(api, None, 'get')
-
-    def residences(self, res_account_id):
-        """Get Leviton residence objects."""
-        api = "/ResidentialAccounts/{0}/Residences".format(res_account_id)
-        return self.call_api(api, None, 'get')
-
-    def iot_switches(self, residence_id):
-        """Get Leviton switch objects."""
-        api = "/Residences/{0}/iotSwitches".format(residence_id)
-        return self.call_api(api, None, 'get')
-
-    def iot_switch_data(self, switch_id):
-        """Get Leviton switch attributes for a particular id."""
-        api = "/IotSwitches/{0}".format(switch_id)
-        return self.call_api(api, None, 'get')
-
-    def iot_switch_update(self, switch_id, attribs):
-        """Update a Leviton switch with new attributes."""
-        api = "/IotSwitches/{0}".format(switch_id)
-        return self.call_api(api, attribs, 'put')
