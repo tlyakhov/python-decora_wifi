@@ -1,5 +1,5 @@
 
-class BaseModel:
+class BaseModel(object):
     """ This is the base class for all Leviton REST models """
     def __init__(self, session, model_id=None):
         """Set up fields..."""
