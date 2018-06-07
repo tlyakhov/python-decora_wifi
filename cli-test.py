@@ -39,10 +39,10 @@ for residence in all_residences:
             attribs['brightness'] = decora_bright
         if decora_cmd == 'ON':
             print('ON!')
-            attribs['POWER'] = 'ON'
+            attribs['power'] = 'ON'
         else:
             print('OFF!')
-            attribs['POWER'] = 'OFF'
+            attribs['power'] = 'OFF'
         switch.update_attributes(attribs)
 
 Person.logout(session)
