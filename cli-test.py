@@ -3,6 +3,7 @@
 from decora_wifi import DecoraWiFiSession
 from decora_wifi.models.person import Person
 from decora_wifi.models.residential_account import ResidentialAccount
+from decora_wifi.models.residence import Residence
 import sys
 
 
@@ -23,11 +24,17 @@ session.login(decora_email, decora_pass)
 # Gather all the available devices...
 
 perms = session.user.get_residential_permissions()
+print('{} premissions'.format(len(perms)))
 all_residences = []
 for permission in perms:
     print("Permission: {}".format(permission))
-    acct = ResidentialAccount(session, permission.residentialAccountId)
-    for res in acct.get_residences():
+    if permission.residentialAccountId is not None:
+        acct = ResidentialAccount(session, permission.residentialAccountId)
+        for res in acct.get_residences():
+            print("Residence: {}".format(res))
+            all_residences.append(res)
+    elif permission.residenceId is not None:
+        res = Residence(session, permission.residenceId)
         print("Residence: {}".format(res))
         all_residences.append(res)
 all_switches = []
