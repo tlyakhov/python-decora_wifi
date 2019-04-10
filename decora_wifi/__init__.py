@@ -50,7 +50,8 @@ class DecoraWiFiSession:
         # Unauthorized
         if response.status_code == 401 or response.status_code == 403:
             # Maybe we got logged out? Let's try logging in.
-            self.login(self._email, self._password)
+            if self.login(self._email, self._password) is None:
+                raise ValueError("Auth expired and unable to refresh")
             # Retry the request...
             response = getattr(self._session, method)(uri, data=payload_json)
 
@@ -76,6 +77,9 @@ class DecoraWiFiSession:
         login_json = Person.login(self, payload)
 
         if login_json is None:
+            self._email = None
+            self._password = None
+            self._user = None
             return None
 
         self._session.headers.update({'authorization': login_json['id']})
