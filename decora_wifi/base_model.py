@@ -1,11 +1,12 @@
 
 class BaseModel(object):
     """ This is the base class for all Leviton REST models """
-    def __init__(self, session, model_id=None):
+    def __init__(self, session, model_id=None, panel_id=None):
         """Set up fields..."""
         self.data = {}
         self._session = session
         self._id = model_id
+        self._panel_id = panel_id
 
     def __str__(self):
         """Output the wrapped data dictionary."""

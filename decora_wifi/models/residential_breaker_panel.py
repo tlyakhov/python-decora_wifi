@@ -142,6 +142,70 @@ class ResidentialBreakerPanel(BaseModel):
         api = "/ResidentialBreakerPanels/{0}/accessTokens".format(self._id)
         return self._session.call_api(api, attribs, 'get')
 
+    def get_energy_consumption_for_day(self, attribs=None):
+        if attribs is None:
+            attribs = {}
+            attribs["id"] = str(self._id)
+            attribs["theDay"] = "2021-08-13T00:00:00.000Z"
+            attribs["localTimezone"] = "America/New_York"
+        api = "/ResidentialBreakerPanels/energyConsumptionForDay"
+        items = self._session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for hour in items:
+                result.append(hour)
+                #{'residentialBreakerPanelId': 'LDATA-ASE89-45KYJ-CFDNL', 'theHour': 20, 'energyConsumption': 11.69}
+        return result
+
+    def get_energy_consumption_for_week(self, week, timezone, attribs=None):
+        if attribs is None:
+            attribs = {}
+            attribs["id"] = str(self._id)
+            attribs["theWeek"] = week
+            attribs["localTimezone"] = timezone
+        api = "/ResidentialBreakerPanels/energyConsumptionForWeek"
+        items = self._session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for day in items:
+                result.append(day)
+                #{'residentialBreakerPanelId': 'LDATA-ASE89-45KYJ-CFDNL', 'theDay': '2021-08-06T00:00:00.000Z', 'energyConsumption': 16.33}
+        return result
+
+    def get_energy_consumption_for_month(self, month, timezone, attribs=None):
+        if attribs is None:
+            attribs = {}
+            attribs["id"] = str(self._id)
+            attribs["theMonth"] = month
+            attribs["localTimezone"] = timezone
+        api = "/ResidentialBreakerPanels/energyConsumptionForMonth"
+        items = self._session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for week in items:
+                result.append(week)
+                #{'residentialBreakerPanelId': 'LDATA-ASE89-45KYJ-CFDNL', 'theDay': '2021-08-11T00:00:00.000Z', 'energyConsumption': 26.19}
+        return result
+
+    def get_energy_consumption_for_year(self, year, timezone, attribs=None):
+        if attribs is None:
+            attribs = {}
+            attribs["id"] = str(self._id)
+            attribs["theYear"] = year
+            attribs["localTimezone"] = timezone
+        api = "/ResidentialBreakerPanels/energyConsumptionForYear"
+        items = self._session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for month in items:
+                result.append(month)
+                #{'residentialBreakerPanelId': 'LDATA-ASE89-45KYJ-CFDNL', 'theMonth': 5, 'theYear': 2021, 'energyConsumption': 581.8}
+        return result
+
     def get_residence(self, attribs=None):
         if attribs is None:
             attribs = {}
@@ -163,7 +227,7 @@ class ResidentialBreakerPanel(BaseModel):
         result = []
         if items is not None:
             for data in items:
-                model = ResidentialBreaker(self._session, data['id'])
+                model = ResidentialBreaker(self._session, data['id'], self._id)
                 model.data = data
                 result.append(model)
         return result

@@ -9,8 +9,8 @@ from decora_wifi.base_model import BaseModel
 
 
 class ResidentialBreaker(BaseModel):
-    def __init__(self, session, model_id=None):
-        super(ResidentialBreaker, self).__init__(session, model_id)
+    def __init__(self, session, model_id=None, panel_id=None):
+        super(ResidentialBreaker, self).__init__(session, model_id, panel_id)
 
     @classmethod
     def count(cls, session, attribs=None):
@@ -82,6 +82,74 @@ class ResidentialBreaker(BaseModel):
         if result is not None:
             self.data.update(result)
         return self
+
+    def get_energy_consumption_for_day(self, day, timezone, attribs=None):
+        if attribs is None:
+            attribs = {}
+            attribs["residentialBreakerPanelId"] = str(self._panel_id)
+            attribs["id"] = str(self._id)
+            attribs["theDay"] = day
+            attribs["localTimezone"] = timezone
+        api = "/ResidentialBreakers/energyConsumptionForDay"
+        items = self._session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for hour in items:
+                result.append(hour)
+                #{'residentialBreakerPanelId': 'LDATA-ABCDE-12345-FGHIJ', 'residentialBreakerId': '4C4512345678', 'position': 6, 'theHour': 21, 'energyConsumption': 11.62}
+        return result
+
+    def get_energy_consumption_for_week(self, week, timezone, attribs=None):
+        if attribs is None:
+            attribs = {}
+            attribs["residentialBreakerPanelId"] = str(self._panel_id)
+            attribs["id"] = str(self._id)
+            attribs["theWeek"] = week
+            attribs["localTimezone"] = timezone
+        api = "/ResidentialBreakers/energyConsumptionForWeek"
+        items = self._session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for day in items:
+                result.append(day)
+                #{'residentialBreakerPanelId': 'LDATA-ABCDE-12345-FGHIJ', 'residentialBreakerId': '4C4512345678', 'position': 10, 'theDay': '2021-08-02T00:00:00.000Z', 'energyConsumption': 13.33}
+        return result
+
+    def get_energy_consumption_for_month(self, month, timezone, attribs=None):
+        if attribs is None:
+            attribs = {}
+            attribs["residentialBreakerPanelId"] = str(self._panel_id)
+            attribs["id"] = str(self._id)
+            attribs["theMonth"] = month
+            attribs["localTimezone"] = timezone
+        api = "/ResidentialBreakers/energyConsumptionForMonth"
+        items = self._session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for week in items:
+                result.append(week)
+                #{'residentialBreakerPanelId': 'LDATA-ABCDE-12345-FGHIJ', 'residentialBreakerId': '4C4512345678', 'position': 6, 'theDay': '2021-08-13T00:00:00.000Z', 'energyConsumption': 47.07}
+        return result
+
+    def get_energy_consumption_for_year(self, year, timezone, attribs=None):
+        if attribs is None:
+            attribs = {}
+            attribs["residentialBreakerPanelId"] = str(self._panel_id)
+            attribs["id"] = str(self._id)
+            attribs["theYear"] = year
+            attribs["localTimezone"] = timezone
+        api = "/ResidentialBreakers/energyConsumptionForYear"
+        items = self._session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for month in items:
+                result.append(month)
+                #{'residentialBreakerPanelId': 'LDATA-ABCDE-12345-FGHIJ', 'residentialBreakerId': '4C4512345678', 'position': 10, 'theMonth': 1, 'theYear': 2021, 'energyConsumption': 401.24}
+        return result
 
     def get_residential_breaker_panel(self, attribs=None):
         if attribs is None:
