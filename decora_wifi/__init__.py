@@ -32,10 +32,10 @@ class DecoraWiFiSession:
         if (method != 'get' and method != 'post' and
            method != 'put' and method != 'delete'):
             msg = "Tried decora.call_api with bad method: {0}"
-            raise ValueError(msg.format(method))
+            raise BadMethodError(msg.format(method))
 
         if self.user is None and api != '/Person/login':
-            raise ValueError('Tried an API call without a login.')
+            raise NoLoginError('Tried an API call without a login.')
 
         uri = self.LEVITON_ROOT + api
 
@@ -51,14 +51,14 @@ class DecoraWiFiSession:
         if response.status_code == 401 or response.status_code == 403:
             # Maybe we got logged out? Let's try logging in.
             if self.login(self._email, self._password) is None:
-                raise ValueError("Auth expired and unable to refresh")
+                raise AuthExpiredError("Auth expired and unable to refresh")
             # Retry the request...
             response = getattr(self._session, method)(uri, data=payload_json)
 
         if response.status_code != 200 and response.status_code != 204:
             msg = "myLeviton API call ({0}) failed: {1}, {2}".format(
                           api, response.status_code, response.text)
-            raise ValueError(msg)
+            raise ApiCallFailedError(msg)
 
         if response.text is not None and len(response.text) > 0:
             return json.loads(response.text)
@@ -89,3 +89,23 @@ class DecoraWiFiSession:
         self.user.refresh()
 
         return self.user
+
+class DecoraWiFiError(ValueError):
+    """Base class for named errors in decora_wifi."""
+    pass
+
+class BadMethodError(DecoraWiFiError):
+    """Tried a decora_wifi api call with an unsupported method."""
+    pass
+
+class NoLoginError(DecoraWiFiError):
+    """Tried a decora_wifi api call without a logged-in session."""
+    pass
+
+class AuthExpiredError(DecoraWiFiError):
+    """API Session authentication expired and unable to refresh."""
+    pass
+
+class ApiCallFailedError(DecoraWiFiError):
+    """API Call failed (returned a code other than 200 or 204)."""
+    pass
