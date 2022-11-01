@@ -369,6 +369,70 @@ class Residence(BaseModel):
             self.data.update(result)
         return self
 
+    def get_energy_consumption_for_day(self, day, timezone=None, attribs=None):
+        if attribs is None:
+            attribs = {}
+            attribs["id"] = str(self._id)
+            attribs["localTimezone"] = timezone
+            attribs["theDay"] = day
+        api = "/Residences/energyConsumptionForDay"
+        items = self._session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for hour in items:
+                result.append(hour)
+                #{'theHour': 17, 'energyConsumption': 0.09}
+        return result
+
+    def get_energy_consumption_for_week(self, week, timezone=None, attribs=None):
+        if attribs is None:
+            attribs = {}
+            attribs["id"] = str(self._id)
+            attribs["localTimezone"] = timezone
+            attribs["theWeek"] = week
+        api = "/Residences/energyConsumptionForWeek"
+        items = self._session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for day in items:
+                result.append(day)
+                #{'theDay': '2021-08-04T00:00:00.000Z', 'energyConsumption': 34.35}
+        return result
+
+    def get_energy_consumption_for_month(self, month, timezone=None, attribs=None):
+        if attribs is None:
+            attribs = {}
+            attribs["id"] = str(self._id)
+            attribs["localTimezone"] = timezone
+            attribs["theMonth"] = month
+        api = "/Residences/energyConsumptionForMonth"
+        items = self._session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for week in items:
+                result.append(week)
+                #{'theDay': '2021-08-04T00:00:00.000Z', 'energyConsumption': 34.35}
+        return result
+
+    def get_energy_consumption_for_year(self, year, timezone=None, attribs=None):
+        if attribs is None:
+            attribs = {}
+            attribs["id"] = str(self._id)
+            attribs["localTimezone"] = timezone
+            attribs["theYear"] = year
+        api = "/Residences/energyConsumptionForYear"
+        items = self._session.call_api(api, attribs, 'get')
+
+        result = []
+        if items is not None:
+            for month in items:
+                result.append(month)
+                #{'theMonth': 7, 'theYear': 2021, 'energyConsumption': 498.28}
+        return result
+
     def get_invitations(self, attribs=None):
         if attribs is None:
             attribs = {}
