@@ -17,6 +17,7 @@ class DecoraWiFiSession:
     """This class represents an authorized HTTPS session with the LCS API."""
 
     LEVITON_ROOT = 'https://my.leviton.com/api'
+    REQUEST_TIMEOUT_SECS = 15
 
     def __init__(self):
         """Initialize the session, all content is JSON."""
@@ -45,7 +46,10 @@ class DecoraWiFiSession:
         else:
             payload_json = ''
 
-        response = getattr(self._session, method)(uri, data=payload_json)
+        response = getattr(self._session, method)(
+            uri,
+            data=payload_json,
+            timeout=self.REQUEST_TIMEOUT_SECS)
 
         # Unauthorized
         if response.status_code == 401 or response.status_code == 403:
@@ -53,7 +57,10 @@ class DecoraWiFiSession:
             if api == '/Person/login' or self.login(self._email, self._password) is None:
                 raise AuthExpiredError("Auth expired and unable to refresh")
             # Retry the request...
-            response = getattr(self._session, method)(uri, data=payload_json)
+            response = getattr(self._session, method)(
+                uri,
+                data=payload_json,
+                timeout=self.REQUEST_TIMEOUT_SECS)
 
         if response.status_code != 200 and response.status_code != 204:
             msg = "myLeviton API call ({0}) failed: {1}, {2}".format(
