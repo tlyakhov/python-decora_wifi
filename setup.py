@@ -9,7 +9,7 @@ version = 1.5
 
 setup(
     name='decora_wifi',
-    version=1.3,
+    version=1.5,
     author='Tim Lyakhovetskiy',
     author_email='tlyakhov@gmail.com',
     url='http://github.com/tlyakhov/python-decora_wifi',
