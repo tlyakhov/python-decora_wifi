@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 dynamic_requires = []
 
-version = 1.3
+version = 1.5
 
 setup(
     name='decora_wifi',
